@@ -194,6 +194,25 @@ export function registerRoutes(app: Express) {
     const sites = storage.getTable("sites");
     const assignments = storage.getTable("engineer_assignments");
     const reports = storage.getTable("daily_reports");
+    const userId = req.session.userId;
+    const user = profiles.find((p: any) => p.id === userId);
+
+    if (user?.role === "client") {
+      const client = clients.find((c: any) => c.userId === userId);
+      const clientReports = reports.filter((r: any) => r.clientId === client?.id);
+      const clientAssignments = assignments.filter((a: any) => a.clientId === client?.id);
+      const clientSites = sites.filter((s: any) => s.clientId === client?.id);
+
+      return res.json({
+        totalEngineers: new Set(clientAssignments.map((a: any) => a.engineerId)).size,
+        totalClients: 1,
+        totalSites: clientSites.length,
+        activeAssignments: clientAssignments.filter((a: any) => a.isActive).length,
+        todayCheckIns: 0,
+        todayReports: clientReports.length,
+        pendingLeaves: 0
+      });
+    }
 
     res.json({
       totalEngineers: profiles.filter((p: any) => p.role === "engineer").length,
@@ -233,8 +252,33 @@ export function registerRoutes(app: Express) {
     res.status(201).json(newReport);
   });
 
+  app.post("/api/reports/:id/send-email", (req: Request, res: Response) => {
+    const { email } = req.body;
+    const { id } = req.params;
+    const report = storage.getTable("daily_reports").find((r: any) => r.id === id);
+    if (!report) return res.status(404).json({ error: "Report not found" });
+    
+    // Simulate email sending since integration is not yet configured
+    console.log(`Sending report ${id} to ${email}`);
+    res.json({ success: true, message: `Report sent to ${email} (Simulation)` });
+  });
+
   app.get("/api/check-ins", (req: Request, res: Response) => res.json([]));
   app.get("/api/leaves", (req: Request, res: Response) => res.json([]));
   app.get("/api/notifications", (req: Request, res: Response) => res.json([]));
-  app.get("/api/company-profile", (req: Request, res: Response) => res.json(null));
+  app.get("/api/company-profile", (req: Request, res: Response) => {
+    const profiles = storage.getTable("company_profiles");
+    res.json(profiles[0] || null);
+  });
+
+  app.post("/api/company-profile", (req: Request, res: Response) => {
+    const profiles = storage.getTable("company_profiles");
+    let profile;
+    if (profiles.length > 0) {
+      profile = storage.update("company_profiles", profiles[0].id, req.body);
+    } else {
+      profile = storage.insert("company_profiles", req.body);
+    }
+    res.json(profile);
+  });
 }

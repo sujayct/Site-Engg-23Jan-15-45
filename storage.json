@@ -131,6 +131,42 @@
       "fullName": "Test Engineer",
       "role": "engineer",
       "passwordHash": "$2b$10$TA4AAAKe9EGlO9n4rR1daOEiZzcjg/dUs2P1JKOBgxHNHoT9t70CG"
+    },
+    {
+      "id": "2e395a5a-94a1-40ac-ac63-7bf3ab20c766",
+      "createdAt": "2026-01-23T10:46:50.683Z",
+      "email": "hr2@gmail.com",
+      "fullName": "hr2",
+      "role": "engineer",
+      "phone": "+911234567890",
+      "passwordHash": "$2b$10$Dv5kCU.tzTwVWkjPxKD6GuYmyv01jWAjUn3R0F6YoKiczGZqR4zFu"
+    },
+    {
+      "id": "99773c45-24eb-450b-85c9-b4e1c0dbb878",
+      "createdAt": "2026-01-23T10:47:17.396Z",
+      "email": "hr2@com.com",
+      "fullName": "hr2",
+      "role": "hr",
+      "phone": "+911234567890",
+      "passwordHash": "$2b$10$uQTR7FvK3/md88GWy9EWB.QKg2Pmp4LXlNVcQR//ieBp9/iYWSVt2"
+    },
+    {
+      "id": "76daec00-9b18-4df1-8070-551c54259db8",
+      "createdAt": "2026-01-23T10:48:12.305Z",
+      "email": "new@admin.com",
+      "fullName": "new admin",
+      "role": "admin",
+      "phone": "123456789",
+      "passwordHash": "$2b$10$udqGlHUhGTwgku2q2wnP5.W9PY6CqCcCDWXu0DFznSmffKSRYQMOC"
+    },
+    {
+      "id": "78c379fa-fc11-41f8-a8fc-d7d676df9cdf",
+      "createdAt": "2026-01-23T10:48:28.970Z",
+      "email": "szdxfhj",
+      "fullName": "dxfgfvh",
+      "role": "engineer",
+      "phone": "dxfghj",
+      "passwordHash": "$2b$10$.K1yEm28EOrkib3u05zYse4c.Aud43OrmDCZnJQcpJR7ggkEFKu3q"
     }
   ],
   "clients": [
@@ -141,6 +177,15 @@
       "contactEmail": "client@company.com",
       "userId": "client-user-id-001",
       "createdAt": "2026-01-23T10:45:14.135Z"
+    },
+    {
+      "id": "eb42f1a6-6de8-4d9b-a09f-fd316ae1104d",
+      "createdAt": "2026-01-23T10:47:42.398Z",
+      "name": "client",
+      "contactPerson": "client",
+      "contactEmail": "client@reqgen.com",
+      "contactPhone": "+919876543210",
+      "userId": ""
     }
   ],
   "sites": [
@@ -204,6 +249,15 @@
       "assignedDate": "2026-01-23",
       "isActive": true,
       "createdAt": "2026-01-23T10:45:14.135Z"
+    },
+    {
+      "id": "b5765792-717b-4fc1-9d12-64f7d3a006fa",
+      "createdAt": "2026-01-23T10:47:54.170Z",
+      "engineerId": "2e395a5a-94a1-40ac-ac63-7bf3ab20c766",
+      "clientId": "eb42f1a6-6de8-4d9b-a09f-fd316ae1104d",
+      "siteId": "",
+      "assignedDate": "2026-01-23",
+      "isActive": true
     }
   ],
   "check_ins": [],
