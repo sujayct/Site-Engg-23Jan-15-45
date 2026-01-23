@@ -49,6 +49,43 @@ export function registerRoutes(app: Express) {
     });
   });
 
+  app.post("/api/auth/signup", async (req: Request, res: Response) => {
+    try {
+      const { email, password, fullName, role, phone } = req.body;
+      if (!email || !password || !fullName || !role) return res.status(400).json({ error: "Missing required fields" });
+
+      const existing = storage.getTable("profiles").find((p: any) => p.email === email);
+      if (existing) return res.status(400).json({ error: "User already exists" });
+
+      const passwordHash = await bcrypt.hash(password, 10);
+      const newUser = storage.insert("profiles", {
+        email,
+        fullName,
+        role,
+        phone,
+        passwordHash,
+      });
+
+      if (role === "client") {
+        storage.insert("clients", {
+          name: fullName,
+          contactPerson: fullName,
+          contactEmail: email,
+          userId: newUser.id,
+        });
+      }
+
+      // Don't auto-login if admin is creating engineer
+      if (!req.session.userId) {
+        req.session.userId = newUser.id;
+      }
+
+      res.status(201).json({ user: { id: newUser.id, email: newUser.email, name: newUser.fullName, role: newUser.role } });
+    } catch (error: any) {
+      res.status(500).json({ error: error.message });
+    }
+  });
+
   app.get("/api/profiles", (req: Request, res: Response) => {
     res.json(storage.getTable("profiles").map((p: any) => ({
       id: p.id,
@@ -156,6 +193,7 @@ export function registerRoutes(app: Express) {
     const clients = storage.getTable("clients");
     const sites = storage.getTable("sites");
     const assignments = storage.getTable("engineer_assignments");
+    const reports = storage.getTable("daily_reports");
 
     res.json({
       totalEngineers: profiles.filter((p: any) => p.role === "engineer").length,
@@ -163,13 +201,39 @@ export function registerRoutes(app: Express) {
       totalSites: sites.length,
       activeAssignments: assignments.filter((a: any) => a.isActive).length,
       todayCheckIns: 0,
-      todayReports: 0,
+      todayReports: reports.length,
       pendingLeaves: 0
     });
   });
 
+  app.get("/api/reports", (req: Request, res: Response) => {
+    const reports = storage.getTable("daily_reports");
+    const profiles = storage.getTable("profiles");
+    const clients = storage.getTable("clients");
+    
+    const result = reports.map((r: any) => ({
+      ...r,
+      engineerName: profiles.find((p: any) => p.id === r.engineerId)?.fullName,
+      clientName: clients.find((c: any) => c.id === r.clientId)?.name,
+      date: r.reportDate
+    }));
+    res.json(result);
+  });
+
+  app.post("/api/reports", (req: Request, res: Response) => {
+    const { clientId, siteId, workDone, issues } = req.body;
+    const newReport = storage.insert("daily_reports", {
+      engineerId: req.session.userId,
+      clientId,
+      siteId,
+      reportDate: new Date().toISOString().split("T")[0],
+      workDone,
+      issues
+    });
+    res.status(201).json(newReport);
+  });
+
   app.get("/api/check-ins", (req: Request, res: Response) => res.json([]));
-  app.get("/api/reports", (req: Request, res: Response) => res.json([]));
   app.get("/api/leaves", (req: Request, res: Response) => res.json([]));
   app.get("/api/notifications", (req: Request, res: Response) => res.json([]));
   app.get("/api/company-profile", (req: Request, res: Response) => res.json(null));

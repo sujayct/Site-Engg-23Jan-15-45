@@ -5,17 +5,132 @@
       "email": "admin@company.com",
       "fullName": "System Admin",
       "role": "admin",
-      "passwordHash": "$2a$10$wT0vR2E9vN.pG9v9v9v9v.wT0vR2E9vN.pG9v9v9v9v.wT0vR2E9vN",
-      "createdAt": "2026-01-23T10:39:37.859Z"
+      "passwordHash": "$2b$10$DWsTb75RBPAl3pS2SYsJrOdZK.cjvBVxv/TeUu23bWuOxUDc7CXau",
+      "createdAt": "2026-01-23T10:45:14.135Z"
     },
     {
-      "id": "25b78dbc-b651-4f58-bde0-2f3014ee2ef2",
-      "email": "engineer@company.com",
-      "fullName": "John Doe",
+      "id": "hr-user-id-001",
+      "email": "hr@company.com",
+      "fullName": "HR Manager",
+      "role": "hr",
+      "passwordHash": "$2b$10$DWsTb75RBPAl3pS2SYsJrOdZK.cjvBVxv/TeUu23bWuOxUDc7CXau",
+      "createdAt": "2026-01-23T10:45:14.135Z"
+    },
+    {
+      "id": "client-user-id-001",
+      "email": "client@company.com",
+      "fullName": "ABC Corp Contact",
+      "role": "client",
+      "passwordHash": "$2b$10$DWsTb75RBPAl3pS2SYsJrOdZK.cjvBVxv/TeUu23bWuOxUDc7CXau",
+      "createdAt": "2026-01-23T10:45:14.135Z"
+    },
+    {
+      "id": "engineer-id-1",
+      "email": "engineer1@company.com",
+      "fullName": "Engineer 1",
+      "role": "engineer",
+      "designation": "Junior Engineer",
+      "phone": "+919876543210",
+      "passwordHash": "$2b$10$DWsTb75RBPAl3pS2SYsJrOdZK.cjvBVxv/TeUu23bWuOxUDc7CXau",
+      "createdAt": "2026-01-23T10:45:14.135Z"
+    },
+    {
+      "id": "engineer-id-2",
+      "email": "engineer2@company.com",
+      "fullName": "Engineer 2",
       "role": "engineer",
       "designation": "Senior Engineer",
-      "passwordHash": "$2a$10$wT0vR2E9vN.pG9v9v9v9v.wT0vR2E9vN.pG9v9v9v9v.wT0vR2E9vN",
-      "createdAt": "2026-01-23T10:39:37.859Z"
+      "phone": "+919876543211",
+      "passwordHash": "$2b$10$DWsTb75RBPAl3pS2SYsJrOdZK.cjvBVxv/TeUu23bWuOxUDc7CXau",
+      "createdAt": "2026-01-23T10:45:14.135Z"
+    },
+    {
+      "id": "engineer-id-3",
+      "email": "engineer3@company.com",
+      "fullName": "Engineer 3",
+      "role": "engineer",
+      "designation": "Junior Engineer",
+      "phone": "+919876543212",
+      "passwordHash": "$2b$10$DWsTb75RBPAl3pS2SYsJrOdZK.cjvBVxv/TeUu23bWuOxUDc7CXau",
+      "createdAt": "2026-01-23T10:45:14.135Z"
+    },
+    {
+      "id": "engineer-id-4",
+      "email": "engineer4@company.com",
+      "fullName": "Engineer 4",
+      "role": "engineer",
+      "designation": "Senior Engineer",
+      "phone": "+919876543213",
+      "passwordHash": "$2b$10$DWsTb75RBPAl3pS2SYsJrOdZK.cjvBVxv/TeUu23bWuOxUDc7CXau",
+      "createdAt": "2026-01-23T10:45:14.135Z"
+    },
+    {
+      "id": "engineer-id-5",
+      "email": "engineer5@company.com",
+      "fullName": "Engineer 5",
+      "role": "engineer",
+      "designation": "Junior Engineer",
+      "phone": "+919876543214",
+      "passwordHash": "$2b$10$DWsTb75RBPAl3pS2SYsJrOdZK.cjvBVxv/TeUu23bWuOxUDc7CXau",
+      "createdAt": "2026-01-23T10:45:14.135Z"
+    },
+    {
+      "id": "engineer-id-6",
+      "email": "engineer6@company.com",
+      "fullName": "Engineer 6",
+      "role": "engineer",
+      "designation": "Senior Engineer",
+      "phone": "+919876543215",
+      "passwordHash": "$2b$10$DWsTb75RBPAl3pS2SYsJrOdZK.cjvBVxv/TeUu23bWuOxUDc7CXau",
+      "createdAt": "2026-01-23T10:45:14.135Z"
+    },
+    {
+      "id": "engineer-id-7",
+      "email": "engineer7@company.com",
+      "fullName": "Engineer 7",
+      "role": "engineer",
+      "designation": "Junior Engineer",
+      "phone": "+919876543216",
+      "passwordHash": "$2b$10$DWsTb75RBPAl3pS2SYsJrOdZK.cjvBVxv/TeUu23bWuOxUDc7CXau",
+      "createdAt": "2026-01-23T10:45:14.135Z"
+    },
+    {
+      "id": "engineer-id-8",
+      "email": "engineer8@company.com",
+      "fullName": "Engineer 8",
+      "role": "engineer",
+      "designation": "Senior Engineer",
+      "phone": "+919876543217",
+      "passwordHash": "$2b$10$DWsTb75RBPAl3pS2SYsJrOdZK.cjvBVxv/TeUu23bWuOxUDc7CXau",
+      "createdAt": "2026-01-23T10:45:14.135Z"
+    },
+    {
+      "id": "engineer-id-9",
+      "email": "engineer9@company.com",
+      "fullName": "Engineer 9",
+      "role": "engineer",
+      "designation": "Junior Engineer",
+      "phone": "+919876543218",
+      "passwordHash": "$2b$10$DWsTb75RBPAl3pS2SYsJrOdZK.cjvBVxv/TeUu23bWuOxUDc7CXau",
+      "createdAt": "2026-01-23T10:45:14.135Z"
+    },
+    {
+      "id": "engineer-id-10",
+      "email": "engineer10@company.com",
+      "fullName": "Engineer 10",
+      "role": "engineer",
+      "designation": "Senior Engineer",
+      "phone": "+919876543219",
+      "passwordHash": "$2b$10$DWsTb75RBPAl3pS2SYsJrOdZK.cjvBVxv/TeUu23bWuOxUDc7CXau",
+      "createdAt": "2026-01-23T10:45:14.135Z"
+    },
+    {
+      "id": "11396d8b-9703-4b80-95b8-e7af79989eab",
+      "createdAt": "2026-01-23T10:45:15.861Z",
+      "email": "test@test.com",
+      "fullName": "Test Engineer",
+      "role": "engineer",
+      "passwordHash": "$2b$10$TA4AAAKe9EGlO9n4rR1daOEiZzcjg/dUs2P1JKOBgxHNHoT9t70CG"
     }
   ],
   "clients": [
@@ -24,13 +139,106 @@
       "name": "ABC Corporation",
       "contactPerson": "Alice Client",
       "contactEmail": "client@company.com",
-      "createdAt": "2026-01-23T10:39:37.859Z"
+      "userId": "client-user-id-001",
+      "createdAt": "2026-01-23T10:45:14.135Z"
     }
   ],
-  "sites": [],
-  "engineer_assignments": [],
+  "sites": [
+    {
+      "id": "site-id-001",
+      "clientId": "6ac5eb62-fbec-45f5-be84-d965bdf24c04",
+      "name": "Main Office",
+      "location": "Downtown",
+      "createdAt": "2026-01-23T10:45:14.135Z"
+    },
+    {
+      "id": "site-id-002",
+      "clientId": "6ac5eb62-fbec-45f5-be84-d965bdf24c04",
+      "name": "Warehouse A",
+      "location": "Industrial Zone",
+      "createdAt": "2026-01-23T10:45:14.135Z"
+    }
+  ],
+  "engineer_assignments": [
+    {
+      "id": "assign-id-0",
+      "engineerId": "engineer-id-1",
+      "clientId": "6ac5eb62-fbec-45f5-be84-d965bdf24c04",
+      "siteId": "site-id-001",
+      "assignedDate": "2026-01-23",
+      "isActive": true,
+      "createdAt": "2026-01-23T10:45:14.135Z"
+    },
+    {
+      "id": "assign-id-1",
+      "engineerId": "engineer-id-2",
+      "clientId": "6ac5eb62-fbec-45f5-be84-d965bdf24c04",
+      "siteId": "site-id-002",
+      "assignedDate": "2026-01-23",
+      "isActive": true,
+      "createdAt": "2026-01-23T10:45:14.135Z"
+    },
+    {
+      "id": "assign-id-2",
+      "engineerId": "engineer-id-3",
+      "clientId": "6ac5eb62-fbec-45f5-be84-d965bdf24c04",
+      "siteId": "site-id-001",
+      "assignedDate": "2026-01-23",
+      "isActive": true,
+      "createdAt": "2026-01-23T10:45:14.135Z"
+    },
+    {
+      "id": "assign-id-3",
+      "engineerId": "engineer-id-4",
+      "clientId": "6ac5eb62-fbec-45f5-be84-d965bdf24c04",
+      "siteId": "site-id-002",
+      "assignedDate": "2026-01-23",
+      "isActive": true,
+      "createdAt": "2026-01-23T10:45:14.135Z"
+    },
+    {
+      "id": "assign-id-4",
+      "engineerId": "engineer-id-5",
+      "clientId": "6ac5eb62-fbec-45f5-be84-d965bdf24c04",
+      "siteId": "site-id-001",
+      "assignedDate": "2026-01-23",
+      "isActive": true,
+      "createdAt": "2026-01-23T10:45:14.135Z"
+    }
+  ],
   "check_ins": [],
-  "daily_reports": [],
+  "daily_reports": [
+    {
+      "id": "report-id-0",
+      "engineerId": "engineer-id-1",
+      "clientId": "6ac5eb62-fbec-45f5-be84-d965bdf24c04",
+      "siteId": "site-id-001",
+      "reportDate": "2026-01-23",
+      "workDone": "Completed maintenance task #101",
+      "issues": "None",
+      "createdAt": "2026-01-23T10:45:14.135Z"
+    },
+    {
+      "id": "report-id-1",
+      "engineerId": "engineer-id-2",
+      "clientId": "6ac5eb62-fbec-45f5-be84-d965bdf24c04",
+      "siteId": "site-id-001",
+      "reportDate": "2026-01-23",
+      "workDone": "Completed maintenance task #102",
+      "issues": "Waiting for parts",
+      "createdAt": "2026-01-23T10:45:14.135Z"
+    },
+    {
+      "id": "report-id-2",
+      "engineerId": "engineer-id-3",
+      "clientId": "6ac5eb62-fbec-45f5-be84-d965bdf24c04",
+      "siteId": "site-id-001",
+      "reportDate": "2026-01-23",
+      "workDone": "Completed maintenance task #103",
+      "issues": "None",
+      "createdAt": "2026-01-23T10:45:14.135Z"
+    }
+  ],
   "leave_requests": [],
   "notifications": [],
   "company_profiles": [],
