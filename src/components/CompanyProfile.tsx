@@ -124,26 +124,16 @@ export default function CompanyProfile() {
     try {
       setSaving(true);
 
-      let logoUrl = formData.logo_url;
-
-      if (logoFile) {
-        logoUrl = await companyProfileService.uploadLogo(logoFile);
-
-        if (profile?.logo_url) {
-          await companyProfileService.deleteLogo(profile.logo_url);
-        }
-      }
-
       const profileData = {
         ...formData,
-        logo_url: logoUrl || null,
+        logo_url: logoPreview || null,
       };
 
-      if (profile) {
-        await companyProfileService.updateCompanyProfile(profile.id, profileData, user.id);
-      } else {
-        await companyProfileService.createCompanyProfile(profileData, user.id);
-      }
+      await fetch('/api/company-profile', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(profileData)
+      });
 
       await loadProfile();
       alert('Company profile saved successfully!');
