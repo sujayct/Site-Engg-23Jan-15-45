@@ -1,8 +1,8 @@
 import { pgTable, text, uuid, boolean, timestamp, date, integer, numeric } from "drizzle-orm/pg-core";
-import { relations } from "drizzle-orm";
+import { relations, sql } from "drizzle-orm";
 
 export const profiles = pgTable("profiles", {
-  id: uuid("id").primaryKey().defaultRandom(),
+  id: uuid("id").primaryKey().default(sql`gen_random_uuid()`),
   email: text("email").unique().notNull(),
   fullName: text("full_name").notNull(),
   role: text("role").notNull().$type<"admin" | "engineer" | "hr" | "client">(),
@@ -32,7 +32,7 @@ export const profiles = pgTable("profiles", {
 });
 
 export const clients = pgTable("clients", {
-  id: uuid("id").primaryKey().defaultRandom(),
+  id: uuid("id").primaryKey().default(sql`gen_random_uuid()`),
   name: text("name").notNull(),
   contactPerson: text("contact_person").notNull(),
   contactEmail: text("contact_email").notNull(),
@@ -44,7 +44,7 @@ export const clients = pgTable("clients", {
 });
 
 export const sites = pgTable("sites", {
-  id: uuid("id").primaryKey().defaultRandom(),
+  id: uuid("id").primaryKey().default(sql`gen_random_uuid()`),
   clientId: uuid("client_id").notNull().references(() => clients.id, { onDelete: "cascade" }),
   name: text("name").notNull(),
   location: text("location"),
@@ -53,7 +53,7 @@ export const sites = pgTable("sites", {
 });
 
 export const engineerAssignments = pgTable("engineer_assignments", {
-  id: uuid("id").primaryKey().defaultRandom(),
+  id: uuid("id").primaryKey().default(sql`gen_random_uuid()`),
   engineerId: uuid("engineer_id").notNull().references(() => profiles.id, { onDelete: "cascade" }),
   clientId: uuid("client_id").notNull().references(() => clients.id, { onDelete: "cascade" }),
   siteId: uuid("site_id").references(() => sites.id, { onDelete: "set null" }),
@@ -63,7 +63,7 @@ export const engineerAssignments = pgTable("engineer_assignments", {
 });
 
 export const checkIns = pgTable("check_ins", {
-  id: uuid("id").primaryKey().defaultRandom(),
+  id: uuid("id").primaryKey().default(sql`gen_random_uuid()`),
   engineerId: uuid("engineer_id").notNull().references(() => profiles.id, { onDelete: "cascade" }),
   checkInTime: timestamp("check_in_time").notNull(),
   checkOutTime: timestamp("check_out_time"),
@@ -75,7 +75,7 @@ export const checkIns = pgTable("check_ins", {
 });
 
 export const dailyReports = pgTable("daily_reports", {
-  id: uuid("id").primaryKey().defaultRandom(),
+  id: uuid("id").primaryKey().default(sql`gen_random_uuid()`),
   engineerId: uuid("engineer_id").notNull().references(() => profiles.id, { onDelete: "cascade" }),
   clientId: uuid("client_id").notNull().references(() => clients.id, { onDelete: "cascade" }),
   siteId: uuid("site_id").references(() => sites.id, { onDelete: "set null" }),
@@ -87,7 +87,7 @@ export const dailyReports = pgTable("daily_reports", {
 });
 
 export const leaveRequests = pgTable("leave_requests", {
-  id: uuid("id").primaryKey().defaultRandom(),
+  id: uuid("id").primaryKey().default(sql`gen_random_uuid()`),
   engineerId: uuid("engineer_id").notNull().references(() => profiles.id, { onDelete: "cascade" }),
   startDate: date("start_date").notNull(),
   endDate: date("end_date").notNull(),
@@ -100,7 +100,7 @@ export const leaveRequests = pgTable("leave_requests", {
 });
 
 export const notifications = pgTable("notifications", {
-  id: uuid("id").primaryKey().defaultRandom(),
+  id: uuid("id").primaryKey().default(sql`gen_random_uuid()`),
   userId: uuid("user_id").notNull().references(() => profiles.id, { onDelete: "cascade" }),
   type: text("type").notNull().$type<"info" | "warning" | "success" | "error">(),
   message: text("message").notNull(),
@@ -110,7 +110,7 @@ export const notifications = pgTable("notifications", {
 });
 
 export const emailLogs = pgTable("email_logs", {
-  id: uuid("id").primaryKey().defaultRandom(),
+  id: uuid("id").primaryKey().default(sql`gen_random_uuid()`),
   recipientEmail: text("recipient_email").notNull(),
   subject: text("subject").notNull(),
   body: text("body").notNull(),
@@ -120,7 +120,7 @@ export const emailLogs = pgTable("email_logs", {
 });
 
 export const companyProfiles = pgTable("company_profiles", {
-  id: uuid("id").primaryKey().defaultRandom(),
+  id: uuid("id").primaryKey().default(sql`gen_random_uuid()`),
   companyName: text("company_name").notNull(),
   brandName: text("brand_name").notNull(),
   logoUrl: text("logo_url"),

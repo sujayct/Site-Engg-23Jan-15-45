@@ -414,7 +414,7 @@ export function registerRoutes(app: Express) {
 
       const [updated] = await db.update(checkIns)
         .set({ checkOutTime: new Date() })
-        .where(eq(checkIns.id, id))
+        .where(eq(checkIns.id, id as any))
         .returning();
 
       if (!updated) {
@@ -593,7 +593,7 @@ export function registerRoutes(app: Express) {
 
       const [updated] = await db.update(leaveRequests)
         .set(updateData)
-        .where(eq(leaveRequests.id, id))
+        .where(eq(leaveRequests.id, id as any))
         .returning();
 
       if (!updated) {
@@ -750,7 +750,7 @@ export function registerRoutes(app: Express) {
 
       const [updated] = await db.update(notifications)
         .set({ isRead: true, readAt: new Date() })
-        .where(eq(notifications.id, id))
+        .where(eq(notifications.id, id as any))
         .returning();
 
       if (!updated) {
