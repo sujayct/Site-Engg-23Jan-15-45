@@ -66,14 +66,12 @@ export default function Login() {
             {branding?.logo_url ? (
               <div className="mb-4 flex flex-col items-center gap-3">
                 <img src={branding.logo_url} alt={branding.brand_name} className="h-20 w-auto object-contain" />
-                {!branding.logo_url.includes('data:image') && (
-                    <h1
-                      className="text-3xl font-bold"
-                      style={{ color: branding?.primary_color || '#0f172a' }}
-                    >
-                      {branding?.brand_name || 'Site Engineer'}
-                    </h1>
-                )}
+                <h1
+                  className="text-3xl font-bold"
+                  style={{ color: branding?.primary_color || '#0f172a' }}
+                >
+                  {branding?.brand_name || 'Site Engineer'}
+                </h1>
               </div>
             ) : (
               <div

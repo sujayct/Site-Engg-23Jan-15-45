@@ -36,14 +36,12 @@ export default function Header({ currentRole, userName, onProfileClick }: Header
             {branding?.logo_url ? (
               <div className="flex items-center gap-3">
                 <img src={branding.logo_url} alt={branding.brand_name} className="h-10 w-auto object-contain" />
-                {!branding.logo_url.includes('data:image') && (
-                  <span
-                    className="text-lg font-bold"
-                    style={{ color: branding?.primary_color || '#0f172a' }}
-                  >
-                    {branding?.brand_name || 'Site Engineer'}
-                  </span>
-                )}
+                <span
+                  className="text-lg font-bold"
+                  style={{ color: branding?.primary_color || '#0f172a' }}
+                >
+                  {branding?.brand_name || 'Site Engineer'}
+                </span>
               </div>
             ) : (
               <div className="flex items-center gap-2">
@@ -67,12 +65,18 @@ export default function Header({ currentRole, userName, onProfileClick }: Header
             )}
             <div className="h-8 w-px bg-slate-300" />
             <div className="flex items-center gap-3">
-              <div className={`w-10 h-10 bg-gradient-to-br ${roleColor} rounded-lg flex items-center justify-center`}>
-                <User className="w-5 h-5 text-white" />
+              <div className={`w-10 h-10 rounded-lg flex items-center justify-center text-white shadow-lg`}
+                style={{
+                  background: branding
+                    ? `linear-gradient(to bottom right, ${branding.primary_color}, ${branding.secondary_color})`
+                    : 'linear-gradient(to bottom right, #3b82f6, #2563eb)',
+                }}
+              >
+                <User className="w-5 h-5" />
               </div>
               <div>
-                <h2 className="font-semibold text-slate-900">{userName}</h2>
-                <p className="text-sm text-slate-600 capitalize">{normalizedRole}</p>
+                <h2 className="font-bold text-slate-900 leading-none mb-1">{userName}</h2>
+                <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider">{normalizedRole}</p>
               </div>
             </div>
           </div>

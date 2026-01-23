@@ -7,11 +7,10 @@ import {
   Plus, 
   Send, 
   CheckCircle, 
-  XCircle,
   AlertCircle,
   LogOut,
-  User,
-  LayoutDashboard
+  LayoutDashboard,
+  Navigation
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { checkInService } from '../../services/checkInService';
@@ -55,7 +54,7 @@ export default function EngineerDashboard() {
       setLoading(true);
       const [reportsData, checkInsData, leavesData, assignmentsData, todayCheck] = await Promise.all([
         reportService.getReports(user!.id),
-        checkInService.getAllCheckIns(), // Simplified for now, should be filterable
+        checkInService.getAllCheckIns(),
         leaveService.getMyLeaveRequests(user!.id),
         assignmentService.getMyAssignments(user!.id),
         checkInService.getTodayCheckIn(user!.id)
@@ -75,7 +74,6 @@ export default function EngineerDashboard() {
   const handleCheckIn = async () => {
     if (!user) return;
     try {
-      // Simulate GPS (Mumbai area)
       const lat = 19.0760 + (Math.random() - 0.5) * 0.01;
       const lng = 72.8777 + (Math.random() - 0.5) * 0.01;
       const assignment = assignments[0];
@@ -212,23 +210,24 @@ export default function EngineerDashboard() {
                 {!todayCheckIn ? (
                   <button
                     onClick={handleCheckIn}
-                    className="w-full py-4 bg-blue-600 text-white rounded-xl font-bold hover:bg-blue-700 transition-colors shadow-lg shadow-blue-200 flex items-center justify-center gap-2"
+                    className="w-full py-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-xl font-bold hover:from-blue-700 hover:to-blue-800 transition-all shadow-lg shadow-blue-200 flex items-center justify-center gap-2 transform active:scale-95"
                   >
-                    <MapPin className="w-5 h-5" />
+                    <Navigation className="w-5 h-5 animate-pulse" />
                     Check In (Simulate GPS)
                   </button>
                 ) : !todayCheckIn.checkOutTime ? (
                   <button
                     onClick={handleCheckOut}
-                    className="w-full py-4 bg-red-600 text-white rounded-xl font-bold hover:bg-red-700 transition-colors shadow-lg shadow-red-200 flex items-center justify-center gap-2"
+                    className="w-full py-4 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-xl font-bold hover:from-red-700 hover:to-red-800 transition-all shadow-lg shadow-red-200 flex items-center justify-center gap-2 transform active:scale-95"
                   >
                     <LogOut className="w-5 h-5" />
                     Check Out
                   </button>
                 ) : (
-                  <div className="text-center p-4 bg-green-50 text-green-700 rounded-lg border border-green-100 flex items-center justify-center gap-2">
-                    <CheckCircle className="w-5 h-5" />
-                    Work session completed for today
+                  <div className="text-center p-6 bg-green-50 text-green-700 rounded-xl border border-green-100 flex flex-col items-center justify-center gap-2">
+                    <CheckCircle className="w-8 h-8" />
+                    <p className="font-bold">Work session completed</p>
+                    <p className="text-xs opacity-75">Great job today!</p>
                   </div>
                 )}
               </div>

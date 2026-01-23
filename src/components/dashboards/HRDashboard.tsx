@@ -8,9 +8,20 @@ import { leaveService } from '../../services/leaveService';
 import { StorageService } from '../../lib/storage';
 import { useAuth } from '../../contexts/AuthContext';
 import { hrReportService, AttendanceRecord, EngineerSummary, ClientReport, PayrollRecord } from '../../services/hrReportService';
-import { profileService, UserProfile } from '../../services/profileService';
+import { profileService } from '../../services/profileService';
 import HRClientWiseView from './HRClientWiseView';
 import ProfileViewer from '../ProfileViewer';
+
+// Define the missing types locally or import if available
+interface UserProfile {
+  id: string;
+  fullName: string;
+  email: string;
+  role: string;
+  phone?: string;
+  designation?: string;
+  createdAt: string;
+}
 
 export default function HRDashboard() {
   const { user } = useAuth();
@@ -62,7 +73,7 @@ export default function HRDashboard() {
       const [checkInsList, leavesList, reportsList] = await Promise.all([
         checkInService.getAllCheckIns(),
         leaveService.getAllLeaveRequests(),
-        reportService.getAllReports()
+        reportService.getReports()
       ]);
 
       const filteredCheckIns = checkInsList.filter(c => c.date === selectedDate);

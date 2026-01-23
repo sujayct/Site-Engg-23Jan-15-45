@@ -1,8 +1,7 @@
-import { StorageService } from '../lib/storage';
-import type { DailyReport } from '../types';
+import { storage } from './storage';
 
 export const reportService = {
-  async createReport(engineerId: string, clientId: string, workDone: string, issues?: string, siteId?: string): Promise<DailyReport> {
+  async createReport(engineerId: string, clientId: string, workDone: string, issues?: string, siteId?: string) {
     const response = await fetch('/api/reports', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -12,16 +11,13 @@ export const reportService = {
     return response.json();
   },
 
-  async getReports(engineerId: string): Promise<DailyReport[]> {
+  async getReports(engineerId?: string) {
     const response = await fetch('/api/reports');
     if (!response.ok) throw new Error('Failed to fetch reports');
     const reports = await response.json();
-    return reports.filter((r: any) => r.engineerId === engineerId);
-  },
-
-  async getAllReports(): Promise<DailyReport[]> {
-    const response = await fetch('/api/reports');
-    if (!response.ok) throw new Error('Failed to fetch reports');
-    return response.json();
+    if (engineerId) {
+      return reports.filter((r: any) => r.engineerId === engineerId);
+    }
+    return reports;
   }
 };

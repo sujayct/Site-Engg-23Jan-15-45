@@ -684,6 +684,15 @@
       "clientId": "f23f221d-e5c6-4e41-b1d2-682cdfe616fa",
       "assignedDate": "2026-01-23",
       "isActive": true
+    },
+    {
+      "id": "f97e4943-7bc3-4ff3-be09-98eb47218d2d",
+      "createdAt": "2026-01-23T11:30:39.517Z",
+      "engineerId": "e39d17b0-a629-4e87-8eb1-feaecdd5d7d7",
+      "clientId": "764e64a7-40fe-459c-9876-1d05c99f096b",
+      "siteId": "",
+      "assignedDate": "2026-01-23",
+      "isActive": true
     }
   ],
   "check_ins": [
