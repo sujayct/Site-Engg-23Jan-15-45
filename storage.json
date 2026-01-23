@@ -1,0 +1,38 @@
+{
+  "profiles": [
+    {
+      "id": "5574d283-22f6-4817-8435-35ddda27b9f0",
+      "email": "admin@company.com",
+      "fullName": "System Admin",
+      "role": "admin",
+      "passwordHash": "$2a$10$wT0vR2E9vN.pG9v9v9v9v.wT0vR2E9vN.pG9v9v9v9v.wT0vR2E9vN",
+      "createdAt": "2026-01-23T10:39:37.859Z"
+    },
+    {
+      "id": "25b78dbc-b651-4f58-bde0-2f3014ee2ef2",
+      "email": "engineer@company.com",
+      "fullName": "John Doe",
+      "role": "engineer",
+      "designation": "Senior Engineer",
+      "passwordHash": "$2a$10$wT0vR2E9vN.pG9v9v9v9v.wT0vR2E9vN.pG9v9v9v9v.wT0vR2E9vN",
+      "createdAt": "2026-01-23T10:39:37.859Z"
+    }
+  ],
+  "clients": [
+    {
+      "id": "6ac5eb62-fbec-45f5-be84-d965bdf24c04",
+      "name": "ABC Corporation",
+      "contactPerson": "Alice Client",
+      "contactEmail": "client@company.com",
+      "createdAt": "2026-01-23T10:39:37.859Z"
+    }
+  ],
+  "sites": [],
+  "engineer_assignments": [],
+  "check_ins": [],
+  "daily_reports": [],
+  "leave_requests": [],
+  "notifications": [],
+  "company_profiles": [],
+  "sessions": []
+}
