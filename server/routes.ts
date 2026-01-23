@@ -14,15 +14,26 @@ export function registerRoutes(app: Express) {
       const { email, password } = req.body;
       if (!email || !password) return res.status(400).json({ error: "Email and password are required" });
 
-      const user = storage.getTable("profiles").find((p: any) => p.email === email);
-      if (!user) return res.status(401).json({ error: "Invalid credentials" });
+      // Lowercase email for consistency
+      const searchEmail = email.toLowerCase();
+      const user = storage.getTable("profiles").find((p: any) => p.email.toLowerCase() === searchEmail);
+      
+      if (!user) {
+        console.error(`Login failed: User not found - ${searchEmail}`);
+        return res.status(401).json({ error: "Invalid credentials" });
+      }
 
       const isValid = await bcrypt.compare(password, user.passwordHash);
-      if (!isValid && password !== "password123") return res.status(401).json({ error: "Invalid credentials" });
+      if (!isValid && password !== "password123") {
+        console.error(`Login failed: Invalid password for - ${searchEmail}`);
+        return res.status(401).json({ error: "Invalid credentials" });
+      }
 
       req.session.userId = user.id;
+      console.log(`Login successful: ${searchEmail} (${user.role})`);
       res.json({ user: { id: user.id, email: user.email, name: user.fullName, role: user.role } });
     } catch (error: any) {
+      console.error("Login error:", error);
       res.status(500).json({ error: error.message });
     }
   });
