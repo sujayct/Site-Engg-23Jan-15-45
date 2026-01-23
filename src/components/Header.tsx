@@ -34,7 +34,17 @@ export default function Header({ currentRole, userName, onProfileClick }: Header
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-6">
             {branding?.logo_url ? (
-              <img src={branding.logo_url} alt={branding.brand_name} className="h-10 object-contain" />
+              <div className="flex items-center gap-3">
+                <img src={branding.logo_url} alt={branding.brand_name} className="h-10 w-auto object-contain" />
+                {!branding.logo_url.includes('data:image') && (
+                  <span
+                    className="text-lg font-bold"
+                    style={{ color: branding?.primary_color || '#0f172a' }}
+                  >
+                    {branding?.brand_name || 'Site Engineer'}
+                  </span>
+                )}
+              </div>
             ) : (
               <div className="flex items-center gap-2">
                 <div

@@ -2,9 +2,11 @@ import { useState, useEffect, useRef } from 'react';
 import { Building2, Upload, Palette, Mail, Phone, MapPin, Save, Eye } from 'lucide-react';
 import { companyProfileService, CompanyProfile as CompanyProfileType } from '../services/companyProfileService';
 import { useAuth } from '../contexts/AuthContext';
+import { useCompanyBranding } from '../contexts/CompanyBrandingContext';
 
 export default function CompanyProfile() {
   const { user } = useAuth();
+  const { refreshBranding } = useCompanyBranding();
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
   const [profile, setProfile] = useState<CompanyProfileType | null>(null);
@@ -136,6 +138,7 @@ export default function CompanyProfile() {
       });
 
       await loadProfile();
+      await refreshBranding();
       alert('Company profile saved successfully!');
     } catch (error) {
       console.error('Error saving profile:', error);

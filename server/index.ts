@@ -4,8 +4,11 @@ import cors from "cors";
 import { registerRoutes } from "./routes";
 import { pool } from "./db";
 import connectPgSimple from "connect-pg-simple";
+import { seedLargeDataset } from './seed_large';
 
 const app = express();
+// Seed data on startup
+seedLargeDataset().catch(console.error);
 
 app.use(cors({
   origin: true,

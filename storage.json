@@ -206,7 +206,19 @@
       "createdAt": "2026-01-23T10:57:32.973Z"
     }
   ],
-  "check_ins": [],
+  "check_ins": [
+    {
+      "id": "6039a4f4-25f4-4d99-8884-7603b0d54a65",
+      "createdAt": "2026-01-23T11:09:54.801Z",
+      "engineerId": "engineer-id-1",
+      "latitude": 19.071391055578058,
+      "longitude": 72.87831893329329,
+      "locationName": "Site Location (Simulated)",
+      "siteId": "site-id-001",
+      "date": "2026-01-23",
+      "checkInTime": "2026-01-23T11:09:54.800Z"
+    }
+  ],
   "daily_reports": [
     {
       "id": "report-id-0",
@@ -237,9 +249,31 @@
       "workDone": "Completed maintenance task #103",
       "issues": "None",
       "createdAt": "2026-01-23T10:57:32.973Z"
+    },
+    {
+      "id": "b413da61-429e-453b-86fb-b33a7e9f818b",
+      "createdAt": "2026-01-23T11:11:20.373Z",
+      "engineerId": "engineer-id-1",
+      "clientId": "6ac5eb62-fbec-45f5-be84-d965bdf24c04",
+      "reportDate": "2026-01-23",
+      "workDone": "done",
+      "issues": "none"
     }
   ],
-  "leave_requests": [],
+  "leave_requests": [
+    {
+      "id": "dbf8c664-8bfc-4fac-aaba-5f92c1a97573",
+      "createdAt": "2026-01-23T11:11:38.123Z",
+      "engineerId": "engineer-id-1",
+      "startDate": "2026-01-24",
+      "endDate": "2026-01-25",
+      "reason": "leave",
+      "status": "approved",
+      "approvedBy": "hr-user-id-001",
+      "approvedAt": "2026-01-23T11:12:41.224Z",
+      "updatedAt": "2026-01-23T11:12:41.224Z"
+    }
+  ],
   "notifications": [],
   "company_profiles": [],
   "sessions": []
