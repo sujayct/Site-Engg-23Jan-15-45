@@ -131,6 +131,96 @@
       "phone": "+919876543219",
       "passwordHash": "$2b$10$zGMY6EFEVaNyvWUYzbZEDeeszb1kWXfdWhKXucwmp737GtvqKHU8a",
       "createdAt": "2026-01-23T10:57:32.973Z"
+    },
+    {
+      "id": "54399eba-3bf8-4f66-a7f6-cec8f77ad76a",
+      "createdAt": "2026-01-23T11:26:33.347Z",
+      "email": "engineer11@company.com",
+      "password": "password123",
+      "fullName": "Patricia Johnson",
+      "role": "engineer",
+      "phone": "+91 9000000011"
+    },
+    {
+      "id": "e39d17b0-a629-4e87-8eb1-feaecdd5d7d7",
+      "createdAt": "2026-01-23T11:26:33.348Z",
+      "email": "engineer12@company.com",
+      "password": "password123",
+      "fullName": "Michael Smith",
+      "role": "engineer",
+      "phone": "+91 9000000012"
+    },
+    {
+      "id": "7151b47f-95b9-4e0c-966e-e76ed75113d5",
+      "createdAt": "2026-01-23T11:26:33.349Z",
+      "email": "engineer13@company.com",
+      "password": "password123",
+      "fullName": "John Brown",
+      "role": "engineer",
+      "phone": "+91 9000000013"
+    },
+    {
+      "id": "4e87d33f-64eb-4bcd-ad84-63cc7a27d79d",
+      "createdAt": "2026-01-23T11:26:33.350Z",
+      "email": "engineer14@company.com",
+      "password": "password123",
+      "fullName": "Michael Johnson",
+      "role": "engineer",
+      "phone": "+91 9000000014"
+    },
+    {
+      "id": "a0f842c8-8a00-4bde-bad9-3f3ceefca286",
+      "createdAt": "2026-01-23T11:26:33.353Z",
+      "email": "engineer15@company.com",
+      "password": "password123",
+      "fullName": "Robert Johnson",
+      "role": "engineer",
+      "phone": "+91 9000000015"
+    },
+    {
+      "id": "9759dde9-2501-465e-9913-8cf2aead00ad",
+      "createdAt": "2026-01-23T11:26:33.354Z",
+      "email": "engineer16@company.com",
+      "password": "password123",
+      "fullName": "John Brown",
+      "role": "engineer",
+      "phone": "+91 9000000016"
+    },
+    {
+      "id": "c791e21b-acb2-46b0-a3fa-17092ee86b70",
+      "createdAt": "2026-01-23T11:26:33.355Z",
+      "email": "engineer17@company.com",
+      "password": "password123",
+      "fullName": "Patricia Martinez",
+      "role": "engineer",
+      "phone": "+91 9000000017"
+    },
+    {
+      "id": "bf56c449-6691-437e-b4fc-61ce3af65c87",
+      "createdAt": "2026-01-23T11:26:33.356Z",
+      "email": "engineer18@company.com",
+      "password": "password123",
+      "fullName": "Mary Miller",
+      "role": "engineer",
+      "phone": "+91 9000000018"
+    },
+    {
+      "id": "62383574-68d8-415f-95af-392e6d8bb7db",
+      "createdAt": "2026-01-23T11:26:33.356Z",
+      "email": "engineer19@company.com",
+      "password": "password123",
+      "fullName": "Patricia Brown",
+      "role": "engineer",
+      "phone": "+91 9000000019"
+    },
+    {
+      "id": "d445165a-0295-4aeb-9471-d302108c5b1a",
+      "createdAt": "2026-01-23T11:26:33.357Z",
+      "email": "engineer20@company.com",
+      "password": "password123",
+      "fullName": "Robert Brown",
+      "role": "engineer",
+      "phone": "+91 9000000020"
     }
   ],
   "clients": [
@@ -141,6 +231,276 @@
       "contactEmail": "client@company.com",
       "userId": "client-user-id-001",
       "createdAt": "2026-01-23T10:57:32.973Z"
+    },
+    {
+      "id": "e04b65f0-a46b-4831-90ac-77ed783e38bf",
+      "createdAt": "2026-01-23T11:26:33.358Z",
+      "name": "Build It Ltd 1",
+      "contactPerson": "Patricia Brown",
+      "email": "client1@example.com",
+      "phone": "+91 8000000001",
+      "userId": "dummy-user-id"
+    },
+    {
+      "id": "b903fd31-3d8b-4133-a8a2-20548017ac23",
+      "createdAt": "2026-01-23T11:26:33.359Z",
+      "name": "Smart Solutions 2",
+      "contactPerson": "Mary Johnson",
+      "email": "client2@example.com",
+      "phone": "+91 8000000002",
+      "userId": "dummy-user-id"
+    },
+    {
+      "id": "7af36f1f-59a4-41b0-8f1a-3a7efcb15148",
+      "createdAt": "2026-01-23T11:26:33.360Z",
+      "name": "Global Infra 3",
+      "contactPerson": "Robert Davis",
+      "email": "client3@example.com",
+      "phone": "+91 8000000003",
+      "userId": "dummy-user-id"
+    },
+    {
+      "id": "837e0ac8-3e79-45f7-9f46-b950dc81ab9e",
+      "createdAt": "2026-01-23T11:26:33.360Z",
+      "name": "Smart Solutions 4",
+      "contactPerson": "John Martinez",
+      "email": "client4@example.com",
+      "phone": "+91 8000000004",
+      "userId": "dummy-user-id"
+    },
+    {
+      "id": "a6b4742a-cf7f-47c4-9e7a-afbd63f4eaaf",
+      "createdAt": "2026-01-23T11:26:33.361Z",
+      "name": "Build It Ltd 5",
+      "contactPerson": "Mary Miller",
+      "email": "client5@example.com",
+      "phone": "+91 8000000005",
+      "userId": "dummy-user-id"
+    },
+    {
+      "id": "6189e7c2-dbac-471a-9172-4b71f92bb6ff",
+      "createdAt": "2026-01-23T11:26:33.364Z",
+      "name": "Tech Corp 6",
+      "contactPerson": "Robert Rodriguez",
+      "email": "client6@example.com",
+      "phone": "+91 8000000006",
+      "userId": "dummy-user-id"
+    },
+    {
+      "id": "37791e78-732a-4ddb-b9b8-8fae2f34b93b",
+      "createdAt": "2026-01-23T11:26:33.365Z",
+      "name": "Build It Ltd 7",
+      "contactPerson": "Mary Martinez",
+      "email": "client7@example.com",
+      "phone": "+91 8000000007",
+      "userId": "dummy-user-id"
+    },
+    {
+      "id": "775b63dd-e902-4345-95bb-a669fd59c23c",
+      "createdAt": "2026-01-23T11:26:33.366Z",
+      "name": "City Projects 8",
+      "contactPerson": "Linda Rodriguez",
+      "email": "client8@example.com",
+      "phone": "+91 8000000008",
+      "userId": "dummy-user-id"
+    },
+    {
+      "id": "4c94a864-a8a8-4ab6-84c2-e530dd700db5",
+      "createdAt": "2026-01-23T11:26:33.366Z",
+      "name": "Tech Corp 9",
+      "contactPerson": "Linda Rodriguez",
+      "email": "client9@example.com",
+      "phone": "+91 8000000009",
+      "userId": "dummy-user-id"
+    },
+    {
+      "id": "764e64a7-40fe-459c-9876-1d05c99f096b",
+      "createdAt": "2026-01-23T11:26:33.367Z",
+      "name": "Smart Solutions 10",
+      "contactPerson": "Michael Martinez",
+      "email": "client10@example.com",
+      "phone": "+91 8000000010",
+      "userId": "dummy-user-id"
+    },
+    {
+      "id": "c0f08f64-93d6-4847-90b2-dfe2eae43bb9",
+      "createdAt": "2026-01-23T11:26:33.368Z",
+      "name": "Future Systems 11",
+      "contactPerson": "John Martinez",
+      "email": "client11@example.com",
+      "phone": "+91 8000000011",
+      "userId": "dummy-user-id"
+    },
+    {
+      "id": "21cb6690-d5fa-435a-8ab8-e9612a148567",
+      "createdAt": "2026-01-23T11:26:33.369Z",
+      "name": "City Projects 12",
+      "contactPerson": "Patricia Jones",
+      "email": "client12@example.com",
+      "phone": "+91 8000000012",
+      "userId": "dummy-user-id"
+    },
+    {
+      "id": "2bc58ff8-8ca4-40dc-8b44-e74e2d195049",
+      "createdAt": "2026-01-23T11:26:33.369Z",
+      "name": "Global Infra 13",
+      "contactPerson": "Linda Rodriguez",
+      "email": "client13@example.com",
+      "phone": "+91 8000000013",
+      "userId": "dummy-user-id"
+    },
+    {
+      "id": "f23f221d-e5c6-4e41-b1d2-682cdfe616fa",
+      "createdAt": "2026-01-23T11:26:33.371Z",
+      "name": "Tech Corp 14",
+      "contactPerson": "Elizabeth Williams",
+      "email": "client14@example.com",
+      "phone": "+91 8000000014",
+      "userId": "dummy-user-id"
+    },
+    {
+      "id": "121ad835-60fb-419a-a9c6-d5a2d7783764",
+      "createdAt": "2026-01-23T11:26:33.372Z",
+      "name": "Future Systems 15",
+      "contactPerson": "Linda Miller",
+      "email": "client15@example.com",
+      "phone": "+91 8000000015",
+      "userId": "dummy-user-id"
+    },
+    {
+      "id": "b5ec941a-7499-41f8-bef2-ea1cd7a675bf",
+      "createdAt": "2026-01-23T11:26:33.373Z",
+      "name": "Tech Corp 16",
+      "contactPerson": "David Smith",
+      "email": "client16@example.com",
+      "phone": "+91 8000000016",
+      "userId": "dummy-user-id"
+    },
+    {
+      "id": "8cbee1de-4ef5-47dd-8985-64e1ddaeb814",
+      "createdAt": "2026-01-23T11:26:33.374Z",
+      "name": "Global Infra 17",
+      "contactPerson": "Patricia Smith",
+      "email": "client17@example.com",
+      "phone": "+91 8000000017",
+      "userId": "dummy-user-id"
+    },
+    {
+      "id": "35f35430-20ff-4507-bfe5-087f87b665d6",
+      "createdAt": "2026-01-23T11:26:33.375Z",
+      "name": "City Projects 18",
+      "contactPerson": "David Rodriguez",
+      "email": "client18@example.com",
+      "phone": "+91 8000000018",
+      "userId": "dummy-user-id"
+    },
+    {
+      "id": "ace9cba3-6e33-4857-a6f7-a61b3a9531bf",
+      "createdAt": "2026-01-23T11:26:33.376Z",
+      "name": "Future Systems 19",
+      "contactPerson": "Jennifer Garcia",
+      "email": "client19@example.com",
+      "phone": "+91 8000000019",
+      "userId": "dummy-user-id"
+    },
+    {
+      "id": "0d41a5a3-5df4-4793-b17e-f90ba0e30826",
+      "createdAt": "2026-01-23T11:26:33.376Z",
+      "name": "Future Systems 20",
+      "contactPerson": "Michael Rodriguez",
+      "email": "client20@example.com",
+      "phone": "+91 8000000020",
+      "userId": "dummy-user-id"
+    },
+    {
+      "id": "58583c94-8851-4ac9-93b2-ec9b1f27b14d",
+      "createdAt": "2026-01-23T11:26:33.377Z",
+      "name": "Tech Corp 21",
+      "contactPerson": "Jennifer Williams",
+      "email": "client21@example.com",
+      "phone": "+91 8000000021",
+      "userId": "dummy-user-id"
+    },
+    {
+      "id": "1cf3f4c1-616f-48c3-8096-f5453ad62c07",
+      "createdAt": "2026-01-23T11:26:33.378Z",
+      "name": "Global Infra 22",
+      "contactPerson": "Mary Brown",
+      "email": "client22@example.com",
+      "phone": "+91 8000000022",
+      "userId": "dummy-user-id"
+    },
+    {
+      "id": "3b2a8aa2-bcf3-43a1-b62b-137b9de3ac00",
+      "createdAt": "2026-01-23T11:26:33.379Z",
+      "name": "Future Systems 23",
+      "contactPerson": "Michael Jones",
+      "email": "client23@example.com",
+      "phone": "+91 8000000023",
+      "userId": "dummy-user-id"
+    },
+    {
+      "id": "48cd775c-b14d-4b56-adb3-3245a7fcf3c3",
+      "createdAt": "2026-01-23T11:26:33.380Z",
+      "name": "Smart Solutions 24",
+      "contactPerson": "David Rodriguez",
+      "email": "client24@example.com",
+      "phone": "+91 8000000024",
+      "userId": "dummy-user-id"
+    },
+    {
+      "id": "9a47ef83-d49b-4982-b36a-e947e6a041be",
+      "createdAt": "2026-01-23T11:26:33.381Z",
+      "name": "Tech Corp 25",
+      "contactPerson": "Linda Brown",
+      "email": "client25@example.com",
+      "phone": "+91 8000000025",
+      "userId": "dummy-user-id"
+    },
+    {
+      "id": "42078732-a540-45a3-b65d-ea1b46e29758",
+      "createdAt": "2026-01-23T11:26:33.382Z",
+      "name": "Tech Corp 26",
+      "contactPerson": "Robert Martinez",
+      "email": "client26@example.com",
+      "phone": "+91 8000000026",
+      "userId": "dummy-user-id"
+    },
+    {
+      "id": "cdc37e97-5367-4c34-9774-8f9eb81c060f",
+      "createdAt": "2026-01-23T11:26:33.382Z",
+      "name": "Smart Solutions 27",
+      "contactPerson": "Elizabeth Rodriguez",
+      "email": "client27@example.com",
+      "phone": "+91 8000000027",
+      "userId": "dummy-user-id"
+    },
+    {
+      "id": "51a8cf7e-c3d1-4a68-949a-a70bf155a280",
+      "createdAt": "2026-01-23T11:26:33.383Z",
+      "name": "Future Systems 28",
+      "contactPerson": "Jennifer Miller",
+      "email": "client28@example.com",
+      "phone": "+91 8000000028",
+      "userId": "dummy-user-id"
+    },
+    {
+      "id": "349495ea-2e8f-49fb-ba60-49d206acd5f6",
+      "createdAt": "2026-01-23T11:26:33.384Z",
+      "name": "Smart Solutions 29",
+      "contactPerson": "Linda Rodriguez",
+      "email": "client29@example.com",
+      "phone": "+91 8000000029",
+      "userId": "dummy-user-id"
+    },
+    {
+      "id": "f0b2e701-3c13-4ab8-b105-541db3dee1d2",
+      "createdAt": "2026-01-23T11:26:33.385Z",
+      "name": "Smart Solutions 30",
+      "contactPerson": "Patricia Brown",
+      "email": "client30@example.com",
+      "phone": "+91 8000000030",
+      "userId": "dummy-user-id"
     }
   ],
   "sites": [
@@ -204,6 +564,126 @@
       "assignedDate": "2026-01-23",
       "isActive": true,
       "createdAt": "2026-01-23T10:57:32.973Z"
+    },
+    {
+      "id": "90b0b19d-632d-4b0d-a4aa-e56c1a05d124",
+      "createdAt": "2026-01-23T11:26:33.386Z",
+      "engineerId": "engineer-user-id",
+      "clientId": "6ac5eb62-fbec-45f5-be84-d965bdf24c04",
+      "assignedDate": "2026-01-23",
+      "isActive": true
+    },
+    {
+      "id": "1939ba2d-5687-4f8d-abc9-06b79eadef71",
+      "createdAt": "2026-01-23T11:26:33.387Z",
+      "engineerId": "engineer-id-1",
+      "clientId": "e04b65f0-a46b-4831-90ac-77ed783e38bf",
+      "assignedDate": "2026-01-23",
+      "isActive": true
+    },
+    {
+      "id": "9031d27e-6763-4364-b1a4-d5d4342b034f",
+      "createdAt": "2026-01-23T11:26:33.388Z",
+      "engineerId": "engineer-id-2",
+      "clientId": "b903fd31-3d8b-4133-a8a2-20548017ac23",
+      "assignedDate": "2026-01-23",
+      "isActive": true
+    },
+    {
+      "id": "4ad15e60-ae81-487c-8adf-f73e386a6486",
+      "createdAt": "2026-01-23T11:26:33.389Z",
+      "engineerId": "engineer-id-3",
+      "clientId": "7af36f1f-59a4-41b0-8f1a-3a7efcb15148",
+      "assignedDate": "2026-01-23",
+      "isActive": true
+    },
+    {
+      "id": "5a0bb269-f87d-45e5-9bc5-63d202899700",
+      "createdAt": "2026-01-23T11:26:33.391Z",
+      "engineerId": "engineer-id-4",
+      "clientId": "837e0ac8-3e79-45f7-9f46-b950dc81ab9e",
+      "assignedDate": "2026-01-23",
+      "isActive": true
+    },
+    {
+      "id": "aeede02d-9385-4d15-8fff-f3594776c76f",
+      "createdAt": "2026-01-23T11:26:33.392Z",
+      "engineerId": "engineer-id-5",
+      "clientId": "a6b4742a-cf7f-47c4-9e7a-afbd63f4eaaf",
+      "assignedDate": "2026-01-23",
+      "isActive": true
+    },
+    {
+      "id": "763025bd-a314-43c9-9836-9d7fde163d95",
+      "createdAt": "2026-01-23T11:26:33.392Z",
+      "engineerId": "engineer-id-6",
+      "clientId": "6189e7c2-dbac-471a-9172-4b71f92bb6ff",
+      "assignedDate": "2026-01-23",
+      "isActive": true
+    },
+    {
+      "id": "ddb237eb-758b-4c1d-9e30-f7853e72bed3",
+      "createdAt": "2026-01-23T11:26:33.393Z",
+      "engineerId": "engineer-id-7",
+      "clientId": "37791e78-732a-4ddb-b9b8-8fae2f34b93b",
+      "assignedDate": "2026-01-23",
+      "isActive": true
+    },
+    {
+      "id": "226372af-56ad-4486-939d-bc947a4ef686",
+      "createdAt": "2026-01-23T11:26:33.396Z",
+      "engineerId": "engineer-id-8",
+      "clientId": "775b63dd-e902-4345-95bb-a669fd59c23c",
+      "assignedDate": "2026-01-23",
+      "isActive": true
+    },
+    {
+      "id": "151bd9ac-3ba1-49f1-94dd-d7dc821b0a6a",
+      "createdAt": "2026-01-23T11:26:33.396Z",
+      "engineerId": "engineer-id-9",
+      "clientId": "4c94a864-a8a8-4ab6-84c2-e530dd700db5",
+      "assignedDate": "2026-01-23",
+      "isActive": true
+    },
+    {
+      "id": "1684994e-251c-4db1-8595-cc5d417bedf7",
+      "createdAt": "2026-01-23T11:26:33.397Z",
+      "engineerId": "engineer-id-10",
+      "clientId": "764e64a7-40fe-459c-9876-1d05c99f096b",
+      "assignedDate": "2026-01-23",
+      "isActive": true
+    },
+    {
+      "id": "38acd069-cda1-409d-852b-56e06bb382eb",
+      "createdAt": "2026-01-23T11:26:33.397Z",
+      "engineerId": "54399eba-3bf8-4f66-a7f6-cec8f77ad76a",
+      "clientId": "c0f08f64-93d6-4847-90b2-dfe2eae43bb9",
+      "assignedDate": "2026-01-23",
+      "isActive": true
+    },
+    {
+      "id": "9085492a-3750-4255-ac28-298f2ce93c5f",
+      "createdAt": "2026-01-23T11:26:33.399Z",
+      "engineerId": "e39d17b0-a629-4e87-8eb1-feaecdd5d7d7",
+      "clientId": "21cb6690-d5fa-435a-8ab8-e9612a148567",
+      "assignedDate": "2026-01-23",
+      "isActive": true
+    },
+    {
+      "id": "2c38e6a4-b204-49a9-b9ca-2782b928c46f",
+      "createdAt": "2026-01-23T11:26:33.400Z",
+      "engineerId": "7151b47f-95b9-4e0c-966e-e76ed75113d5",
+      "clientId": "2bc58ff8-8ca4-40dc-8b44-e74e2d195049",
+      "assignedDate": "2026-01-23",
+      "isActive": true
+    },
+    {
+      "id": "5f65888a-1db4-4864-a905-6c9a2d0cca40",
+      "createdAt": "2026-01-23T11:26:33.401Z",
+      "engineerId": "4e87d33f-64eb-4bcd-ad84-63cc7a27d79d",
+      "clientId": "f23f221d-e5c6-4e41-b1d2-682cdfe616fa",
+      "assignedDate": "2026-01-23",
+      "isActive": true
     }
   ],
   "check_ins": [
