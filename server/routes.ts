@@ -309,7 +309,40 @@ export function registerRoutes(app: Express) {
       engineerName: profiles.find((p: any) => p.id === c.engineerId)?.fullName,
     })));
   });
-  app.get("/api/leaves", (req: Request, res: Response) => res.json([]));
+  app.get("/api/leaves", (req: Request, res: Response) => {
+    const leaves = storage.getTable("leave_requests");
+    const profiles = storage.getTable("profiles");
+    const userId = req.session.userId;
+    const user = profiles.find((p: any) => p.id === userId);
+
+    let filteredLeaves = leaves;
+    if (user?.role === "engineer") {
+      filteredLeaves = leaves.filter((l: any) => l.engineerId === userId);
+    } else if (user?.role === "client") {
+      const assignments = storage.getTable("engineer_assignments");
+      const client = storage.getTable("clients").find((c: any) => c.userId === userId);
+      const engineerIds = assignments.filter((a: any) => a.clientId === client?.id).map((a: any) => a.engineerId);
+      filteredLeaves = leaves.filter((l: any) => engineerIds.includes(l.engineerId) && l.status === "approved");
+    }
+
+    res.json(filteredLeaves.map((l: any) => ({
+      ...l,
+      engineerName: profiles.find((p: any) => p.id === l.engineerId)?.fullName,
+      backupEngineerName: profiles.find((p: any) => p.id === l.backupEngineerId)?.fullName,
+    })));
+  });
+
+  app.post("/api/leaves", (req: Request, res: Response) => {
+    const { startDate, endDate, reason } = req.body;
+    const newLeave = storage.insert("leave_requests", {
+      engineerId: req.session.userId,
+      startDate,
+      endDate,
+      reason,
+      status: "pending"
+    });
+    res.status(201).json(newLeave);
+  });
   app.get("/api/notifications", (req: Request, res: Response) => res.json([]));
   app.get("/api/company-profile", (req: Request, res: Response) => {
     const profiles = storage.getTable("company_profiles");

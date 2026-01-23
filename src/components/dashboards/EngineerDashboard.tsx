@@ -46,17 +46,12 @@ export default function EngineerDashboard() {
     setLoading(true);
 
     try {
-      const position = await new Promise<GeolocationPosition>((resolve, reject) => {
-        navigator.geolocation.getCurrentPosition(resolve, reject, {
-          enableHighAccuracy: true,
-          timeout: 10000,
-          maximumAge: 0
-        });
-      });
-
-      const { latitude, longitude } = position.coords;
-      const locationName = `${latitude.toFixed(6)}, ${longitude.toFixed(6)}`;
-      console.log('Current coordinates:', latitude, longitude); // Debug log
+      // Simulate random coordinates within a range (e.g., around a central point)
+      const latitude = 19.0760 + (Math.random() - 0.5) * 0.01;
+      const longitude = 72.8777 + (Math.random() - 0.5) * 0.01;
+      const locationName = `Simulated: ${latitude.toFixed(6)}, ${longitude.toFixed(6)}`;
+      
+      console.log('Simulated coordinates:', latitude, longitude);
 
       const newCheckIn = await checkInService.createCheckIn(
         user.engineerId,
@@ -66,10 +61,10 @@ export default function EngineerDashboard() {
         assignments[0]?.siteId
       );
 
-      console.log('New check-in created:', newCheckIn); // Debug log
+      console.log('New simulated check-in created:', newCheckIn);
       setTodayCheckIn(newCheckIn);
       await loadData();
-      alert('Check-in successful!');
+      alert('Simulated Check-in successful!');
     } catch (error: any) {
       console.error('Check-in error:', error);
       alert(error.message || 'Failed to check in');

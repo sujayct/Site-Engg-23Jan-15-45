@@ -14,11 +14,15 @@ export const reportService = {
   },
 
   async getReports(engineerId: string): Promise<DailyReport[]> {
-    const reports = await StorageService.getDailyReports();
-    return reports.filter(r => r.engineerId === engineerId);
+    const response = await fetch('/api/reports');
+    if (!response.ok) throw new Error('Failed to fetch reports');
+    const reports = await response.json();
+    return reports.filter((r: any) => r.engineerId === engineerId);
   },
 
   async getAllReports(): Promise<DailyReport[]> {
-    return StorageService.getDailyReports();
+    const response = await fetch('/api/reports');
+    if (!response.ok) throw new Error('Failed to fetch reports');
+    return response.json();
   }
 };
