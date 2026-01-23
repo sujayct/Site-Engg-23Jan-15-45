@@ -245,11 +245,11 @@ export default function HRDashboard() {
                         <tr key={checkIn.id} className="hover:bg-slate-50">
                           <td className="px-4 py-3 text-sm text-slate-900">{checkIn.engineerName || 'Unknown'}</td>
                           <td className="px-4 py-3 text-sm text-slate-600">
-                            {new Date(checkIn.checkInTime).toLocaleTimeString()}
+                            {checkIn.checkInTime ? new Date(checkIn.checkInTime).toLocaleTimeString() : '-'}
                           </td>
-                            <td className="px-4 py-3 text-sm text-slate-600">
-                              {checkIn.checkOutTime ? new Date(checkIn.checkOutTime).toLocaleTimeString() : '-'}
-                            </td>
+                          <td className="px-4 py-3 text-sm text-slate-600">
+                            {checkIn.checkOutTime ? new Date(checkIn.checkOutTime).toLocaleTimeString() : '-'}
+                          </td>
                             <td className="px-4 py-3 text-sm text-slate-600">
                               {checkIn.latitude && checkIn.longitude ? (
                                 <a

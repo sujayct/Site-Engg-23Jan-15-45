@@ -303,9 +303,7 @@ export default function EngineerDashboard() {
                   </form>
                 </div>
 
-                <div className="space-y-4">
-                  <h3 className="font-semibold text-slate-900">Recent Reports</h3>
-                  {reports.length > 0 ? (
+                        {reports.length > 0 ? (
                     reports.map(report => (
                       <div key={report.id} className="border border-slate-200 rounded-lg p-4 bg-white">
                         <div className="flex justify-between items-start mb-2">
@@ -313,11 +311,34 @@ export default function EngineerDashboard() {
                             <p className="font-medium text-slate-900">{report.clientName}</p>
                             <p className="text-xs text-slate-500">{new Date(report.date).toLocaleDateString()}</p>
                           </div>
-                          {report.siteName && (
-                            <span className="text-xs bg-slate-100 text-slate-600 px-2 py-1 rounded">
-                              {report.siteName}
-                            </span>
-                          )}
+                          <div className="flex gap-2">
+                            <button
+                              onClick={async () => {
+                                const email = prompt("Enter recipient email:");
+                                if (email) {
+                                  try {
+                                    const res = await fetch(`/api/reports/${report.id}/send-email`, {
+                                      method: 'POST',
+                                      headers: { 'Content-Type': 'application/json' },
+                                      body: JSON.stringify({ email })
+                                    });
+                                    const data = await res.json();
+                                    alert(data.message || "Report sent!");
+                                  } catch (e) {
+                                    alert("Failed to send report");
+                                  }
+                                }
+                              }}
+                              className="text-xs px-2 py-1 bg-blue-50 text-blue-600 rounded hover:bg-blue-100"
+                            >
+                              Email
+                            </button>
+                            {report.siteName && (
+                              <span className="text-xs bg-slate-100 text-slate-600 px-2 py-1 rounded">
+                                {report.siteName}
+                              </span>
+                            )}
+                          </div>
                         </div>
                         <p className="text-sm text-slate-700 line-clamp-2">{report.workDone}</p>
                         {report.issues && (

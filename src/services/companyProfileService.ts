@@ -26,37 +26,29 @@ export interface CompanyProfileInput {
 
 class CompanyProfileService {
   async getCompanyProfile(): Promise<CompanyProfile | null> {
-    const profiles = JSON.parse(localStorage.getItem('mock_company_profiles') || '[]');
-    return profiles.length > 0 ? profiles[0] : null;
+    const res = await fetch('/api/company-profile');
+    if (!res.ok) return null;
+    return res.json();
   }
 
   async createCompanyProfile(profile: CompanyProfileInput, userId: string): Promise<CompanyProfile> {
-    const newProfile = {
-      ...profile,
-      id: Math.random().toString(36).substr(2, 9),
-      updated_by: userId,
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString()
-    } as CompanyProfile;
-    localStorage.setItem('mock_company_profiles', JSON.stringify([newProfile]));
-    window.dispatchEvent(new Event('storage'));
-    return newProfile;
+    const res = await fetch('/api/company-profile', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(profile)
+    });
+    if (!res.ok) throw new Error('Failed to create profile');
+    return res.json();
   }
 
   async updateCompanyProfile(id: string, profile: Partial<CompanyProfileInput>, userId: string): Promise<CompanyProfile> {
-    const profiles = JSON.parse(localStorage.getItem('mock_company_profiles') || '[]');
-    const index = profiles.findIndex((p: any) => p.id === id);
-    if (index === -1) throw new Error('Profile not found');
-    
-    profiles[index] = {
-      ...profiles[index],
-      ...profile,
-      updated_by: userId,
-      updated_at: new Date().toISOString()
-    };
-    localStorage.setItem('mock_company_profiles', JSON.stringify(profiles));
-    window.dispatchEvent(new Event('storage'));
-    return profiles[index];
+    const res = await fetch('/api/company-profile', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(profile)
+    });
+    if (!res.ok) throw new Error('Failed to update profile');
+    return res.json();
   }
 
   async uploadLogo(_file: File): Promise<string> {

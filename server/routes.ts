@@ -287,10 +287,28 @@ export function registerRoutes(app: Express) {
     
     // Simulate email sending since integration is not yet configured
     console.log(`Sending report ${id} to ${email}`);
-    res.json({ success: true, message: `Report sent to ${email} (Simulation)` });
+    res.json({ success: true, message: `Report sent to ${email} (Simulation: SendGrid not configured)` });
   });
 
-  app.get("/api/check-ins", (req: Request, res: Response) => res.json([]));
+  app.get("/api/check-ins", (req: Request, res: Response) => {
+    const checkIns = storage.getTable("check_ins");
+    const profiles = storage.getTable("profiles");
+    const userId = req.session.userId;
+    const user = profiles.find((p: any) => p.id === userId);
+
+    let filteredCheckIns = checkIns;
+    if (user?.role === "client") {
+      const assignments = storage.getTable("engineer_assignments");
+      const client = storage.getTable("clients").find((c: any) => c.userId === userId);
+      const engineerIds = assignments.filter((a: any) => a.clientId === client?.id).map((a: any) => a.engineerId);
+      filteredCheckIns = checkIns.filter((c: any) => engineerIds.includes(c.engineerId));
+    }
+
+    res.json(filteredCheckIns.map((c: any) => ({
+      ...c,
+      engineerName: profiles.find((p: any) => p.id === c.engineerId)?.fullName,
+    })));
+  });
   app.get("/api/leaves", (req: Request, res: Response) => res.json([]));
   app.get("/api/notifications", (req: Request, res: Response) => res.json([]));
   app.get("/api/company-profile", (req: Request, res: Response) => {
