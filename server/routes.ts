@@ -51,6 +51,8 @@ export function registerRoutes(app: Express) {
     if (!user) return res.status(401).json({ error: "User not found" });
     res.json({
       id: user.id,
+      engineerId: user.role === 'engineer' ? user.id : undefined,
+      clientId: user.role === 'client' ? storage.getTable("clients").find((c: any) => c.userId === user.id)?.id : undefined,
       email: user.email,
       name: user.fullName,
       role: user.role,
@@ -343,7 +345,50 @@ export function registerRoutes(app: Express) {
     });
     res.status(201).json(newLeave);
   });
-  app.get("/api/notifications", (req: Request, res: Response) => res.json([]));
+  app.post("/api/leaves/:id/approve", (req: Request, res: Response) => {
+    const { id } = req.params;
+    const { approvedBy, backupEngineerId } = req.body;
+    const updated = storage.update("leave_requests", id, {
+      status: "approved",
+      approvedBy,
+      backupEngineerId,
+      approvedAt: new Date().toISOString()
+    });
+    res.json(updated);
+  });
+
+  app.post("/api/leaves/:id/reject", (req: Request, res: Response) => {
+    const { id } = req.params;
+    const { rejectedBy } = req.body;
+    const updated = storage.update("leave_requests", id, {
+      status: "rejected",
+      approvedBy: rejectedBy,
+      approvedAt: new Date().toISOString()
+    });
+    res.json(updated);
+  });
+
+  app.post("/api/check-ins", (req: Request, res: Response) => {
+    const { engineerId, latitude, longitude, locationName, siteId } = req.body;
+    const newCheckIn = storage.insert("check_ins", {
+      engineerId,
+      latitude,
+      longitude,
+      locationName,
+      siteId,
+      date: new Date().toISOString().split("T")[0],
+      checkInTime: new Date().toISOString()
+    });
+    res.status(201).json(newCheckIn);
+  });
+
+  app.post("/api/check-ins/:id/checkout", (req: Request, res: Response) => {
+    const { id } = req.params;
+    const updated = storage.update("check_ins", id, {
+      checkOutTime: new Date().toISOString()
+    });
+    res.json(updated);
+  });
   app.get("/api/company-profile", (req: Request, res: Response) => {
     const profiles = storage.getTable("company_profiles");
     res.json(profiles[0] || null);

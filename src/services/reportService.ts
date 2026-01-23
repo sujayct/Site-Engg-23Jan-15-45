@@ -3,14 +3,13 @@ import type { DailyReport } from '../types';
 
 export const reportService = {
   async createReport(engineerId: string, clientId: string, workDone: string, issues?: string, siteId?: string): Promise<DailyReport> {
-    return StorageService.createDailyReport({
-      engineerId,
-      clientId,
-      workDone,
-      issues,
-      siteId,
-      date: new Date().toISOString().split('T')[0],
+    const response = await fetch('/api/reports', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ clientId, siteId, workDone, issues })
     });
+    if (!response.ok) throw new Error('Failed to create report');
+    return response.json();
   },
 
   async getReports(engineerId: string): Promise<DailyReport[]> {

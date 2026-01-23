@@ -298,7 +298,9 @@ export default function EngineerDashboard() {
                   </form>
                 </div>
 
-                        {reports.length > 0 ? (
+                <div className="space-y-4">
+                  <h3 className="font-semibold text-slate-900">Recent Reports</h3>
+                  {reports.length > 0 ? (
                     reports.map(report => (
                       <div key={report.id} className="border border-slate-200 rounded-lg p-4 bg-white">
                         <div className="flex justify-between items-start mb-2">
@@ -345,8 +347,6 @@ export default function EngineerDashboard() {
                     <p className="text-sm text-slate-500 text-center py-4">No reports submitted yet</p>
                   )}
                 </div>
-              </div>
-            )}
 
             {activeTab === 'leave' && (
               <div className="max-w-2xl mx-auto">
