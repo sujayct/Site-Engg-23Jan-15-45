@@ -31,7 +31,8 @@ const seedData = () => {
     { id: adminId, email: "admin@company.com", fullName: "System Admin", role: "admin", passwordHash, createdAt: now },
     { id: hrId, email: "hr@company.com", fullName: "HR Manager", role: "hr", passwordHash, createdAt: now },
     { id: clientUserId, email: "client@company.com", fullName: "ABC Corp Contact", role: "client", passwordHash, createdAt: now },
-    { id: "eng-legacy-id", email: "engineer@company.com", fullName: "Legacy Engineer", role: "engineer", passwordHash, createdAt: now }
+    { id: "eng-legacy-id", email: "engineer@company.com", fullName: "Legacy Engineer", role: "engineer", passwordHash, createdAt: now },
+    { id: "engineer-user-id", email: "engineer@company.com", fullName: "Engineer User", role: "engineer", passwordHash, createdAt: now }
   ];
 
   const engineers = [];

@@ -156,8 +156,16 @@ export function registerRoutes(app: Express) {
     const profiles = storage.getTable("profiles");
     const clients = storage.getTable("clients");
     const sites = storage.getTable("sites");
+    const userId = req.session.userId;
+    const user = profiles.find((p: any) => p.id === userId);
 
-    const result = assignments.map((a: any) => ({
+    let filteredAssignments = assignments;
+    if (user?.role === "client") {
+      const client = clients.find((c: any) => c.userId === userId);
+      filteredAssignments = assignments.filter((a: any) => a.clientId === client?.id);
+    }
+
+    const result = filteredAssignments.map((a: any) => ({
       id: a.id,
       engineerId: a.engineerId,
       engineerName: profiles.find((p: any) => p.id === a.engineerId)?.fullName,
@@ -229,8 +237,16 @@ export function registerRoutes(app: Express) {
     const reports = storage.getTable("daily_reports");
     const profiles = storage.getTable("profiles");
     const clients = storage.getTable("clients");
-    
-    const result = reports.map((r: any) => ({
+    const userId = req.session.userId;
+    const user = profiles.find((p: any) => p.id === userId);
+
+    let filteredReports = reports;
+    if (user?.role === "client") {
+      const client = clients.find((c: any) => c.userId === userId);
+      filteredReports = reports.filter((r: any) => r.clientId === client?.id);
+    }
+
+    const result = filteredReports.map((r: any) => ({
       ...r,
       engineerName: profiles.find((p: any) => p.id === r.engineerId)?.fullName,
       clientName: clients.find((c: any) => c.id === r.clientId)?.name,
