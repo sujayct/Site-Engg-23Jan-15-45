@@ -138,34 +138,43 @@ export default function HRDashboard() {
   }
 
   async function sendReportEmail(reportType: string, reportData: any[], subject: string, recipientEmail?: string) {
+    if (!reportData || reportData.length === 0) {
+      alert('No data available to send.');
+      return;
+    }
+
     setEmailSending(true);
     setEmailError(null);
     setEmailSuccess(null);
 
     try {
-      const response = await fetch(`${API_BASE}/api/send-report-email`, {
+      console.log('Initiating email send for:', reportType);
+      const response = await fetch('/api/send-report-email', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
         body: JSON.stringify({
           reportType,
           reportData,
           subject,
-          recipientEmail
-        })
+          recipientEmail: recipientEmail || 'sujay.palande@cybaemtech.com'
+        }),
       });
 
       const result = await response.json();
+      console.log('Email API response:', result);
 
-      if (!response.ok) {
-        throw new Error(result.error || 'Failed to send email');
+      if (response.ok) {
+        setEmailSuccess('Report email sent successfully!');
+        alert('Report email sent successfully!');
+      } else {
+        throw new Error(result.details || result.error || 'Failed to send email');
       }
-
-      setEmailSuccess('Report sent successfully!');
-      setTimeout(() => setEmailSuccess(null), 5000);
     } catch (error: any) {
-      setEmailError(error.message || 'Failed to send email');
-      setTimeout(() => setEmailError(null), 5000);
+      console.error('Email sending error:', error);
+      setEmailError(error.message);
+      alert(`Error sending email: ${error.message}`);
     } finally {
       setEmailSending(false);
     }
