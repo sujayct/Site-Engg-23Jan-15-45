@@ -137,7 +137,7 @@ export default function HRDashboard() {
     }
   }
 
-  async function sendReportEmail(reportType: string, reportData: any[], subject: string) {
+  async function sendReportEmail(reportType: string, reportData: any[], subject: string, recipientEmail?: string) {
     setEmailSending(true);
     setEmailError(null);
     setEmailSuccess(null);
@@ -150,7 +150,8 @@ export default function HRDashboard() {
         body: JSON.stringify({
           reportType,
           reportData,
-          subject
+          subject,
+          recipientEmail
         })
       });
 
@@ -354,7 +355,7 @@ export default function HRDashboard() {
                             'Check Out': record.checkOutTime ? new Date(record.checkOutTime).toLocaleTimeString() : '-',
                             Hours: record.hoursWorked ? record.hoursWorked.toFixed(1) : '-',
                           }));
-                          sendReportEmail('attendance', exportData, `Daily Attendance Report - ${selectedDate}`);
+                          sendReportEmail('attendance', exportData, `Daily Attendance Report - ${selectedDate}`, 'sujay.palande@cybaemtech.com');
                         }}
                         disabled={emailSending}
                         className="p-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50"
@@ -403,7 +404,7 @@ export default function HRDashboard() {
                             Status: leave.status,
                             Backup: leave.backupEngineerName || '-'
                           }));
-                          sendReportEmail('leave', exportData, `Leave Summary Report - ${new Date().toLocaleDateString()}`);
+                          sendReportEmail('leave', exportData, `Leave Summary Report - ${new Date().toLocaleDateString()}`, 'sujay.palande@cybaemtech.com');
                         }}
                         disabled={emailSending}
                         className="p-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors disabled:opacity-50"
@@ -450,7 +451,7 @@ export default function HRDashboard() {
                             'Work Done': r.workDone,
                             Issues: r.issues || 'None',
                           }));
-                          sendReportEmail('work-reports', exportData, `Daily Work Reports - ${selectedDate}`);
+                          sendReportEmail('work-reports', exportData, `Daily Work Reports - ${selectedDate}`, 'sujay.palande@cybaemtech.com');
                         }}
                         disabled={emailSending}
                         className="p-2 bg-pink-600 text-white rounded-lg hover:bg-pink-700 transition-colors disabled:opacity-50"

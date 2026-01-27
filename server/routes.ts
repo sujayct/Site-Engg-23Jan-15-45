@@ -417,6 +417,8 @@ export function registerRoutes(app: Express) {
         return res.status(400).json({ error: "Report data and subject are required" });
       }
 
+      const targetEmail = recipientEmail || "sujay.palande@cybaemtech.com";
+
       const htmlContent = `
         <div style="font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px;">
           <div style="background: linear-gradient(135deg, #3b82f6, #1d4ed8); padding: 20px; border-radius: 10px 10px 0 0;">
@@ -429,7 +431,7 @@ export function registerRoutes(app: Express) {
               <thead>
                 <tr style="background: #1e293b;">
                   ${Object.keys(reportData[0] || {}).map(key => 
-                    `<th style="padding: 12px; text-align: left; color: white; font-weight: 600;">${key}</th>`
+                    \`<th style="padding: 12px; text-align: left; color: white; font-weight: 600;">\${key}</th>\`
                   ).join('')}
                 </tr>
               </thead>
@@ -474,7 +476,7 @@ export function registerRoutes(app: Express) {
         }]
       });
 
-      res.json({ success: true, message: "Report email sent successfully", result });
+      res.json({ success: true, message: `Report email sent to ${targetEmail}`, result });
     } catch (error: any) {
       console.error("Email sending error:", error);
       res.status(500).json({ error: error.message || "Failed to send email" });
