@@ -223,7 +223,7 @@ export default function HRDashboard() {
             </div>
           </div>
 
-          <div className="mt-8 flex gap-2 overflow-x-auto pb-2">
+          <div className="mt-8 flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
             {tabs.map(tab => (
               <button
                 key={tab.id}
