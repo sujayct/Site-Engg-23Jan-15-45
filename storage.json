@@ -221,6 +221,24 @@
       "fullName": "Robert Brown",
       "role": "engineer",
       "phone": "+91 9000000020"
+    },
+    {
+      "id": "997c0b96-4bd6-4990-a2fb-ffe59c64e15b",
+      "createdAt": "2026-01-27T04:03:59.513Z",
+      "email": "gk@cybaem.com",
+      "fullName": "Ganesh Kale",
+      "role": "engineer",
+      "phone": "1234567890",
+      "passwordHash": "$2b$10$FJ/q3tHxNpdqZYwGv6fGUOCCtkaI1lEbbrtMW.kCoWpSl6GZ0dS7i"
+    },
+    {
+      "id": "c62c8a96-4fbd-415e-a6e6-75b4997d78b5",
+      "createdAt": "2026-01-27T04:05:00.293Z",
+      "email": "hr3@gmail.com",
+      "fullName": "hr3",
+      "role": "hr",
+      "phone": "0987654321",
+      "passwordHash": "$2b$10$6KuTyEtFNbvJx1OfGZ62texizDtcFYEHt9vTuWgGqGPyZCwdftTHu"
     }
   ],
   "clients": [
@@ -501,6 +519,15 @@
       "email": "client30@example.com",
       "phone": "+91 8000000030",
       "userId": "dummy-user-id"
+    },
+    {
+      "id": "10440ec0-cbae-4c77-bffc-ca32ae69855c",
+      "createdAt": "2026-01-27T04:05:47.748Z",
+      "name": "Client 3",
+      "contactPerson": "client 3",
+      "contactEmail": "client3@gmail.com",
+      "contactPhone": "12038428",
+      "userId": ""
     }
   ],
   "sites": [
@@ -706,6 +733,116 @@
       "siteId": "site-id-001",
       "date": "2026-01-23",
       "checkInTime": "2026-01-23T11:09:54.800Z"
+    },
+    {
+      "id": "87ca9d0a-bea3-4c9a-8c7b-a12a519fb1e1",
+      "createdAt": "2026-01-27T03:52:16.021Z",
+      "engineerId": "engineer-user-id",
+      "latitude": 19.076,
+      "longitude": 72.8777,
+      "locationName": "Mumbai Site",
+      "date": "2026-01-27",
+      "checkInTime": "2026-01-27T09:00:00.020Z",
+      "checkOutTime": "2026-01-27T18:00:00.020Z"
+    },
+    {
+      "id": "072b4b74-5fc2-4362-b14e-eaeaea2d8b59",
+      "createdAt": "2026-01-27T03:52:16.024Z",
+      "engineerId": "engineer-id-1",
+      "latitude": 19.076,
+      "longitude": 72.8777,
+      "locationName": "Mumbai Site",
+      "date": "2026-01-27",
+      "checkInTime": "2026-01-27T09:00:00.023Z",
+      "checkOutTime": "2026-01-27T18:00:00.023Z"
+    },
+    {
+      "id": "4f41773f-5ac7-4220-9980-370088db42b7",
+      "createdAt": "2026-01-27T03:52:16.024Z",
+      "engineerId": "engineer-id-2",
+      "latitude": 19.076,
+      "longitude": 72.8777,
+      "locationName": "Mumbai Site",
+      "date": "2026-01-27",
+      "checkInTime": "2026-01-27T09:00:00.024Z",
+      "checkOutTime": "2026-01-27T18:00:00.024Z"
+    },
+    {
+      "id": "476fb94d-7c75-4f69-b8ae-e22e56db88a3",
+      "createdAt": "2026-01-27T03:52:16.025Z",
+      "engineerId": "engineer-id-4",
+      "latitude": 19.076,
+      "longitude": 72.8777,
+      "locationName": "Mumbai Site",
+      "date": "2026-01-27",
+      "checkInTime": "2026-01-27T09:00:00.025Z",
+      "checkOutTime": "2026-01-27T18:00:00.025Z"
+    },
+    {
+      "id": "407ee7e1-26fe-488f-be24-210e6621018a",
+      "createdAt": "2026-01-27T03:52:16.027Z",
+      "engineerId": "engineer-id-6",
+      "latitude": 19.076,
+      "longitude": 72.8777,
+      "locationName": "Mumbai Site",
+      "date": "2026-01-27",
+      "checkInTime": "2026-01-27T09:00:00.026Z",
+      "checkOutTime": null
+    },
+    {
+      "id": "b0bb6679-3744-4bb1-9868-c69b797ef57b",
+      "createdAt": "2026-01-27T03:52:16.027Z",
+      "engineerId": "engineer-id-7",
+      "latitude": 19.076,
+      "longitude": 72.8777,
+      "locationName": "Mumbai Site",
+      "date": "2026-01-27",
+      "checkInTime": "2026-01-27T09:00:00.027Z",
+      "checkOutTime": "2026-01-27T18:00:00.027Z"
+    },
+    {
+      "id": "db35acbd-09ef-453d-99e8-158b48cacd58",
+      "createdAt": "2026-01-27T03:52:16.030Z",
+      "engineerId": "engineer-id-8",
+      "latitude": 19.076,
+      "longitude": 72.8777,
+      "locationName": "Mumbai Site",
+      "date": "2026-01-27",
+      "checkInTime": "2026-01-27T09:00:00.030Z",
+      "checkOutTime": "2026-01-27T18:00:00.030Z"
+    },
+    {
+      "id": "b982b68b-41ce-477a-9cd8-bca0053fb0c4",
+      "createdAt": "2026-01-27T03:52:16.030Z",
+      "engineerId": "engineer-id-10",
+      "latitude": 19.076,
+      "longitude": 72.8777,
+      "locationName": "Mumbai Site",
+      "date": "2026-01-27",
+      "checkInTime": "2026-01-27T09:00:00.030Z",
+      "checkOutTime": null
+    },
+    {
+      "id": "06e3ef82-10c6-41ed-ae12-f42a6e26d796",
+      "createdAt": "2026-01-27T03:52:16.032Z",
+      "engineerId": "54399eba-3bf8-4f66-a7f6-cec8f77ad76a",
+      "latitude": 19.076,
+      "longitude": 72.8777,
+      "locationName": "Mumbai Site",
+      "date": "2026-01-27",
+      "checkInTime": "2026-01-27T09:00:00.031Z",
+      "checkOutTime": "2026-01-27T18:00:00.031Z"
+    },
+    {
+      "id": "d267f81b-c115-42ca-888a-32d4d9b7037b",
+      "createdAt": "2026-01-27T03:52:16.032Z",
+      "engineerId": "7151b47f-95b9-4e0c-966e-e76ed75113d5",
+      "latitude": 19.076,
+      "longitude": 72.8777,
+      "locationName": "Mumbai Site",
+      "date": "2026-01-27",
+      "checkInTime": "2026-01-27T09:00:00.032Z",
+      "checkOutTime": null
     }
   ],
   "daily_reports": [
