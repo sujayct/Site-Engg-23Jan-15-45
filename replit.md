@@ -10,6 +10,9 @@ A full-stack web and mobile application for managing site engineer field operati
 - **ORM**: Using Drizzle ORM for type-safe database operations
 - **Authentication**: Session-based auth with bcrypt password hashing (replaced Supabase Auth)
 - **API**: All endpoints served from Express.js on port 3001, proxied through Vite
+- **HR Dashboard Enhancements**: Added Overview tab with quick reports, downloadable CSV exports, and email functionality
+- **Email Integration**: Integrated Replit Mail service for sending reports directly to clients
+- **UI Improvements**: Enhanced dashboard design with gradient backgrounds, rounded cards, and improved visual hierarchy
 
 ## User Preferences
 
@@ -98,8 +101,11 @@ All test users use password: `password123`
 
 ## External Dependencies
 
-### Email Notifications (Not yet implemented)
-- Placeholder for email notifications on check-ins, reports, and leave requests
+### Email Notifications (Implemented)
+- Replit Mail integration for sending reports via email
+- HR can send attendance, leave, and daily work reports to clients
+- Email includes HTML formatted report and CSV attachment
+- API endpoint: `/api/send-report-email`
 
 ### File Storage (To be implemented)
 - Local file storage or cloud storage integration needed
