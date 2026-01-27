@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { User, Upload, Mail, Phone, MapPin, Briefcase, Calendar, Link as LinkIcon, Save, X } from 'lucide-react';
+import { User, Upload, Mail, Phone, MapPin, Briefcase, Link as LinkIcon, Save, X, CheckCircle } from 'lucide-react';
 import { profileService, UserProfile, ProfileUpdateInput } from '../services/profileService';
 import { useAuth } from '../contexts/AuthContext';
 
@@ -11,6 +11,7 @@ export default function ProfileEditor({ onClose }: ProfileEditorProps) {
   const { user } = useAuth();
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [saved, setSaved] = useState(false);
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
   const [photoFile, setPhotoFile] = useState<File | null>(null);
@@ -93,6 +94,7 @@ export default function ProfileEditor({ onClose }: ProfileEditorProps) {
     if (errors[name]) {
       setErrors(prev => ({ ...prev, [name]: '' }));
     }
+    setSaved(false);
   };
 
   const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -112,6 +114,7 @@ export default function ProfileEditor({ onClose }: ProfileEditorProps) {
     };
     reader.readAsDataURL(file);
     setErrors(prev => ({ ...prev, photo: '' }));
+    setSaved(false);
   };
 
   const validateForm = (): boolean => {
@@ -148,10 +151,6 @@ export default function ProfileEditor({ onClose }: ProfileEditorProps) {
 
       if (photoFile) {
         photoUrl = await profileService.uploadProfilePhoto(photoFile, user.id);
-
-        if (profile?.profile_photo_url) {
-          await profileService.deleteProfilePhoto(profile.profile_photo_url);
-        }
       }
 
       const updates: ProfileUpdateInput = {
@@ -161,8 +160,8 @@ export default function ProfileEditor({ onClose }: ProfileEditorProps) {
 
       await profileService.updateMyProfile(updates);
 
-      alert('Profile updated successfully!');
-      if (onClose) onClose();
+      setSaved(true);
+      setTimeout(() => setSaved(false), 3000);
       await loadProfile();
     } catch (error) {
       console.error('Error saving profile:', error);
@@ -175,7 +174,7 @@ export default function ProfileEditor({ onClose }: ProfileEditorProps) {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
-        <div className="text-gray-500">Loading profile...</div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
       </div>
     );
   }
@@ -184,38 +183,42 @@ export default function ProfileEditor({ onClose }: ProfileEditorProps) {
 
   return (
     <div className="max-w-4xl mx-auto">
-      <div className="bg-white rounded-lg shadow-md">
-        <div className="flex items-center justify-between p-6 border-b border-gray-200">
-          <div className="flex items-center gap-3">
-            <User className="w-8 h-8 text-blue-600" />
-            <div>
-              <h2 className="text-2xl font-bold text-gray-900">My Profile</h2>
-              <p className="text-sm text-gray-600">Manage your personal information</p>
+      <div className="bg-white rounded-2xl shadow-lg border border-slate-200 overflow-hidden">
+        <div className="bg-gradient-to-r from-blue-600 via-blue-500 to-indigo-500 text-white p-6">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <div className="p-3 bg-white/20 rounded-xl backdrop-blur-sm">
+                <User className="w-8 h-8" />
+              </div>
+              <div>
+                <h2 className="text-2xl font-bold">My Profile</h2>
+                <p className="text-blue-100 mt-1">Manage your personal information (saved locally)</p>
+              </div>
             </div>
+            {onClose && (
+              <button onClick={onClose} className="p-2 hover:bg-white/10 rounded-lg transition-colors">
+                <X className="w-6 h-6" />
+              </button>
+            )}
           </div>
-          {onClose && (
-            <button onClick={onClose} className="text-gray-400 hover:text-gray-600">
-              <X className="w-6 h-6" />
-            </button>
-          )}
         </div>
 
         <div className="p-6 space-y-8">
-          <div className="flex items-start gap-6">
+          <div className="flex items-start gap-6 p-4 bg-gradient-to-r from-slate-50 to-white rounded-xl border border-slate-200">
             <div className="flex-shrink-0">
               {photoPreview ? (
-                <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-gray-200">
+                <div className="w-28 h-28 rounded-2xl overflow-hidden border-4 border-white shadow-lg">
                   <img src={photoPreview} alt="Profile" className="w-full h-full object-cover" />
                 </div>
               ) : (
-                <div className="w-32 h-32 rounded-full bg-gray-200 flex items-center justify-center">
-                  <User className="w-16 h-16 text-gray-400" />
+                <div className="w-28 h-28 rounded-2xl bg-gradient-to-br from-slate-200 to-slate-300 flex items-center justify-center shadow-lg">
+                  <User className="w-12 h-12 text-slate-400" />
                 </div>
               )}
             </div>
             <div className="flex-1">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                <Upload className="w-4 h-4 inline mr-2" />
+              <label className="block text-sm font-semibold text-slate-700 mb-2 flex items-center gap-2">
+                <Upload className="w-4 h-4" />
                 Profile Photo
               </label>
               <input
@@ -227,30 +230,36 @@ export default function ProfileEditor({ onClose }: ProfileEditorProps) {
               />
               <button
                 onClick={() => fileInputRef.current?.click()}
-                className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition"
+                className="px-4 py-2 bg-slate-100 text-slate-700 rounded-xl hover:bg-slate-200 transition font-medium"
               >
                 Choose Photo
               </button>
-              <p className="mt-1 text-xs text-gray-500">PNG or JPG, max 2MB</p>
+              <p className="mt-2 text-xs text-slate-500">PNG or JPG, max 2MB</p>
               {errors.photo && (
                 <p className="mt-1 text-sm text-red-600">{errors.photo}</p>
               )}
-              <div className="mt-3 p-3 bg-blue-50 rounded-lg">
-                <p className="text-xs text-gray-600"><strong>Email:</strong> {profile?.email}</p>
-                <p className="text-xs text-gray-600"><strong>Role:</strong> <span className="capitalize">{profile?.role}</span></p>
-                <p className="text-xs text-gray-500 mt-1">These fields are read-only</p>
+              <div className="mt-3 p-3 bg-blue-50 rounded-xl border border-blue-100">
+                <p className="text-xs text-slate-600 flex items-center gap-2">
+                  <Mail className="w-3 h-3" />
+                  <strong>Email:</strong> {profile?.email}
+                </p>
+                <p className="text-xs text-slate-600 flex items-center gap-2 mt-1">
+                  <Briefcase className="w-3 h-3" />
+                  <strong>Role:</strong> <span className="capitalize">{profile?.role}</span>
+                </p>
+                <p className="text-xs text-blue-600 mt-2 font-medium">These fields are read-only</p>
               </div>
             </div>
           </div>
 
-          <div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-              <User className="w-5 h-5" />
+          <div className="bg-white rounded-xl border border-slate-200 p-6">
+            <h3 className="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
+              <User className="w-5 h-5 text-blue-600" />
               Basic Information
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-slate-700 mb-2">
                   Full Name *
                 </label>
                 <input
@@ -258,7 +267,7 @@ export default function ProfileEditor({ onClose }: ProfileEditorProps) {
                   name="full_name"
                   value={formData.full_name}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                 />
                 {errors.full_name && (
                   <p className="mt-1 text-sm text-red-600">{errors.full_name}</p>
@@ -266,7 +275,7 @@ export default function ProfileEditor({ onClose }: ProfileEditorProps) {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-slate-700 mb-2">
                   Date of Birth
                 </label>
                 <input
@@ -274,19 +283,19 @@ export default function ProfileEditor({ onClose }: ProfileEditorProps) {
                   name="date_of_birth"
                   value={formData.date_of_birth}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-slate-700 mb-2">
                   Gender
                 </label>
                 <select
                   name="gender"
                   value={formData.gender}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                 >
                   <option value="">Select gender</option>
                   <option value="Male">Male</option>
@@ -298,14 +307,14 @@ export default function ProfileEditor({ onClose }: ProfileEditorProps) {
             </div>
           </div>
 
-          <div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-              <Phone className="w-5 h-5" />
+          <div className="bg-white rounded-xl border border-slate-200 p-6">
+            <h3 className="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
+              <Phone className="w-5 h-5 text-green-600" />
               Contact Details
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-slate-700 mb-2">
                   Mobile Number
                 </label>
                 <input
@@ -313,13 +322,13 @@ export default function ProfileEditor({ onClose }: ProfileEditorProps) {
                   name="mobile_number"
                   value={formData.mobile_number}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                   placeholder="+91-9876543210"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-slate-700 mb-2">
                   Alternate Number
                 </label>
                 <input
@@ -327,13 +336,13 @@ export default function ProfileEditor({ onClose }: ProfileEditorProps) {
                   name="alternate_number"
                   value={formData.alternate_number}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                   placeholder="+91-9876543210"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-slate-700 mb-2">
                   Work Phone
                 </label>
                 <input
@@ -341,12 +350,12 @@ export default function ProfileEditor({ onClose }: ProfileEditorProps) {
                   name="phone"
                   value={formData.phone}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-slate-700 mb-2">
                   Personal Email
                 </label>
                 <input
@@ -354,7 +363,7 @@ export default function ProfileEditor({ onClose }: ProfileEditorProps) {
                   name="personal_email"
                   value={formData.personal_email}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                   placeholder="personal@example.com"
                 />
                 {errors.personal_email && (
@@ -364,14 +373,14 @@ export default function ProfileEditor({ onClose }: ProfileEditorProps) {
             </div>
           </div>
 
-          <div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-              <MapPin className="w-5 h-5" />
+          <div className="bg-white rounded-xl border border-slate-200 p-6">
+            <h3 className="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
+              <MapPin className="w-5 h-5 text-orange-600" />
               Address
             </h3>
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-slate-700 mb-2">
                   Address Line 1
                 </label>
                 <input
@@ -379,13 +388,13 @@ export default function ProfileEditor({ onClose }: ProfileEditorProps) {
                   name="address_line1"
                   value={formData.address_line1}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                   placeholder="Street address"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-slate-700 mb-2">
                   Address Line 2
                 </label>
                 <input
@@ -393,14 +402,14 @@ export default function ProfileEditor({ onClose }: ProfileEditorProps) {
                   name="address_line2"
                   value={formData.address_line2}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                   placeholder="Apartment, suite, etc. (optional)"
                 />
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-slate-700 mb-2">
                     City
                   </label>
                   <input
@@ -408,12 +417,12 @@ export default function ProfileEditor({ onClose }: ProfileEditorProps) {
                     name="city"
                     value={formData.city}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-slate-700 mb-2">
                     State
                   </label>
                   <input
@@ -421,12 +430,12 @@ export default function ProfileEditor({ onClose }: ProfileEditorProps) {
                     name="state"
                     value={formData.state}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-slate-700 mb-2">
                     Pincode
                   </label>
                   <input
@@ -434,13 +443,13 @@ export default function ProfileEditor({ onClose }: ProfileEditorProps) {
                     name="pincode"
                     value={formData.pincode}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-slate-700 mb-2">
                   Country
                 </label>
                 <input
@@ -448,21 +457,21 @@ export default function ProfileEditor({ onClose }: ProfileEditorProps) {
                   name="country"
                   value={formData.country}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                 />
               </div>
             </div>
           </div>
 
-          <div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-              <Briefcase className="w-5 h-5" />
+          <div className="bg-white rounded-xl border border-slate-200 p-6">
+            <h3 className="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
+              <Briefcase className="w-5 h-5 text-purple-600" />
               Professional Details
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {isEngineer && (
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-slate-700 mb-2">
                     Designation
                   </label>
                   <input
@@ -470,14 +479,14 @@ export default function ProfileEditor({ onClose }: ProfileEditorProps) {
                     name="designation"
                     value={formData.designation}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                     placeholder="Site Engineer, Senior Engineer, etc."
                   />
                 </div>
               )}
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-slate-700 mb-2">
                   Years of Experience
                 </label>
                 <input
@@ -485,20 +494,20 @@ export default function ProfileEditor({ onClose }: ProfileEditorProps) {
                   name="years_of_experience"
                   value={formData.years_of_experience || ''}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                   min="0"
                 />
               </div>
 
               <div className={isEngineer ? 'md:col-span-1' : 'md:col-span-2'}>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-slate-700 mb-2">
                   Reporting Manager
                 </label>
                 <select
                   name="reporting_manager"
                   value={formData.reporting_manager}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                 >
                   <option value="">Select manager</option>
                   {managers.map(manager => (
@@ -508,7 +517,7 @@ export default function ProfileEditor({ onClose }: ProfileEditorProps) {
               </div>
 
               <div className="md:col-span-2">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-slate-700 mb-2">
                   Skills / Expertise
                 </label>
                 <textarea
@@ -516,21 +525,21 @@ export default function ProfileEditor({ onClose }: ProfileEditorProps) {
                   value={formData.skills}
                   onChange={handleInputChange}
                   rows={3}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                   placeholder="e.g., Site supervision, AutoCAD, Quality control, Safety management"
                 />
               </div>
             </div>
           </div>
 
-          <div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-              <LinkIcon className="w-5 h-5" />
+          <div className="bg-white rounded-xl border border-slate-200 p-6">
+            <h3 className="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
+              <LinkIcon className="w-5 h-5 text-cyan-600" />
               Social & Professional Links
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-slate-700 mb-2">
                   LinkedIn Profile URL
                 </label>
                 <input
@@ -538,7 +547,7 @@ export default function ProfileEditor({ onClose }: ProfileEditorProps) {
                   name="linkedin_url"
                   value={formData.linkedin_url}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                   placeholder="https://linkedin.com/in/username"
                 />
                 {errors.linkedin_url && (
@@ -547,7 +556,7 @@ export default function ProfileEditor({ onClose }: ProfileEditorProps) {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-slate-700 mb-2">
                   Portfolio URL
                 </label>
                 <input
@@ -555,7 +564,7 @@ export default function ProfileEditor({ onClose }: ProfileEditorProps) {
                   name="portfolio_url"
                   value={formData.portfolio_url}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                   placeholder="https://yourwebsite.com"
                 />
                 {errors.portfolio_url && (
@@ -565,23 +574,41 @@ export default function ProfileEditor({ onClose }: ProfileEditorProps) {
             </div>
           </div>
 
-          <div className="flex justify-end gap-3 pt-4 border-t border-gray-200">
-            {onClose && (
+          <div className="flex flex-col sm:flex-row justify-between items-center gap-4 pt-4 border-t border-slate-200">
+            <div className="text-sm text-slate-500 bg-slate-50 px-4 py-2 rounded-xl">
+              Changes are saved locally in JSON format
+            </div>
+            <div className="flex gap-3">
+              {onClose && (
+                <button
+                  onClick={onClose}
+                  className="px-6 py-3 text-slate-700 bg-slate-100 rounded-xl hover:bg-slate-200 transition font-medium"
+                >
+                  Cancel
+                </button>
+              )}
               <button
-                onClick={onClose}
-                className="px-6 py-3 text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition"
+                onClick={handleSave}
+                disabled={saving}
+                className={`flex items-center gap-2 px-6 py-3 rounded-xl font-medium transition-all shadow-md ${
+                  saved 
+                    ? 'bg-green-600 text-white' 
+                    : 'bg-gradient-to-r from-blue-600 to-blue-700 text-white hover:from-blue-700 hover:to-blue-800'
+                } disabled:opacity-50 disabled:cursor-not-allowed`}
               >
-                Cancel
+                {saved ? (
+                  <>
+                    <CheckCircle className="w-4 h-4" />
+                    Saved!
+                  </>
+                ) : (
+                  <>
+                    <Save className="w-4 h-4" />
+                    {saving ? 'Saving...' : 'Save Profile'}
+                  </>
+                )}
               </button>
-            )}
-            <button
-              onClick={handleSave}
-              disabled={saving}
-              className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition"
-            >
-              <Save className="w-4 h-4" />
-              {saving ? 'Saving...' : 'Save Profile'}
-            </button>
+            </div>
           </div>
         </div>
       </div>

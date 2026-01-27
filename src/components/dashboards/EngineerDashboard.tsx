@@ -9,8 +9,9 @@ import {
   CheckCircle, 
   AlertCircle,
   LogOut,
-  LayoutDashboard,
-  Navigation
+  Navigation,
+  Briefcase,
+  TrendingUp
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { checkInService } from '../../services/checkInService';
@@ -20,7 +21,7 @@ import { assignmentService } from '../../services/assignmentService';
 import type { DailyReport, CheckIn, LeaveRequest, Assignment } from '../../types';
 
 export default function EngineerDashboard() {
-  const { user, logout } = useAuth();
+  const { user, signOut } = useAuth();
   const [activeTab, setActiveTab] = useState<'attendance' | 'reports' | 'leave'>('attendance');
   const [reports, setReports] = useState<DailyReport[]>([]);
   const [checkIns, setCheckIns] = useState<CheckIn[]>([]);
@@ -29,7 +30,6 @@ export default function EngineerDashboard() {
   const [todayCheckIn, setTodayCheckIn] = useState<CheckIn | null>(null);
   const [loading, setLoading] = useState(true);
 
-  // Form states
   const [reportForm, setReportForm] = useState({
     clientId: '',
     siteId: '',
@@ -142,66 +142,119 @@ export default function EngineerDashboard() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
       </div>
     );
   }
 
+  const tabs = [
+    { id: 'attendance', label: 'Attendance', icon: Clock },
+    { id: 'reports', label: 'Reports', icon: FileText },
+    { id: 'leave', label: 'Leave', icon: Calendar },
+  ];
+
   return (
-    <div className="min-h-screen bg-slate-50">
-      <nav className="bg-white border-b border-slate-200 px-4 py-3 sticky top-0 z-10">
-        <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <div className="flex items-center gap-2">
-            <LayoutDashboard className="w-6 h-6 text-blue-600" />
-            <span className="font-bold text-slate-900">Engineer Portal</span>
-          </div>
-          <div className="flex items-center gap-4">
-            <div className="text-right hidden sm:block">
-              <p className="text-sm font-medium text-slate-900">{user?.name}</p>
-              <p className="text-xs text-slate-500 capitalize">{user?.role}</p>
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
+      <div className="bg-gradient-to-r from-blue-600 via-blue-500 to-indigo-500 text-white">
+        <div className="max-w-7xl mx-auto px-6 py-6">
+          <div className="flex justify-between items-center">
+            <div className="flex items-center gap-4">
+              <div className="p-3 bg-white/20 rounded-xl backdrop-blur-sm">
+                <Briefcase className="w-8 h-8" />
+              </div>
+              <div>
+                <h1 className="text-2xl font-bold">Engineer Portal</h1>
+                <p className="text-blue-100 mt-1">{user?.name}</p>
+              </div>
             </div>
             <button 
-              onClick={logout}
-              className="p-2 text-slate-500 hover:text-red-600 transition-colors"
+              onClick={signOut}
+              className="flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 rounded-xl transition-colors backdrop-blur-sm"
             >
               <LogOut className="w-5 h-5" />
+              <span className="hidden sm:inline">Logout</span>
             </button>
           </div>
         </div>
-      </nav>
+      </div>
 
-      <main className="max-w-7xl mx-auto px-4 py-6">
-        <div className="flex gap-2 p-1 bg-slate-200 rounded-lg w-full max-w-md mx-auto mb-8">
-          {(['attendance', 'reports', 'leave'] as const).map((tab) => (
+      <div className="max-w-7xl mx-auto px-6 py-6">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8 -mt-8">
+          <div className="bg-white rounded-2xl shadow-lg border border-slate-200 p-5 hover:shadow-xl transition-shadow">
+            <div className="flex items-center gap-3 mb-2">
+              <div className="p-2 bg-green-100 rounded-lg">
+                <CheckCircle className="w-5 h-5 text-green-600" />
+              </div>
+              <span className="text-sm font-medium text-slate-600">Today's Status</span>
+            </div>
+            <p className="text-xl font-bold text-slate-900">
+              {todayCheckIn ? (todayCheckIn.checkOutTime ? 'Completed' : 'Checked In') : 'Not Checked In'}
+            </p>
+          </div>
+          
+          <div className="bg-white rounded-2xl shadow-lg border border-slate-200 p-5 hover:shadow-xl transition-shadow">
+            <div className="flex items-center gap-3 mb-2">
+              <div className="p-2 bg-blue-100 rounded-lg">
+                <FileText className="w-5 h-5 text-blue-600" />
+              </div>
+              <span className="text-sm font-medium text-slate-600">Total Reports</span>
+            </div>
+            <p className="text-xl font-bold text-slate-900">{reports.length}</p>
+          </div>
+          
+          <div className="bg-white rounded-2xl shadow-lg border border-slate-200 p-5 hover:shadow-xl transition-shadow">
+            <div className="flex items-center gap-3 mb-2">
+              <div className="p-2 bg-purple-100 rounded-lg">
+                <TrendingUp className="w-5 h-5 text-purple-600" />
+              </div>
+              <span className="text-sm font-medium text-slate-600">Assignments</span>
+            </div>
+            <p className="text-xl font-bold text-slate-900">{assignments.length}</p>
+          </div>
+          
+          <div className="bg-white rounded-2xl shadow-lg border border-slate-200 p-5 hover:shadow-xl transition-shadow">
+            <div className="flex items-center gap-3 mb-2">
+              <div className="p-2 bg-orange-100 rounded-lg">
+                <Calendar className="w-5 h-5 text-orange-600" />
+              </div>
+              <span className="text-sm font-medium text-slate-600">Leave Requests</span>
+            </div>
+            <p className="text-xl font-bold text-slate-900">{leaves.length}</p>
+          </div>
+        </div>
+
+        <div className="flex gap-2 p-1 bg-white rounded-2xl shadow-sm border border-slate-200 w-full max-w-md mx-auto mb-8">
+          {tabs.map((tab) => (
             <button
-              key={tab}
-              onClick={() => setActiveTab(tab)}
-              className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-all ${
-                activeTab === tab 
-                ? 'bg-white text-blue-600 shadow-sm' 
-                : 'text-slate-600 hover:text-slate-900'
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id as any)}
+              className={`flex-1 py-3 px-4 rounded-xl text-sm font-medium transition-all flex items-center justify-center gap-2 ${
+                activeTab === tab.id 
+                ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-md' 
+                : 'text-slate-600 hover:bg-slate-50'
               }`}
             >
-              {tab.charAt(0).toUpperCase() + tab.slice(1)}
+              <tab.icon className="w-4 h-4" />
+              {tab.label}
             </button>
           ))}
         </div>
 
         {activeTab === 'attendance' && (
           <div className="grid gap-6 md:grid-cols-2 max-w-4xl mx-auto">
-            <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+            <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-lg">
               <h2 className="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2">
                 <Clock className="w-5 h-5 text-blue-600" />
                 Daily Check-in
               </h2>
               
               <div className="space-y-6">
-                <div className="p-4 bg-slate-50 rounded-lg border border-slate-100">
+                <div className="p-4 bg-gradient-to-r from-slate-50 to-slate-100 rounded-xl border border-slate-200">
                   <p className="text-sm text-slate-500 mb-1">Current Status</p>
                   <div className="flex items-center gap-2">
-                    <div className={`w-2 h-2 rounded-full ${todayCheckIn ? 'bg-green-500' : 'bg-slate-300'}`}></div>
-                    <p className="font-semibold text-slate-900">
+                    <div className={`w-3 h-3 rounded-full ${todayCheckIn ? 'bg-green-500 animate-pulse' : 'bg-slate-300'}`}></div>
+                    <p className="font-bold text-slate-900">
                       {todayCheckIn ? (todayCheckIn.checkOutTime ? 'Completed' : 'Checked In') : 'Not Checked In'}
                     </p>
                   </div>
@@ -210,34 +263,34 @@ export default function EngineerDashboard() {
                 {!todayCheckIn ? (
                   <button
                     onClick={handleCheckIn}
-                    className="w-full py-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-xl font-bold hover:from-blue-700 hover:to-blue-800 transition-all shadow-lg shadow-blue-200 flex items-center justify-center gap-2 transform active:scale-95"
+                    className="w-full py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl font-bold hover:from-blue-700 hover:to-indigo-700 transition-all shadow-lg shadow-blue-200 flex items-center justify-center gap-2 transform active:scale-95"
                   >
-                    <Navigation className="w-5 h-5 animate-pulse" />
+                    <Navigation className="w-5 h-5" />
                     Check In (Simulate GPS)
                   </button>
                 ) : !todayCheckIn.checkOutTime ? (
                   <button
                     onClick={handleCheckOut}
-                    className="w-full py-4 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-xl font-bold hover:from-red-700 hover:to-red-800 transition-all shadow-lg shadow-red-200 flex items-center justify-center gap-2 transform active:scale-95"
+                    className="w-full py-4 bg-gradient-to-r from-red-600 to-rose-600 text-white rounded-xl font-bold hover:from-red-700 hover:to-rose-700 transition-all shadow-lg shadow-red-200 flex items-center justify-center gap-2 transform active:scale-95"
                   >
                     <LogOut className="w-5 h-5" />
                     Check Out
                   </button>
                 ) : (
-                  <div className="text-center p-6 bg-green-50 text-green-700 rounded-xl border border-green-100 flex flex-col items-center justify-center gap-2">
-                    <CheckCircle className="w-8 h-8" />
-                    <p className="font-bold">Work session completed</p>
-                    <p className="text-xs opacity-75">Great job today!</p>
+                  <div className="text-center p-6 bg-gradient-to-r from-green-50 to-emerald-50 text-green-700 rounded-xl border border-green-200 flex flex-col items-center justify-center gap-2">
+                    <CheckCircle className="w-10 h-10" />
+                    <p className="font-bold text-lg">Work session completed</p>
+                    <p className="text-sm opacity-75">Great job today!</p>
                   </div>
                 )}
               </div>
             </div>
 
-            <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
-              <h2 className="text-xl font-bold text-slate-900 mb-6">Today's History</h2>
+            <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-lg">
+              <h2 className="text-xl font-bold text-slate-900 mb-6">Recent Check-ins</h2>
               <div className="space-y-4">
                 {checkIns.slice(0, 5).map(checkIn => (
-                  <div key={checkIn.id} className="flex items-start gap-3 p-3 border-l-2 border-blue-500 bg-blue-50/30">
+                  <div key={checkIn.id} className="flex items-start gap-3 p-3 border-l-4 border-blue-500 bg-gradient-to-r from-blue-50 to-white rounded-r-xl">
                     <div className="mt-1">
                       <Clock className="w-4 h-4 text-blue-600" />
                     </div>
@@ -250,6 +303,9 @@ export default function EngineerDashboard() {
                     </div>
                   </div>
                 ))}
+                {checkIns.length === 0 && (
+                  <p className="text-center py-8 text-slate-500">No check-ins yet</p>
+                )}
               </div>
             </div>
           </div>
@@ -257,19 +313,19 @@ export default function EngineerDashboard() {
 
         {activeTab === 'reports' && (
           <div className="grid gap-6 md:grid-cols-2 max-w-6xl mx-auto">
-            <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm h-fit">
+            <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-lg h-fit">
               <h2 className="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2">
                 <FileText className="w-5 h-5 text-blue-600" />
                 Submit Daily Report
               </h2>
               <form onSubmit={handleReportSubmit} className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-1">Select Client</label>
+                  <label className="block text-sm font-medium text-slate-700 mb-2">Select Client</label>
                   <select
                     required
                     value={reportForm.clientId}
                     onChange={(e) => setReportForm({ ...reportForm, clientId: e.target.value })}
-                    className="w-full rounded-lg border-slate-300 focus:ring-blue-500 focus:border-blue-500"
+                    className="w-full rounded-xl border-slate-300 focus:ring-blue-500 focus:border-blue-500 py-3"
                   >
                     <option value="">Choose a client...</option>
                     {assignments.map(a => (
@@ -278,27 +334,27 @@ export default function EngineerDashboard() {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-1">Work Done</label>
+                  <label className="block text-sm font-medium text-slate-700 mb-2">Work Done</label>
                   <textarea
                     required
                     value={reportForm.workDone}
                     onChange={(e) => setReportForm({ ...reportForm, workDone: e.target.value })}
-                    className="w-full rounded-lg border-slate-300 focus:ring-blue-500 focus:border-blue-500 h-32"
+                    className="w-full rounded-xl border-slate-300 focus:ring-blue-500 focus:border-blue-500 h-32"
                     placeholder="What tasks were completed today?"
                   ></textarea>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-1">Issues/Remarks (Optional)</label>
+                  <label className="block text-sm font-medium text-slate-700 mb-2">Issues/Remarks (Optional)</label>
                   <textarea
                     value={reportForm.issues}
                     onChange={(e) => setReportForm({ ...reportForm, issues: e.target.value })}
-                    className="w-full rounded-lg border-slate-300 focus:ring-blue-500 focus:border-blue-500 h-20"
+                    className="w-full rounded-xl border-slate-300 focus:ring-blue-500 focus:border-blue-500 h-20"
                     placeholder="Any roadblocks or concerns?"
                   ></textarea>
                 </div>
                 <button
                   type="submit"
-                  className="w-full py-3 bg-blue-600 text-white rounded-lg font-bold hover:bg-blue-700 transition-colors flex items-center justify-center gap-2 shadow-md"
+                  className="w-full py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-xl font-bold hover:from-blue-700 hover:to-blue-800 transition-all flex items-center justify-center gap-2 shadow-lg"
                 >
                   <Send className="w-5 h-5" />
                   Submit Report
@@ -306,12 +362,12 @@ export default function EngineerDashboard() {
               </form>
             </div>
 
-            <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
-              <h2 className="text-xl font-bold text-slate-900 mb-6">Recent Activity</h2>
+            <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-lg">
+              <h2 className="text-xl font-bold text-slate-900 mb-6">Recent Reports</h2>
               <div className="space-y-4">
                 {reports.length > 0 ? (
-                  reports.map(report => (
-                    <div key={report.id} className="border border-slate-200 rounded-lg p-4 hover:border-blue-300 transition-colors bg-white">
+                  reports.slice(0, 5).map(report => (
+                    <div key={report.id} className="border border-slate-200 rounded-xl p-4 hover:border-blue-300 hover:shadow-md transition-all bg-gradient-to-r from-white to-slate-50">
                       <div className="flex justify-between items-start mb-2">
                         <div>
                           <p className="font-bold text-slate-900">{report.clientName}</p>
@@ -337,7 +393,7 @@ export default function EngineerDashboard() {
                               }
                             }
                           }}
-                          className="text-xs px-2 py-1 bg-blue-50 text-blue-600 rounded hover:bg-blue-100 flex items-center gap-1"
+                          className="text-xs px-3 py-1 bg-blue-50 text-blue-600 rounded-full hover:bg-blue-100 flex items-center gap-1 transition-colors"
                         >
                           <Send className="w-3 h-3" />
                           Email
@@ -345,7 +401,7 @@ export default function EngineerDashboard() {
                       </div>
                       <p className="text-sm text-slate-700 line-clamp-2 mt-2">{report.workDone}</p>
                       {report.issues && (
-                        <div className="mt-2 flex items-start gap-2 text-xs text-red-600 bg-red-50 p-2 rounded border border-red-100">
+                        <div className="mt-2 flex items-start gap-2 text-xs text-red-600 bg-red-50 p-2 rounded-lg border border-red-100">
                           <AlertCircle className="w-3 h-3 mt-0.5 shrink-0" />
                           <span>{report.issues}</span>
                         </div>
@@ -365,7 +421,7 @@ export default function EngineerDashboard() {
 
         {activeTab === 'leave' && (
           <div className="grid gap-6 md:grid-cols-2 max-w-6xl mx-auto">
-            <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm h-fit">
+            <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-lg h-fit">
               <h2 className="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2">
                 <Calendar className="w-5 h-5 text-blue-600" />
                 Request Leave
@@ -373,39 +429,39 @@ export default function EngineerDashboard() {
               <form onSubmit={handleLeaveRequest} className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-1">Start Date</label>
+                    <label className="block text-sm font-medium text-slate-700 mb-2">Start Date</label>
                     <input
                       required
                       type="date"
                       value={leaveForm.startDate}
                       onChange={(e) => setLeaveForm({ ...leaveForm, startDate: e.target.value })}
-                      className="w-full rounded-lg border-slate-300 focus:ring-blue-500 focus:border-blue-500"
+                      className="w-full rounded-xl border-slate-300 focus:ring-blue-500 focus:border-blue-500 py-3"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-1">End Date</label>
+                    <label className="block text-sm font-medium text-slate-700 mb-2">End Date</label>
                     <input
                       required
                       type="date"
                       value={leaveForm.endDate}
                       onChange={(e) => setLeaveForm({ ...leaveForm, endDate: e.target.value })}
-                      className="w-full rounded-lg border-slate-300 focus:ring-blue-500 focus:border-blue-500"
+                      className="w-full rounded-xl border-slate-300 focus:ring-blue-500 focus:border-blue-500 py-3"
                     />
                   </div>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-1">Reason</label>
+                  <label className="block text-sm font-medium text-slate-700 mb-2">Reason</label>
                   <textarea
                     required
                     value={leaveForm.reason}
                     onChange={(e) => setLeaveForm({ ...leaveForm, reason: e.target.value })}
-                    className="w-full rounded-lg border-slate-300 focus:ring-blue-500 focus:border-blue-500 h-24"
+                    className="w-full rounded-xl border-slate-300 focus:ring-blue-500 focus:border-blue-500 h-24"
                     placeholder="Briefly explain your reason for leave"
                   ></textarea>
                 </div>
                 <button
                   type="submit"
-                  className="w-full py-3 bg-blue-600 text-white rounded-lg font-bold hover:bg-blue-700 transition-colors shadow-md flex items-center justify-center gap-2"
+                  className="w-full py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-xl font-bold hover:from-blue-700 hover:to-blue-800 transition-all shadow-lg flex items-center justify-center gap-2"
                 >
                   <Plus className="w-5 h-5" />
                   Submit Request
@@ -413,12 +469,12 @@ export default function EngineerDashboard() {
               </form>
             </div>
 
-            <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+            <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-lg">
               <h2 className="text-xl font-bold text-slate-900 mb-6">Leave Status</h2>
               <div className="space-y-4">
                 {leaves.length > 0 ? (
                   leaves.map(leave => (
-                    <div key={leave.id} className="border border-slate-200 rounded-lg p-4 bg-white">
+                    <div key={leave.id} className="border border-slate-200 rounded-xl p-4 bg-gradient-to-r from-white to-slate-50 hover:shadow-md transition-all">
                       <div className="flex justify-between items-start mb-3">
                         <div className="flex items-center gap-2">
                           <Calendar className="w-4 h-4 text-slate-400" />
@@ -426,7 +482,7 @@ export default function EngineerDashboard() {
                             {new Date(leave.startDate).toLocaleDateString()} - {new Date(leave.endDate).toLocaleDateString()}
                           </span>
                         </div>
-                        <span className={`px-2 py-1 rounded-full text-xs font-medium uppercase tracking-wider ${
+                        <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${
                           leave.status === 'approved' ? 'bg-green-100 text-green-700' :
                           leave.status === 'rejected' ? 'bg-red-100 text-red-700' :
                           'bg-yellow-100 text-yellow-700'
@@ -434,9 +490,9 @@ export default function EngineerDashboard() {
                           {leave.status}
                         </span>
                       </div>
-                      <p className="text-sm text-slate-600 italic">"{leave.reason}"</p>
+                      <p className="text-sm text-slate-600 italic bg-slate-50 p-2 rounded-lg">"{leave.reason}"</p>
                       {leave.status === 'approved' && leave.backupEngineerId && (
-                        <p className="mt-3 text-xs text-slate-500 bg-slate-50 p-2 rounded border border-slate-100">
+                        <p className="mt-3 text-xs text-slate-500 bg-blue-50 p-2 rounded-lg border border-blue-100">
                           Backup assigned: Engineer ID {leave.backupEngineerId}
                         </p>
                       )}
@@ -452,7 +508,7 @@ export default function EngineerDashboard() {
             </div>
           </div>
         )}
-      </main>
+      </div>
     </div>
   );
 }

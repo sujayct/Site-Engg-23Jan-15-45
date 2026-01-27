@@ -51,37 +51,57 @@ export interface ProfileUpdateInput {
   portfolio_url?: string;
 }
 
+const PROFILES_STORAGE_KEY = 'user_profiles_json';
+
+function getStoredProfiles(): Record<string, ProfileUpdateInput> {
+  try {
+    const stored = localStorage.getItem(PROFILES_STORAGE_KEY);
+    return stored ? JSON.parse(stored) : {};
+  } catch {
+    return {};
+  }
+}
+
+function saveStoredProfiles(profiles: Record<string, ProfileUpdateInput>): void {
+  localStorage.setItem(PROFILES_STORAGE_KEY, JSON.stringify(profiles));
+}
+
 class ProfileService {
   async getProfile(userId: string): Promise<UserProfile | null> {
     const users = await StorageService.getUsers();
     const user = users.find(u => u.id === userId);
     if (!user) return null;
+
+    const storedProfiles = getStoredProfiles();
+    const storedProfile = storedProfiles[userId] || {};
+
     return {
-      ...user,
-      full_name: user.name,
+      id: user.id,
+      email: user.email,
+      full_name: storedProfile.full_name || user.name,
       role: user.role as any,
-      phone: user.phone || null,
-      designation: null,
-      profile_photo_url: null,
-      mobile_number: null,
-      alternate_number: null,
-      personal_email: null,
-      address_line1: null,
-      address_line2: null,
-      city: null,
-      state: null,
-      country: null,
-      pincode: null,
-      date_of_birth: null,
-      gender: null,
-      years_of_experience: null,
-      skills: null,
-      reporting_manager: null,
-      linkedin_url: null,
-      portfolio_url: null,
+      phone: storedProfile.phone || user.phone || null,
+      designation: storedProfile.designation || null,
+      profile_photo_url: storedProfile.profile_photo_url || null,
+      mobile_number: storedProfile.mobile_number || null,
+      alternate_number: storedProfile.alternate_number || null,
+      personal_email: storedProfile.personal_email || null,
+      address_line1: storedProfile.address_line1 || null,
+      address_line2: storedProfile.address_line2 || null,
+      city: storedProfile.city || null,
+      state: storedProfile.state || null,
+      country: storedProfile.country || null,
+      pincode: storedProfile.pincode || null,
+      date_of_birth: storedProfile.date_of_birth || null,
+      gender: storedProfile.gender || null,
+      years_of_experience: storedProfile.years_of_experience || null,
+      skills: storedProfile.skills || null,
+      reporting_manager: storedProfile.reporting_manager || null,
+      linkedin_url: storedProfile.linkedin_url || null,
+      portfolio_url: storedProfile.portfolio_url || null,
       created_at: user.createdAt,
-      updated_at: user.createdAt,
-    } as unknown as UserProfile;
+      updated_at: new Date().toISOString(),
+    };
   }
 
   async getMyProfile(): Promise<UserProfile | null> {
@@ -92,44 +112,55 @@ class ProfileService {
 
   async getAllEngineers(): Promise<UserProfile[]> {
     const users = await StorageService.getUsers();
-    return users.filter(u => u.role === 'engineer').map(u => ({
-      ...u,
-      full_name: u.name,
-      role: u.role as any,
-      phone: u.phone || null,
-      designation: null,
-      profile_photo_url: null,
-      mobile_number: null,
-      alternate_number: null,
-      personal_email: null,
-      address_line1: null,
-      address_line2: null,
-      city: null,
-      state: null,
-      country: null,
-      pincode: null,
-      date_of_birth: null,
-      gender: null,
-      years_of_experience: null,
-      skills: null,
-      reporting_manager: null,
-      linkedin_url: null,
-      portfolio_url: null,
-      created_at: u.createdAt,
-      updated_at: u.createdAt,
-    })) as unknown as UserProfile[];
+    const storedProfiles = getStoredProfiles();
+    
+    return users.filter(u => u.role === 'engineer').map(u => {
+      const storedProfile = storedProfiles[u.id] || {};
+      return {
+        id: u.id,
+        email: u.email,
+        full_name: storedProfile.full_name || u.name,
+        role: u.role as any,
+        phone: storedProfile.phone || u.phone || null,
+        designation: storedProfile.designation || null,
+        profile_photo_url: storedProfile.profile_photo_url || null,
+        mobile_number: storedProfile.mobile_number || null,
+        alternate_number: storedProfile.alternate_number || null,
+        personal_email: storedProfile.personal_email || null,
+        address_line1: storedProfile.address_line1 || null,
+        address_line2: storedProfile.address_line2 || null,
+        city: storedProfile.city || null,
+        state: storedProfile.state || null,
+        country: storedProfile.country || null,
+        pincode: storedProfile.pincode || null,
+        date_of_birth: storedProfile.date_of_birth || null,
+        gender: storedProfile.gender || null,
+        years_of_experience: storedProfile.years_of_experience || null,
+        skills: storedProfile.skills || null,
+        reporting_manager: storedProfile.reporting_manager || null,
+        linkedin_url: storedProfile.linkedin_url || null,
+        portfolio_url: storedProfile.portfolio_url || null,
+        created_at: u.createdAt,
+        updated_at: new Date().toISOString(),
+      };
+    });
   }
 
   async updateProfile(userId: string, updates: ProfileUpdateInput): Promise<UserProfile> {
-    const users = await StorageService.getUsers();
-    const index = users.findIndex(u => u.id === userId);
-    if (index === -1) throw new Error('Profile not found');
+    const storedProfiles = getStoredProfiles();
     
-    users[index] = { ...users[index], ...(updates as any) };
-    localStorage.setItem('mock_users', JSON.stringify(users));
+    storedProfiles[userId] = {
+      ...storedProfiles[userId],
+      ...updates,
+    };
+    
+    saveStoredProfiles(storedProfiles);
+    
     window.dispatchEvent(new Event('storage'));
     
-    return (await this.getProfile(userId)) as UserProfile;
+    const profile = await this.getProfile(userId);
+    if (!profile) throw new Error('Profile not found');
+    return profile;
   }
 
   async updateMyProfile(updates: ProfileUpdateInput): Promise<UserProfile> {
@@ -141,6 +172,70 @@ class ProfileService {
   async getManagersList(): Promise<{ id: string; name: string }[]> {
     const users = await StorageService.getUsers();
     return users.filter(u => u.role === 'admin' || u.role === 'hr').map(u => ({ id: u.id, name: u.name }));
+  }
+
+  async uploadProfilePhoto(file: File, userId: string): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64 = reader.result as string;
+        const storedProfiles = getStoredProfiles();
+        storedProfiles[userId] = {
+          ...storedProfiles[userId],
+          profile_photo_url: base64,
+        };
+        saveStoredProfiles(storedProfiles);
+        resolve(base64);
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  async deleteProfilePhoto(photoUrl: string): Promise<void> {
+  }
+
+  validateProfilePhoto(file: File): { valid: boolean; error?: string } {
+    const maxSize = 2 * 1024 * 1024;
+    const allowedTypes = ['image/png', 'image/jpeg', 'image/jpg'];
+    
+    if (!allowedTypes.includes(file.type)) {
+      return { valid: false, error: 'Only PNG and JPG images are allowed' };
+    }
+    
+    if (file.size > maxSize) {
+      return { valid: false, error: 'Image must be less than 2MB' };
+    }
+    
+    return { valid: true };
+  }
+
+  isValidEmail(email: string): boolean {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  }
+
+  isValidURL(url: string): boolean {
+    try {
+      new URL(url);
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  exportProfilesAsJson(): string {
+    const storedProfiles = getStoredProfiles();
+    return JSON.stringify(storedProfiles, null, 2);
+  }
+
+  importProfilesFromJson(jsonString: string): void {
+    try {
+      const profiles = JSON.parse(jsonString);
+      saveStoredProfiles(profiles);
+    } catch (error) {
+      throw new Error('Invalid JSON format');
+    }
   }
 }
 
