@@ -929,6 +929,15 @@
       "reportDate": "2026-01-23",
       "workDone": "done",
       "issues": "none"
+    },
+    {
+      "id": "304cfd56-b719-403a-b8b2-eb5a5abb2201",
+      "createdAt": "2026-01-27T04:57:56.634Z",
+      "engineerId": "engineer-user-id",
+      "clientId": "6ac5eb62-fbec-45f5-be84-d965bdf24c04",
+      "reportDate": "2026-01-27",
+      "workDone": "done",
+      "issues": ""
     }
   ],
   "leave_requests": [
@@ -943,6 +952,15 @@
       "approvedBy": "hr-user-id-001",
       "approvedAt": "2026-01-23T11:12:41.224Z",
       "updatedAt": "2026-01-23T11:12:41.224Z"
+    },
+    {
+      "id": "1f84a567-eff2-4587-8b46-d0ad8cb92ba8",
+      "createdAt": "2026-01-27T04:58:12.514Z",
+      "engineerId": "engineer-user-id",
+      "startDate": "2026-01-27",
+      "endDate": "2026-01-28",
+      "reason": "leave",
+      "status": "pending"
     }
   ],
   "notifications": [],
