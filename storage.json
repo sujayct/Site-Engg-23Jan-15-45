@@ -971,7 +971,10 @@
       "startDate": "2026-01-27",
       "endDate": "2026-01-28",
       "reason": "leave",
-      "status": "pending"
+      "status": "rejected",
+      "approvedBy": "hr-user-id-001",
+      "approvedAt": "2026-01-27T07:40:16.797Z",
+      "updatedAt": "2026-01-27T07:40:16.798Z"
     },
     {
       "id": "f0c7d3b4-bb73-4365-a2fa-22adc3364706",
@@ -980,7 +983,10 @@
       "startDate": "2026-01-28",
       "endDate": "2026-01-28",
       "reason": "Leave",
-      "status": "pending"
+      "status": "rejected",
+      "approvedBy": "hr-user-id-001",
+      "approvedAt": "2026-01-27T07:40:25.591Z",
+      "updatedAt": "2026-01-27T07:40:25.592Z"
     }
   ],
   "notifications": [],

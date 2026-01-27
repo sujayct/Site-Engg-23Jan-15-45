@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { Calendar, Send, Loader, CheckCircle, XCircle, Clock } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { leaveService } from '../../services/leaveService';
-import { StorageService } from '../../lib/storage';
 import type { LeaveRequest } from '../../types';
 
 interface LeaveCardProps {

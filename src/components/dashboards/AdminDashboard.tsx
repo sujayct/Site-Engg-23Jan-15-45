@@ -587,22 +587,23 @@ export default function AdminDashboard() {
 }
 
 function StatCard({ icon: Icon, label, value, color }: { icon: any; label: string; value: number; color: 'blue' | 'green' | 'orange' | 'purple' }) {
-  const colors = {
-    blue: 'from-blue-500 to-blue-600 bg-blue-100 text-blue-600',
-    green: 'from-green-500 to-green-600 bg-green-100 text-green-600',
-    orange: 'from-orange-500 to-orange-600 bg-orange-100 text-orange-600',
-    purple: 'from-purple-500 to-purple-600 bg-purple-100 text-purple-600'
+  const colors: Record<string, string> = {
+    blue: 'from-blue-600 to-indigo-700 shadow-blue-200/50',
+    green: 'from-emerald-500 to-teal-700 shadow-emerald-200/50',
+    orange: 'from-orange-500 to-amber-700 shadow-orange-200/50',
+    purple: 'from-indigo-600 to-violet-800 shadow-purple-200/50',
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-lg border border-slate-200 p-6 hover:shadow-xl transition-shadow">
-      <div className="flex items-center gap-3 mb-3">
-        <div className={`p-2 rounded-lg ${colors[color].split(' ').slice(2).join(' ')}`}>
-          <Icon className="w-5 h-5" />
+    <div className={`bg-gradient-to-br ${colors[color]} p-6 rounded-[2rem] text-white shadow-xl transform transition-all hover:scale-[1.03] hover:shadow-2xl duration-300 border border-white/10 group`}>
+      <div className="flex items-center justify-between mb-4">
+        <div className="p-3 bg-white/20 rounded-2xl backdrop-blur-md border border-white/20 group-hover:bg-white/30 transition-colors">
+          <Icon className="w-6 h-6" />
         </div>
-        <h3 className="font-semibold text-slate-700">{label}</h3>
+        <TrendingUp className="w-4 h-4 text-white/40" />
       </div>
-      <p className="text-3xl font-bold text-slate-900">{value}</p>
+      <p className="text-[10px] font-black text-white/70 uppercase tracking-[0.2em] mb-1">{label}</p>
+      <p className="text-4xl font-black mt-2 tracking-tighter">{value}</p>
     </div>
   );
 }
