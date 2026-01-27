@@ -888,6 +888,17 @@
       "date": "2026-01-27",
       "checkInTime": "2026-01-27T09:00:00.032Z",
       "checkOutTime": null
+    },
+    {
+      "id": "cc9674dd-5570-4c27-a526-d53fcacf58fe",
+      "createdAt": "2026-01-27T06:11:33.886Z",
+      "engineerId": "engineer-id-3",
+      "latitude": 19.071551724039352,
+      "longitude": 72.87621007308991,
+      "locationName": "Site Location (Simulated)",
+      "siteId": "site-id-001",
+      "date": "2026-01-27",
+      "checkInTime": "2026-01-27T06:11:33.885Z"
     }
   ],
   "daily_reports": [
@@ -960,6 +971,15 @@
       "startDate": "2026-01-27",
       "endDate": "2026-01-28",
       "reason": "leave",
+      "status": "pending"
+    },
+    {
+      "id": "f0c7d3b4-bb73-4365-a2fa-22adc3364706",
+      "createdAt": "2026-01-27T06:11:57.284Z",
+      "engineerId": "engineer-id-3",
+      "startDate": "2026-01-28",
+      "endDate": "2026-01-28",
+      "reason": "Leave",
       "status": "pending"
     }
   ],
