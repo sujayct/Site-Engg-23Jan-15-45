@@ -11,8 +11,14 @@ A full-stack web and mobile application for managing site engineer field operati
 - **Authentication**: Session-based auth with bcrypt password hashing (replaced Supabase Auth)
 - **API**: All endpoints served from Express.js on port 3001, proxied through Vite
 - **HR Dashboard Enhancements**: Added Overview tab with quick reports, downloadable CSV exports, and email functionality
-- **Email Integration**: Integrated Replit Mail service for sending reports directly to clients
-- **UI Improvements**: Enhanced dashboard design with gradient backgrounds, rounded cards, and improved visual hierarchy
+- **Email Integration**: Replit Mail service for sending reports directly to clients
+- **UI Enhancements (All Dashboards)**: Modern gradient headers, rounded cards with shadows, color-coded themes:
+  - Admin Dashboard: Red gradient theme with quick action cards
+  - HR Dashboard: Blue/Indigo gradient with tab navigation
+  - Engineer Dashboard: Blue/Indigo gradient with stats cards and tabbed interface
+  - Client Dashboard: Orange gradient with date filtering and data export
+- **Profile Storage**: User profile changes now saved locally in JSON format (localStorage) instead of database
+- **Client Dashboard Fix**: Resolved data sync issues by properly using async StorageService methods
 
 ## User Preferences
 
