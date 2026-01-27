@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Users, Calendar, FileText, CheckCircle, XCircle, Clock, Loader, Building2 } from 'lucide-react';
+import { Calendar, FileText, CheckCircle, XCircle, Loader, RefreshCw } from 'lucide-react';
 import { checkInService } from '../../services/checkInService';
 import { reportService } from '../../services/reportService';
 import { leaveService } from '../../services/leaveService';
@@ -11,6 +11,7 @@ import MobileClientWiseView from './MobileClientWiseView';
 export default function MobileHRDashboard() {
   const { user } = useAuth();
   const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
   const [todayCheckIns, setTodayCheckIns] = useState<CheckIn[]>([]);
   const [pendingLeaves, setPendingLeaves] = useState<LeaveRequest[]>([]);
   const [recentReports, setRecentReports] = useState<DailyReport[]>([]);
@@ -21,32 +22,36 @@ export default function MobileHRDashboard() {
     loadData();
   }, []);
 
-  async function loadData() {
+  async function loadData(isRefresh = false) {
     try {
-      setLoading(true);
+      if (isRefresh) {
+        setRefreshing(true);
+      } else {
+        setLoading(true);
+      }
       const today = new Date().toISOString().split('T')[0];
 
-      const engineersList = StorageService.getEngineers();
+      const engineersList = await StorageService.getEngineers();
 
       const [checkIns, leaves, reports] = await Promise.all([
         checkInService.getAllCheckIns(),
         leaveService.getAllLeaveRequests(),
-        reportService.getAllReports(),
+        reportService.getReports(),
       ]);
 
-      // Filter to today's data
-      const filteredCheckIns = checkIns.filter(c => c.date === today);
-      const filteredReports = reports.filter(r => r.date === today);
-      const pendingLeaves = leaves.filter(l => l.status === 'pending');
+      const filteredCheckIns = checkIns.filter((c: CheckIn) => c.date === today);
+      const filteredReports = reports.filter((r: DailyReport) => r.date === today);
+      const pendingLeavesList = leaves.filter((l: LeaveRequest) => l.status === 'pending');
 
       setTodayCheckIns(filteredCheckIns);
-      setPendingLeaves(pendingLeaves);
+      setPendingLeaves(pendingLeavesList);
       setRecentReports(filteredReports);
       setEngineers(engineersList);
     } catch (error) {
       console.error('Failed to load HR data:', error);
     } finally {
       setLoading(false);
+      setRefreshing(false);
     }
   }
 
@@ -81,20 +86,29 @@ export default function MobileHRDashboard() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-emerald-50 to-white pb-20">
       <div className="bg-gradient-to-r from-emerald-600 to-emerald-700 text-white px-4 py-6 shadow-lg">
-        <h1 className="text-2xl font-bold mb-4">HR Dashboard</h1>
+        <div className="flex items-center justify-between mb-4">
+          <h1 className="text-2xl font-bold">HR Dashboard</h1>
+          <button
+            onClick={() => loadData(true)}
+            disabled={refreshing}
+            className="p-2 bg-white/10 rounded-lg hover:bg-white/20 transition-colors"
+          >
+            <RefreshCw className={`w-5 h-5 ${refreshing ? 'animate-spin' : ''}`} />
+          </button>
+        </div>
 
         <div className="grid grid-cols-3 gap-3">
-          <div className="bg-white/10 backdrop-blur rounded-lg p-3">
+          <div className="bg-white/10 backdrop-blur rounded-xl p-3">
             <p className="text-xs text-emerald-100 mb-1">Attendance</p>
             <p className="text-2xl font-bold">{attendanceRate}%</p>
             <p className="text-xs text-emerald-100">{todayCheckIns.length}/{engineers.length}</p>
           </div>
-          <div className="bg-white/10 backdrop-blur rounded-lg p-3">
+          <div className="bg-white/10 backdrop-blur rounded-xl p-3">
             <p className="text-xs text-emerald-100 mb-1">Pending</p>
             <p className="text-2xl font-bold">{pendingLeaves.length}</p>
             <p className="text-xs text-emerald-100">Leave requests</p>
           </div>
-          <div className="bg-white/10 backdrop-blur rounded-lg p-3">
+          <div className="bg-white/10 backdrop-blur rounded-xl p-3">
             <p className="text-xs text-emerald-100 mb-1">Reports</p>
             <p className="text-2xl font-bold">{recentReports.length}</p>
             <p className="text-xs text-emerald-100">Today</p>
@@ -102,10 +116,10 @@ export default function MobileHRDashboard() {
         </div>
       </div>
 
-      <div className="flex border-b border-slate-200 bg-white sticky top-0 z-10 shadow-sm overflow-x-auto">
+      <div className="flex border-b border-slate-200 bg-white sticky top-0 z-10 shadow-sm overflow-x-auto scrollbar-hide">
         <button
           onClick={() => setActiveTab('attendance')}
-          className={`flex-1 py-3 text-sm font-medium transition-colors whitespace-nowrap ${
+          className={`flex-1 py-3 text-sm font-medium transition-colors whitespace-nowrap min-w-[80px] ${
             activeTab === 'attendance'
               ? 'text-emerald-600 border-b-2 border-emerald-600'
               : 'text-slate-600'
@@ -115,7 +129,7 @@ export default function MobileHRDashboard() {
         </button>
         <button
           onClick={() => setActiveTab('clientwise')}
-          className={`flex-1 py-3 text-sm font-medium transition-colors whitespace-nowrap ${
+          className={`flex-1 py-3 text-sm font-medium transition-colors whitespace-nowrap min-w-[80px] ${
             activeTab === 'clientwise'
               ? 'text-emerald-600 border-b-2 border-emerald-600'
               : 'text-slate-600'
@@ -125,7 +139,7 @@ export default function MobileHRDashboard() {
         </button>
         <button
           onClick={() => setActiveTab('leaves')}
-          className={`flex-1 py-3 text-sm font-medium transition-colors relative whitespace-nowrap ${
+          className={`flex-1 py-3 text-sm font-medium transition-colors relative whitespace-nowrap min-w-[80px] ${
             activeTab === 'leaves'
               ? 'text-emerald-600 border-b-2 border-emerald-600'
               : 'text-slate-600'
@@ -140,7 +154,7 @@ export default function MobileHRDashboard() {
         </button>
         <button
           onClick={() => setActiveTab('reports')}
-          className={`flex-1 py-3 text-sm font-medium transition-colors whitespace-nowrap ${
+          className={`flex-1 py-3 text-sm font-medium transition-colors whitespace-nowrap min-w-[80px] ${
             activeTab === 'reports'
               ? 'text-emerald-600 border-b-2 border-emerald-600'
               : 'text-slate-600'
@@ -165,7 +179,7 @@ export default function MobileHRDashboard() {
           />
         )}
         {activeTab === 'reports' && (
-          <ReportsTab reports={recentReports} />
+          <ReportsTab reports={recentReports} engineers={engineers} />
         )}
       </div>
     </div>
@@ -178,7 +192,7 @@ function AttendanceTab({ checkIns, engineers }: { checkIns: CheckIn[]; engineers
 
   return (
     <div className="space-y-4">
-      <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+      <div className="bg-green-50 border border-green-200 rounded-xl p-4">
         <h3 className="font-semibold text-green-900 mb-3 flex items-center gap-2">
           <CheckCircle className="w-5 h-5" />
           Present ({checkIns.length})
@@ -188,10 +202,10 @@ function AttendanceTab({ checkIns, engineers }: { checkIns: CheckIn[]; engineers
         ) : (
           <div className="space-y-2">
             {checkIns.map((checkIn) => {
-              const engineer = StorageService.getEngineerById(checkIn.engineerId);
+              const engineer = engineers.find(e => e.id === checkIn.engineerId);
               return (
-                <div key={checkIn.id} className="bg-white rounded p-3">
-                  <p className="font-medium text-slate-900">{engineer?.name}</p>
+                <div key={checkIn.id} className="bg-white rounded-lg p-3 shadow-sm">
+                  <p className="font-medium text-slate-900">{engineer?.name || 'Unknown'}</p>
                   <p className="text-xs text-slate-600 mt-1">
                     {new Date(checkIn.checkInTime).toLocaleTimeString('en-US', {
                       hour: '2-digit',
@@ -206,14 +220,14 @@ function AttendanceTab({ checkIns, engineers }: { checkIns: CheckIn[]; engineers
       </div>
 
       {absent.length > 0 && (
-        <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+        <div className="bg-red-50 border border-red-200 rounded-xl p-4">
           <h3 className="font-semibold text-red-900 mb-3 flex items-center gap-2">
             <XCircle className="w-5 h-5" />
             Not Checked In ({absent.length})
           </h3>
           <div className="space-y-2">
             {absent.map((engineer) => (
-              <div key={engineer.id} className="bg-white rounded p-3">
+              <div key={engineer.id} className="bg-white rounded-lg p-3 shadow-sm">
                 <p className="font-medium text-slate-900">{engineer.name}</p>
                 <p className="text-xs text-slate-600">{engineer.email}</p>
               </div>
@@ -255,11 +269,11 @@ function LeavesTab({
   return (
     <div className="space-y-4">
       {leaves.map((leave) => {
-        const engineer = StorageService.getEngineerById(leave.engineerId);
+        const engineer = engineers.find(e => e.id === leave.engineerId);
         return (
-          <div key={leave.id} className="bg-white rounded-lg shadow-sm border-2 border-yellow-200 p-4">
+          <div key={leave.id} className="bg-white rounded-xl shadow-sm border-2 border-yellow-200 p-4">
             <div className="mb-3">
-              <p className="font-semibold text-slate-900">{engineer?.name}</p>
+              <p className="font-semibold text-slate-900">{engineer?.name || 'Unknown'}</p>
               <p className="text-sm text-slate-600 mt-1">
                 {new Date(leave.startDate).toLocaleDateString()} - {new Date(leave.endDate).toLocaleDateString()}
               </p>
@@ -273,7 +287,7 @@ function LeavesTab({
               <select
                 value={selectedBackup[leave.id] || ''}
                 onChange={(e) => setSelectedBackup({ ...selectedBackup, [leave.id]: e.target.value })}
-                className="w-full px-3 py-2 border border-slate-300 rounded text-sm"
+                className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm"
               >
                 <option value="">Select backup engineer...</option>
                 {engineers
@@ -286,44 +300,44 @@ function LeavesTab({
               </select>
             </div>
 
-          <div className="flex gap-2">
-            <button
-              onClick={() => handleAction(leave.id, 'approve')}
-              disabled={processing === leave.id || !selectedBackup[leave.id]}
-              className="flex-1 bg-green-600 text-white text-sm font-medium py-2 rounded hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-            >
-              {processing === leave.id ? (
-                <Loader className="w-4 h-4 animate-spin" />
-              ) : (
-                <>
-                  <CheckCircle className="w-4 h-4" />
-                  Approve
-                </>
-              )}
-            </button>
-            <button
-              onClick={() => handleAction(leave.id, 'reject')}
-              disabled={processing === leave.id}
-              className="flex-1 bg-red-600 text-white text-sm font-medium py-2 rounded hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-            >
-              {processing === leave.id ? (
-                <Loader className="w-4 h-4 animate-spin" />
-              ) : (
-                <>
-                  <XCircle className="w-4 h-4" />
-                  Reject
-                </>
-              )}
-            </button>
+            <div className="flex gap-2">
+              <button
+                onClick={() => handleAction(leave.id, 'approve')}
+                disabled={processing === leave.id || !selectedBackup[leave.id]}
+                className="flex-1 bg-green-600 text-white text-sm font-medium py-2.5 rounded-lg hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              >
+                {processing === leave.id ? (
+                  <Loader className="w-4 h-4 animate-spin" />
+                ) : (
+                  <>
+                    <CheckCircle className="w-4 h-4" />
+                    Approve
+                  </>
+                )}
+              </button>
+              <button
+                onClick={() => handleAction(leave.id, 'reject')}
+                disabled={processing === leave.id}
+                className="flex-1 bg-red-600 text-white text-sm font-medium py-2.5 rounded-lg hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              >
+                {processing === leave.id ? (
+                  <Loader className="w-4 h-4 animate-spin" />
+                ) : (
+                  <>
+                    <XCircle className="w-4 h-4" />
+                    Reject
+                  </>
+                )}
+              </button>
+            </div>
           </div>
-        </div>
         );
       })}
     </div>
   );
 }
 
-function ReportsTab({ reports }: { reports: DailyReport[] }) {
+function ReportsTab({ reports, engineers }: { reports: DailyReport[]; engineers: Engineer[] }) {
   if (reports.length === 0) {
     return (
       <div className="text-center py-12">
@@ -336,25 +350,23 @@ function ReportsTab({ reports }: { reports: DailyReport[] }) {
   return (
     <div className="space-y-3">
       {reports.map((report) => {
-        const engineer = StorageService.getEngineerById(report.engineerId);
-        const client = StorageService.getClientById(report.clientId);
+        const engineer = engineers.find(e => e.id === report.engineerId);
         return (
-          <div key={report.id} className="bg-white rounded-lg shadow-sm border border-slate-200 p-4">
+          <div key={report.id} className="bg-white rounded-xl shadow-sm border border-slate-200 p-4">
             <div className="flex items-start justify-between mb-2">
               <div>
-                <p className="font-medium text-slate-900">{engineer?.name}</p>
-                <p className="text-sm text-slate-600">{client?.name}</p>
+                <p className="font-medium text-slate-900">{engineer?.name || 'Unknown'}</p>
               </div>
-              <span className="text-xs text-slate-500">
+              <span className="text-xs text-slate-500 bg-slate-100 px-2 py-1 rounded-full">
                 {new Date(report.createdAt).toLocaleTimeString('en-US', {
                   hour: '2-digit',
                   minute: '2-digit'
                 })}
               </span>
             </div>
-            <p className="text-sm text-slate-700">{report.workDone}</p>
+            <p className="text-sm text-slate-700 line-clamp-3">{report.workDone}</p>
             {report.issues && (
-              <div className="mt-2 p-2 bg-red-50 rounded border border-red-200">
+              <div className="mt-2 p-2 bg-red-50 rounded-lg border border-red-200">
                 <p className="text-xs font-medium text-red-900">Issues:</p>
                 <p className="text-xs text-red-700 mt-1">{report.issues}</p>
               </div>

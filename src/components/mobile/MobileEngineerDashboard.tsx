@@ -1,12 +1,10 @@
 import { useState, useEffect } from 'react';
 import {
-  MapPin,
   FileText,
-  Calendar,
-  CheckCircle,
   Clock,
   AlertCircle,
-  Loader
+  Loader,
+  RefreshCw
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { checkInService } from '../../services/checkInService';
@@ -21,6 +19,7 @@ import LeaveCard from './LeaveCard';
 export default function MobileEngineerDashboard() {
   const { user } = useAuth();
   const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
   const [todayCheckIn, setTodayCheckIn] = useState<CheckIn | null>(null);
   const [todayReport, setTodayReport] = useState<DailyReport | null>(null);
   const [leaveRequests, setLeaveRequests] = useState<LeaveRequest[]>([]);
@@ -31,11 +30,16 @@ export default function MobileEngineerDashboard() {
     loadData();
   }, [user]);
 
-  async function loadData() {
+  async function loadData(isRefresh = false) {
     if (!user || !user.engineerId) return;
 
     try {
-      setLoading(true);
+      if (isRefresh) {
+        setRefreshing(true);
+      } else {
+        setLoading(true);
+      }
+      
       const [checkIn, leaves, assign] = await Promise.all([
         checkInService.getTodayCheckIn(user.engineerId),
         leaveService.getMyLeaveRequests(user.engineerId),
@@ -44,7 +48,7 @@ export default function MobileEngineerDashboard() {
 
       const reports = await reportService.getReports(user.engineerId);
       const today = new Date().toISOString().split('T')[0];
-      const todayReportData = reports.find(r => r.date === today) || null;
+      const todayReportData = reports.find((r: DailyReport) => r.date === today) || null;
 
       setTodayCheckIn(checkIn);
       setTodayReport(todayReportData);
@@ -54,6 +58,7 @@ export default function MobileEngineerDashboard() {
       console.error('Failed to load data:', error);
     } finally {
       setLoading(false);
+      setRefreshing(false);
     }
   }
 
@@ -86,18 +91,13 @@ export default function MobileEngineerDashboard() {
               })}
             </p>
           </div>
-          <div className="flex items-center gap-2">
-            {isOnline ? (
-              <Wifi className="w-5 h-5 text-green-300" />
-            ) : (
-              <WifiOff className="w-5 h-5 text-orange-300" />
-            )}
-            {pendingSync > 0 && (
-              <div className="bg-orange-500 text-white text-xs px-2 py-1 rounded-full font-medium">
-                {pendingSync} pending
-              </div>
-            )}
-          </div>
+          <button
+            onClick={() => loadData(true)}
+            disabled={refreshing}
+            className="p-2 bg-white/10 rounded-lg hover:bg-white/20 transition-colors"
+          >
+            <RefreshCw className={`w-5 h-5 ${refreshing ? 'animate-spin' : ''}`} />
+          </button>
         </div>
 
         {activeAssignment && (
@@ -156,7 +156,7 @@ export default function MobileEngineerDashboard() {
             />
 
             {pendingLeave && (
-              <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+              <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-4">
                 <div className="flex items-start gap-3">
                   <Clock className="w-5 h-5 text-yellow-600 flex-shrink-0 mt-0.5" />
                   <div className="flex-1">
@@ -229,15 +229,15 @@ function ReportsTab() {
   return (
     <div className="space-y-3">
       {reports.map((report) => (
-        <div key={report.id} className="bg-white rounded-lg shadow-sm border border-slate-200 p-4">
+        <div key={report.id} className="bg-white rounded-xl shadow-sm border border-slate-200 p-4">
           <div className="flex items-start justify-between mb-2">
-            <span className="text-xs text-slate-500">
+            <span className="text-xs text-slate-500 bg-slate-100 px-2 py-1 rounded-full">
               {new Date(report.date).toLocaleDateString()}
             </span>
           </div>
-          <p className="text-sm text-slate-700 mb-2">{report.workDone}</p>
+          <p className="text-sm text-slate-700 mb-2 line-clamp-3">{report.workDone}</p>
           {report.issues && (
-            <div className="flex items-start gap-2 mt-2 p-2 bg-red-50 rounded">
+            <div className="flex items-start gap-2 mt-2 p-2 bg-red-50 rounded-lg">
               <AlertCircle className="w-4 h-4 text-red-600 flex-shrink-0 mt-0.5" />
               <p className="text-xs text-red-700">{report.issues}</p>
             </div>
