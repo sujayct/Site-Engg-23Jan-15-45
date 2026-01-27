@@ -74,19 +74,18 @@ export default function MobileClientWiseView() {
           );
 
           return {
-            engineerId: assignment.engineer_id,
-            engineerName: engineer?.full_name || 'Unknown',
+            engineerName: engineer?.name || 'Unknown',
             designation: engineer?.designation || 'Engineer',
-            clientId: assignment.client_id,
+            clientId: assignment.clientId,
             clientName: client?.name || 'Unknown Client',
-            siteId: assignment.site_id,
-            siteName: assignment.site_name || 'N/A',
+            siteId: assignment.siteId,
+            siteName: assignment.siteName || 'N/A',
             todayCheckedIn: !!checkIn,
-            checkInTime: checkIn?.check_in_time,
-            checkOutTime: checkIn?.check_out_time,
-            lastLocation: checkIn?.location_name || 'No location',
+            checkInTime: checkIn?.checkInTime,
+            checkOutTime: checkIn?.checkOutTime,
+            lastLocation: checkIn?.locationName || 'No location',
             hasReport: !!report,
-            reportWorkDone: report?.work_done,
+            reportWorkDone: report?.workDone,
             reportIssues: report?.issues
           };
         });
@@ -160,33 +159,32 @@ export default function MobileClientWiseView() {
       <div className="flex items-center justify-between gap-2">
         <button
           onClick={() => setShowFilters(!showFilters)}
-          className="flex items-center gap-2 px-3 py-2 bg-slate-100 text-slate-700 rounded-lg text-sm font-medium"
+          className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-slate-100 text-slate-700 rounded-xl text-sm font-bold transition-colors active:bg-slate-200"
         >
           <Filter className="w-4 h-4" />
-          Filters
-          {showFilters ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+          {showFilters ? 'Hide Filters' : 'Show Filters'}
         </button>
         <button
           onClick={handleExport}
-          className="flex items-center gap-2 px-3 py-2 bg-emerald-600 text-white rounded-lg text-sm font-medium"
+          className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-emerald-600 text-white rounded-xl text-sm font-bold shadow-lg shadow-emerald-100 transition-all active:scale-95"
         >
           <Download className="w-4 h-4" />
-          Export
+          Export Data
         </button>
       </div>
 
       {showFilters && (
-        <div className="bg-white rounded-lg shadow-md p-4 space-y-3">
+        <div className="bg-white rounded-2xl shadow-xl p-6 space-y-4 border border-slate-100 animate-in fade-in slide-in-from-top-2">
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1">
-              Client
+            <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">
+              Filter by Client
             </label>
             <select
               value={selectedClient}
               onChange={(e) => setSelectedClient(e.target.value)}
-              className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+              className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 outline-none transition-all text-sm font-medium"
             >
-              <option value="all">All Clients</option>
+              <option value="all">All Active Clients</option>
               {clients.map(client => (
                 <option key={client.id} value={client.id}>
                   {client.name}
@@ -196,136 +194,130 @@ export default function MobileClientWiseView() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1">
-              Engineer
+            <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">
+              Filter by Engineer
             </label>
             <select
               value={selectedEngineer}
               onChange={(e) => setSelectedEngineer(e.target.value)}
-              className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+              className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 outline-none transition-all text-sm font-medium"
             >
               <option value="all">All Engineers</option>
               {engineers.map(engineer => (
                 <option key={engineer.id} value={engineer.id}>
-                  {engineer.full_name}
+                  {engineer.name}
                 </option>
               ))}
             </select>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1 flex items-center gap-2">
+            <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 flex items-center gap-2">
               <Calendar className="w-4 h-4" />
-              Date
+              Viewing Date
             </label>
             <input
               type="date"
               value={selectedDate}
               onChange={(e) => setSelectedDate(e.target.value)}
-              className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+              className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 outline-none transition-all text-sm font-medium"
             />
           </div>
         </div>
       )}
 
-      <div className="grid grid-cols-2 gap-2">
-        <div className="bg-emerald-50 rounded-lg p-3">
-          <p className="text-xs text-emerald-600 font-medium mb-1">Total Engineers</p>
-          <p className="text-2xl font-bold text-emerald-900">{filteredData.length}</p>
+      <div className="grid grid-cols-2 gap-3">
+        <div className="bg-emerald-50/50 rounded-2xl p-4 border border-emerald-100/50">
+          <p className="text-[10px] font-black text-emerald-600 uppercase tracking-widest mb-1">Total Engineers</p>
+          <p className="text-2xl font-black text-emerald-900">{filteredData.length}</p>
         </div>
-        <div className="bg-green-50 rounded-lg p-3">
-          <p className="text-xs text-green-600 font-medium mb-1">Checked In</p>
-          <p className="text-2xl font-bold text-green-900">
-            {filteredData.filter(e => e.todayCheckedIn).length}
-          </p>
-        </div>
-        <div className="bg-blue-50 rounded-lg p-3">
-          <p className="text-xs text-blue-600 font-medium mb-1">Reports</p>
-          <p className="text-2xl font-bold text-blue-900">
+        <div className="bg-blue-50/50 rounded-2xl p-4 border border-blue-100/50">
+          <p className="text-[10px] font-black text-blue-600 uppercase tracking-widest mb-1">Reports Today</p>
+          <p className="text-2xl font-black text-blue-900">
             {filteredData.filter(e => e.hasReport).length}
-          </p>
-        </div>
-        <div className="bg-purple-50 rounded-lg p-3">
-          <p className="text-xs text-purple-600 font-medium mb-1">Clients</p>
-          <p className="text-2xl font-bold text-purple-900">
-            {Object.keys(groupedByClient).length}
           </p>
         </div>
       </div>
 
-      <div className="space-y-4">
+      <div className="space-y-6">
         {Object.entries(groupedByClient).length === 0 ? (
-          <div className="bg-white rounded-lg shadow-md p-8 text-center">
-            <Building2 className="w-12 h-12 text-slate-400 mx-auto mb-3" />
-            <p className="text-slate-500">No engineers assigned to clients</p>
+          <div className="bg-white rounded-2xl shadow-md p-10 text-center border border-slate-100">
+            <div className="bg-slate-50 rounded-2xl p-4 inline-block mb-4">
+              <Building2 className="w-12 h-12 text-slate-300" />
+            </div>
+            <p className="font-bold text-slate-900 text-lg">No Active Deployments</p>
+            <p className="text-sm font-medium text-slate-500 mt-1">There are no engineers assigned to clients at this time.</p>
           </div>
         ) : (
           Object.entries(groupedByClient).map(([clientId, { clientName, engineers: clientEngineers }]) => (
-            <div key={clientId} className="bg-white rounded-lg shadow-md overflow-hidden">
-              <div className="bg-gradient-to-r from-emerald-600 to-emerald-700 px-4 py-3">
-                <div className="flex items-center gap-2 text-white mb-1">
-                  <Building2 className="w-5 h-5" />
-                  <h3 className="font-bold text-lg">{clientName}</h3>
+            <div key={clientId} className="bg-white rounded-3xl shadow-xl shadow-slate-200/50 overflow-hidden border border-slate-100 transition-all active:scale-[0.99]">
+              <div className="bg-gradient-to-br from-emerald-600 to-emerald-800 px-6 py-5">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="bg-white/20 backdrop-blur-md p-2 rounded-xl">
+                      <Building2 className="w-6 h-6 text-white" />
+                    </div>
+                    <div>
+                      <h3 className="font-black text-white text-xl tracking-tight">{clientName}</h3>
+                      <p className="text-emerald-100/80 text-[10px] font-bold uppercase tracking-widest mt-0.5">
+                        {clientEngineers.length} active {clientEngineers.length === 1 ? 'deployment' : 'deployments'}
+                      </p>
+                    </div>
+                  </div>
                 </div>
-                <p className="text-emerald-100 text-sm">
-                  {clientEngineers.length} {clientEngineers.length === 1 ? 'Engineer' : 'Engineers'}
-                </p>
               </div>
 
-              <div className="divide-y divide-slate-200">
+              <div className="divide-y divide-slate-100 bg-slate-50/30">
                 {clientEngineers.map((engineer, idx) => (
-                  <div key={idx} className="p-4">
-                    <div className="flex items-start justify-between mb-3">
+                  <div key={idx} className="p-5">
+                    <div className="flex items-start justify-between gap-4 mb-4">
                       <div className="flex-1">
-                        <p className="font-semibold text-slate-900">{engineer.engineerName}</p>
-                        <p className="text-sm text-slate-600">{engineer.designation}</p>
-                        <p className="text-xs text-slate-500 mt-1">{engineer.siteName}</p>
+                        <p className="font-bold text-slate-900 text-base leading-tight">{engineer.engineerName}</p>
+                        <p className="text-xs font-bold text-emerald-600 mt-1 uppercase tracking-wider">{engineer.designation}</p>
+                        <div className="flex items-center gap-1.5 mt-2 text-slate-500">
+                          <MapPin className="w-3.5 h-3.5" />
+                          <p className="text-xs font-medium">{engineer.siteName}</p>
+                        </div>
                       </div>
-                      <div className="flex flex-col gap-1 items-end">
-                        {engineer.todayCheckedIn ? (
-                          <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                            <CheckCircle className="w-3 h-3" />
-                            Checked In
-                          </span>
-                        ) : (
-                          <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800">
-                            <XCircle className="w-3 h-3" />
-                            Not Checked In
-                          </span>
-                        )}
-                        {engineer.hasReport ? (
-                          <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                            Report Submitted
-                          </span>
-                        ) : (
-                          <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
-                            Report Pending
-                          </span>
-                        )}
+                      <div className="flex flex-col gap-1.5 items-end">
+                        <div className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider ${
+                          engineer.todayCheckedIn ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
+                        }`}>
+                          {engineer.todayCheckedIn ? <CheckCircle className="w-3 h-3" /> : <XCircle className="w-3 h-3" />}
+                          {engineer.todayCheckedIn ? 'Present' : 'Absent'}
+                        </div>
+                        <div className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider ${
+                          engineer.hasReport ? 'bg-blue-100 text-blue-700' : 'bg-amber-100 text-amber-700'
+                        }`}>
+                          {engineer.hasReport ? <FileText className="w-3 h-3" /> : <Clock className="w-3 h-3" />}
+                          {engineer.hasReport ? 'Reported' : 'Pending'}
+                        </div>
                       </div>
                     </div>
 
                     {engineer.todayCheckedIn && (
-                      <div className="space-y-1 mb-3">
-                        {engineer.checkInTime && (
-                          <div className="text-xs text-slate-600">
-                            In: {new Date(engineer.checkInTime).toLocaleTimeString('en-US', {
-                              hour: '2-digit',
-                              minute: '2-digit'
-                            })}
-                          </div>
-                        )}
-                        {engineer.checkOutTime && (
-                          <div className="text-xs text-slate-600">
-                            Out: {new Date(engineer.checkOutTime).toLocaleTimeString('en-US', {
-                              hour: '2-digit',
-                              minute: '2-digit'
-                            })}
-                          </div>
-                        )}
-                        <div className="flex items-center gap-1 text-xs text-slate-600">
-                          <MapPin className="w-3 h-3" />
-                          {engineer.lastLocation}
+                      <div className="bg-white rounded-xl p-3 border border-slate-100 mb-3 shadow-sm flex items-center justify-between">
+                        <div className="flex items-center gap-4">
+                          {engineer.checkInTime && (
+                            <div>
+                              <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-0.5">Check In</p>
+                              <p className="text-xs font-bold text-slate-700">
+                                {new Date(engineer.checkInTime).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}
+                              </p>
+                            </div>
+                          )}
+                          {engineer.checkOutTime && (
+                            <div className="border-l border-slate-100 pl-4">
+                              <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-0.5">Check Out</p>
+                              <p className="text-xs font-bold text-slate-700">
+                                {new Date(engineer.checkOutTime).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}
+                              </p>
+                            </div>
+                          )}
+                        </div>
+                        <div className="text-right">
+                           <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-0.5">GPS Location</p>
+                           <p className="text-[10px] font-medium text-slate-500 truncate max-w-[120px]">{engineer.lastLocation}</p>
                         </div>
                       </div>
                     )}
@@ -335,29 +327,30 @@ export default function MobileClientWiseView() {
                         onClick={() => setExpandedReport(
                           expandedReport === engineer.engineerId ? null : engineer.engineerId
                         )}
-                        className="flex items-center gap-1 text-sm text-emerald-600 hover:text-emerald-700 font-medium"
+                        className="w-full flex items-center justify-center gap-2 py-2.5 bg-slate-50 text-emerald-700 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-slate-100 transition-colors border border-slate-100"
                       >
                         <FileText className="w-4 h-4" />
-                        {expandedReport === engineer.engineerId ? 'Hide Report' : 'View Report'}
+                        {expandedReport === engineer.engineerId ? 'Collapse Report' : 'Full Report Details'}
                       </button>
                     )}
 
                     {expandedReport === engineer.engineerId && engineer.hasReport && (
-                      <div className="mt-3 p-3 bg-slate-50 rounded-lg space-y-2">
-                        <div>
-                          <h4 className="text-xs font-semibold text-slate-700 mb-1">
-                            Work Done:
+                      <div className="mt-3 p-4 bg-white rounded-2xl border border-emerald-100 shadow-inner animate-in slide-in-from-top-2">
+                        <div className="mb-4">
+                          <h4 className="text-[10px] font-black text-emerald-600 uppercase tracking-widest mb-2">
+                            Summary of Work:
                           </h4>
-                          <p className="text-sm text-slate-600">
+                          <p className="text-sm text-slate-700 font-medium leading-relaxed">
                             {engineer.reportWorkDone}
                           </p>
                         </div>
                         {engineer.reportIssues && engineer.reportIssues !== 'None' && (
-                          <div>
-                            <h4 className="text-xs font-semibold text-red-700 mb-1">
-                              Issues:
+                          <div className="pt-3 border-t border-red-50">
+                            <h4 className="text-[10px] font-black text-red-600 uppercase tracking-widest mb-2 flex items-center gap-1">
+                              <AlertCircle className="w-3 h-3" />
+                              Reported Site Issues:
                             </h4>
-                            <p className="text-sm text-red-600">
+                            <p className="text-sm text-red-600 font-bold leading-relaxed bg-red-50/50 p-2 rounded-lg">
                               {engineer.reportIssues}
                             </p>
                           </div>

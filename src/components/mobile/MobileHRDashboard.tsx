@@ -98,20 +98,20 @@ export default function MobileHRDashboard() {
         </div>
 
         <div className="grid grid-cols-3 gap-3">
-          <div className="bg-white/10 backdrop-blur rounded-xl p-3">
-            <p className="text-xs text-emerald-100 mb-1">Attendance</p>
-            <p className="text-2xl font-bold">{attendanceRate}%</p>
-            <p className="text-xs text-emerald-100">{todayCheckIns.length}/{engineers.length}</p>
+          <div className="bg-white/20 backdrop-blur-md rounded-2xl p-4 border border-white/20 shadow-inner">
+            <p className="text-[10px] font-bold uppercase tracking-wider text-emerald-100 mb-1">Attendance</p>
+            <p className="text-2xl font-black">{attendanceRate}%</p>
+            <p className="text-[10px] font-medium text-emerald-100/80">{todayCheckIns.length}/{engineers.length}</p>
           </div>
-          <div className="bg-white/10 backdrop-blur rounded-xl p-3">
-            <p className="text-xs text-emerald-100 mb-1">Pending</p>
-            <p className="text-2xl font-bold">{pendingLeaves.length}</p>
-            <p className="text-xs text-emerald-100">Leave requests</p>
+          <div className="bg-white/20 backdrop-blur-md rounded-2xl p-4 border border-white/20 shadow-inner">
+            <p className="text-[10px] font-bold uppercase tracking-wider text-emerald-100 mb-1">Pending</p>
+            <p className="text-2xl font-black">{pendingLeaves.length}</p>
+            <p className="text-[10px] font-medium text-emerald-100/80">Leaves</p>
           </div>
-          <div className="bg-white/10 backdrop-blur rounded-xl p-3">
-            <p className="text-xs text-emerald-100 mb-1">Reports</p>
-            <p className="text-2xl font-bold">{recentReports.length}</p>
-            <p className="text-xs text-emerald-100">Today</p>
+          <div className="bg-white/20 backdrop-blur-md rounded-2xl p-4 border border-white/20 shadow-inner">
+            <p className="text-[10px] font-bold uppercase tracking-wider text-emerald-100 mb-1">Reports</p>
+            <p className="text-2xl font-black">{recentReports.length}</p>
+            <p className="text-[10px] font-medium text-emerald-100/80">Today</p>
           </div>
         </div>
       </div>

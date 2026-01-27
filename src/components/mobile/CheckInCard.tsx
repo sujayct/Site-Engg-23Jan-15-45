@@ -50,35 +50,38 @@ export default function CheckInCard({ checkIn, onCheckInComplete }: CheckInCardP
 
   if (checkIn) {
     return (
-      <div className="bg-green-50 border-2 border-green-200 rounded-lg p-4">
-        <div className="flex items-start gap-3">
-          <div className="bg-green-500 rounded-full p-2">
+      <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-5 shadow-sm">
+        <div className="flex items-start gap-4">
+          <div className="bg-emerald-500 rounded-xl p-2.5 shadow-lg shadow-emerald-200">
             <CheckCircle className="w-6 h-6 text-white" />
           </div>
           <div className="flex-1">
-            <h3 className="font-semibold text-green-900 mb-1">Checked In</h3>
-            <p className="text-sm text-green-700 mb-2">
+            <h3 className="font-bold text-emerald-900 text-lg mb-0.5">Checked In</h3>
+            <p className="text-sm font-medium text-emerald-700/80">
               {new Date(checkIn.checkInTime).toLocaleTimeString('en-US', {
                 hour: '2-digit',
                 minute: '2-digit'
               })}
             </p>
             {checkIn.locationName && (
-              <div className="flex items-start gap-2 mt-2">
-                <MapPin className="w-4 h-4 text-green-600 flex-shrink-0 mt-0.5" />
-                <div className="flex-1">
-                  <p className="text-xs text-green-700">{checkIn.locationName}</p>
-                  {checkIn.latitude && checkIn.longitude && (
-                    <a
-                      href={`https://www.google.com/maps?q=${checkIn.latitude},${checkIn.longitude}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 text-xs text-green-600 hover:text-green-800 mt-1"
-                    >
-                      View on map
-                      <ExternalLink className="w-3 h-3" />
-                    </a>
-                  )}
+              <div className="mt-4 pt-4 border-t border-emerald-200/50">
+                <div className="flex items-start gap-2">
+                  <MapPin className="w-4 h-4 text-emerald-600 flex-shrink-0 mt-0.5" />
+                  <div className="flex-1">
+                    <p className="text-xs font-semibold text-emerald-800 uppercase tracking-tight mb-1">Current Location</p>
+                    <p className="text-xs text-emerald-700 leading-relaxed">{checkIn.locationName}</p>
+                    {checkIn.latitude && checkIn.longitude && (
+                      <a
+                        href={`https://www.google.com/maps?q=${checkIn.latitude},${checkIn.longitude}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-600 hover:text-emerald-800 mt-2 bg-emerald-100/50 px-2 py-1 rounded-md transition-colors"
+                      >
+                        View on Google Maps
+                        <ExternalLink className="w-3 h-3" />
+                      </a>
+                    )}
+                  </div>
                 </div>
               </div>
             )}
@@ -89,33 +92,33 @@ export default function CheckInCard({ checkIn, onCheckInComplete }: CheckInCardP
   }
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border-2 border-slate-200 p-4">
-      <div className="flex items-center gap-3 mb-3">
-        <div className="bg-blue-100 rounded-full p-2">
+    <div className="bg-white rounded-2xl shadow-md border border-slate-200 p-6">
+      <div className="flex items-center gap-4 mb-6">
+        <div className="bg-blue-100 rounded-2xl p-3">
           <MapPin className="w-6 h-6 text-blue-600" />
         </div>
         <div>
-          <h3 className="font-semibold text-slate-900">Check In</h3>
-          <p className="text-sm text-slate-600">Mark your attendance</p>
+          <h3 className="font-bold text-slate-900 text-lg">Daily Attendance</h3>
+          <p className="text-sm font-medium text-slate-500">Secure location-based check-in</p>
         </div>
       </div>
 
       {error && (
-        <div className="flex items-start gap-2 mb-3 p-3 bg-red-50 rounded-lg border border-red-200">
+        <div className="flex items-start gap-3 mb-6 p-4 bg-red-50 rounded-xl border border-red-100 animate-in fade-in slide-in-from-top-1">
           <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
-          <p className="text-sm text-red-700">{error}</p>
+          <p className="text-sm font-medium text-red-700">{error}</p>
         </div>
       )}
 
       <button
         onClick={handleCheckIn}
         disabled={loading}
-        className="w-full bg-blue-600 text-white font-medium py-3 rounded-lg hover:bg-blue-700 active:bg-blue-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+        className="w-full bg-blue-600 text-white font-bold py-4 rounded-xl hover:bg-blue-700 active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-blue-200 flex items-center justify-center gap-3"
       >
         {loading ? (
           <>
             <Loader className="w-5 h-5 animate-spin" />
-            Getting location...
+            Verifying Location...
           </>
         ) : (
           <>
@@ -125,8 +128,8 @@ export default function CheckInCard({ checkIn, onCheckInComplete }: CheckInCardP
         )}
       </button>
 
-      <p className="text-xs text-slate-500 mt-2 text-center">
-        Location permission required for GPS tracking
+      <p className="text-[10px] font-bold text-slate-400 mt-4 text-center uppercase tracking-widest">
+        GPS Authentication Required
       </p>
     </div>
   );

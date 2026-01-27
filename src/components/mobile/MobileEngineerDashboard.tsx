@@ -78,11 +78,11 @@ export default function MobileEngineerDashboard() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white pb-20">
-      <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-4 py-6 shadow-lg">
-        <div className="flex items-center justify-between mb-4">
+      <div className="bg-gradient-to-r from-blue-600 to-indigo-700 text-white px-6 py-8 shadow-xl">
+        <div className="flex items-center justify-between mb-6">
           <div>
-            <h1 className="text-2xl font-bold">Hello, {user?.name?.split(' ')[0]}</h1>
-            <p className="text-blue-100 text-sm mt-1">
+            <h1 className="text-3xl font-black tracking-tight">Hi, {user?.name?.split(' ')[0]}!</h1>
+            <p className="text-blue-100 text-sm mt-2 font-medium opacity-90">
               {new Date().toLocaleDateString('en-US', {
                 weekday: 'long',
                 year: 'numeric',
@@ -94,16 +94,21 @@ export default function MobileEngineerDashboard() {
           <button
             onClick={() => loadData(true)}
             disabled={refreshing}
-            className="p-2 bg-white/10 rounded-lg hover:bg-white/20 transition-colors"
+            className="p-3 bg-white/20 backdrop-blur-md rounded-2xl hover:bg-white/30 transition-all border border-white/20 shadow-lg active:scale-95"
           >
-            <RefreshCw className={`w-5 h-5 ${refreshing ? 'animate-spin' : ''}`} />
+            <RefreshCw className={`w-6 h-6 ${refreshing ? 'animate-spin' : ''}`} />
           </button>
         </div>
 
         {activeAssignment && (
-          <div className="bg-white/10 backdrop-blur rounded-lg p-3">
-            <p className="text-xs text-blue-100 mb-1">Current Assignment</p>
-            <p className="font-semibold">Active Assignment</p>
+          <div className="bg-white/20 backdrop-blur-md rounded-2xl p-4 border border-white/20 shadow-inner flex items-center gap-3">
+            <div className="bg-blue-500/30 p-2 rounded-xl">
+              <Clock className="w-5 h-5 text-white" />
+            </div>
+            <div>
+              <p className="text-[10px] font-bold uppercase tracking-wider text-blue-100 mb-0.5">Current Status</p>
+              <p className="font-bold">On Active Assignment</p>
+            </div>
           </div>
         )}
       </div>

@@ -18,24 +18,24 @@ export default function MobileHeader({ userName, userRole, subtitle, children }:
 
   return (
     <div
-      className="text-white px-4 py-6 shadow-lg"
+      className="text-white px-6 py-8 shadow-xl"
       style={{
-        background: `linear-gradient(to right, ${primaryColor}, ${secondaryColor})`
+        background: `linear-gradient(135deg, ${primaryColor}, ${secondaryColor})`
       }}
     >
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center gap-3">
+      <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center gap-4">
           {logoUrl ? (
-            <img src={logoUrl} alt={brandName} className="h-10 object-contain bg-white/90 rounded px-2 py-1" />
+            <img src={logoUrl} alt={brandName} className="h-12 object-contain bg-white/95 rounded-2xl px-3 py-2 shadow-sm" />
           ) : (
-            <div className="bg-white/90 p-2 rounded">
+            <div className="bg-white/95 p-3 rounded-2xl shadow-sm">
               <Building2 className="w-6 h-6" style={{ color: primaryColor }} />
             </div>
           )}
           <div>
-            <h1 className="text-2xl font-bold">Hello, {userName.split(' ')[0]}</h1>
+            <h1 className="text-2xl font-black tracking-tight">Hi, {userName.split(' ')[0]}</h1>
             {userRole && (
-              <p className="text-white/80 text-xs mt-0.5 capitalize">{userRole}</p>
+              <p className="text-white/80 text-[10px] font-bold uppercase tracking-widest mt-0.5">{userRole}</p>
             )}
           </div>
         </div>
@@ -43,9 +43,11 @@ export default function MobileHeader({ userName, userRole, subtitle, children }:
       </div>
 
       {subtitle && (
-        <p className="text-white/80 text-sm">
-          {subtitle}
-        </p>
+        <div className="bg-white/10 backdrop-blur-md rounded-xl p-3 border border-white/10 shadow-inner">
+          <p className="text-white/90 text-sm font-medium">
+            {subtitle}
+          </p>
+        </div>
       )}
     </div>
   );

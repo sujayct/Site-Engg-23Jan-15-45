@@ -53,79 +53,81 @@ export default function LeaveCard({ leaveRequests, onLeaveSubmit }: LeaveCardPro
       {!showForm && (
         <button
           onClick={() => setShowForm(true)}
-          className="w-full bg-blue-600 text-white font-medium py-3 rounded-lg hover:bg-blue-700 active:bg-blue-800 transition-colors flex items-center justify-center gap-2"
+          className="w-full bg-blue-600 text-white font-bold py-4 rounded-2xl hover:bg-blue-700 active:scale-[0.98] transition-all shadow-lg shadow-blue-100 flex items-center justify-center gap-3"
         >
-          <Calendar className="w-5 h-5" />
-          Apply for Leave
+          <Calendar className="w-6 h-6" />
+          Request Leave of Absence
         </button>
       )}
 
       {showForm && (
-        <div className="bg-white rounded-lg shadow-sm border-2 border-slate-200 p-4">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="bg-blue-100 rounded-full p-2">
+        <div className="bg-white rounded-2xl shadow-lg border border-slate-200 p-6 animate-in fade-in zoom-in-95">
+          <div className="flex items-center gap-4 mb-6">
+            <div className="bg-blue-100 rounded-2xl p-3">
               <Calendar className="w-6 h-6 text-blue-600" />
             </div>
             <div>
-              <h3 className="font-semibold text-slate-900">Leave Application</h3>
-              <p className="text-sm text-slate-600">Request time off</p>
+              <h3 className="font-bold text-slate-900 text-lg">Leave Application</h3>
+              <p className="text-sm font-medium text-slate-500">Plan your time off</p>
             </div>
           </div>
 
           {error && (
-            <div className="mb-3 p-3 bg-red-50 rounded-lg border border-red-200">
-              <p className="text-sm text-red-700">{error}</p>
+            <div className="mb-6 p-4 bg-red-50 rounded-xl border border-red-100">
+              <p className="text-sm font-medium text-red-700">{error}</p>
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-3">
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1">
-                Start Date *
-              </label>
-              <input
-                type="date"
-                value={startDate}
-                onChange={(e) => setStartDate(e.target.value)}
-                min={today}
-                required
-                className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
-              />
+          <form onSubmit={handleSubmit} className="space-y-5">
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-xs font-black text-slate-400 uppercase tracking-widest mb-2">
+                  Start Date *
+                </label>
+                <input
+                  type="date"
+                  value={startDate}
+                  onChange={(e) => setStartDate(e.target.value)}
+                  min={today}
+                  required
+                  className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all text-sm font-medium"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-black text-slate-400 uppercase tracking-widest mb-2">
+                  End Date *
+                </label>
+                <input
+                  type="date"
+                  value={endDate}
+                  onChange={(e) => setEndDate(e.target.value)}
+                  min={startDate || today}
+                  required
+                  className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all text-sm font-medium"
+                />
+              </div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1">
-                End Date *
-              </label>
-              <input
-                type="date"
-                value={endDate}
-                onChange={(e) => setEndDate(e.target.value)}
-                min={startDate || today}
-                required
-                className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1">
-                Reason *
+              <label className="block text-xs font-black text-slate-400 uppercase tracking-widest mb-2">
+                Reason for Leave *
               </label>
               <textarea
                 value={reason}
                 onChange={(e) => setReason(e.target.value)}
-                placeholder="Please provide a reason for your leave..."
+                placeholder="Briefly explain your leave request..."
                 rows={3}
                 required
-                className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+                className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all text-sm font-medium"
               />
             </div>
 
-            <div className="flex gap-2">
+            <div className="flex gap-3 pt-2">
               <button
                 type="submit"
                 disabled={loading}
-                className="flex-1 bg-blue-600 text-white font-medium py-3 rounded-lg hover:bg-blue-700 active:bg-blue-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                className="flex-1 bg-blue-600 text-white font-bold py-4 rounded-xl hover:bg-blue-700 active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-blue-200 flex items-center justify-center gap-3"
               >
                 {loading ? (
                   <>
@@ -145,7 +147,7 @@ export default function LeaveCard({ leaveRequests, onLeaveSubmit }: LeaveCardPro
                   setShowForm(false);
                   setError(null);
                 }}
-                className="px-4 py-3 border border-slate-300 rounded-lg text-slate-700 hover:bg-slate-50"
+                className="px-6 py-4 border border-slate-200 rounded-xl text-slate-600 font-bold hover:bg-slate-50 transition-colors"
               >
                 Cancel
               </button>
@@ -154,65 +156,53 @@ export default function LeaveCard({ leaveRequests, onLeaveSubmit }: LeaveCardPro
         </div>
       )}
 
-      <div className="space-y-3">
+      <div className="space-y-4">
         {leaveRequests.map((leave) => {
-          const backupEngineer = leave.backupEngineerId
-            ? StorageService.getEngineerById(leave.backupEngineerId)
-            : null;
-          const approver = leave.approvedBy
-            ? StorageService.getUserById(leave.approvedBy)
-            : null;
-
           return (
             <div
               key={leave.id}
-              className={`bg-white rounded-lg shadow-sm border-2 p-4 ${
+              className={`bg-white rounded-2xl shadow-md border p-5 relative overflow-hidden ${
                 leave.status === 'approved'
-                  ? 'border-green-200'
+                  ? 'border-emerald-100'
                   : leave.status === 'rejected'
-                  ? 'border-red-200'
-                  : 'border-yellow-200'
+                  ? 'border-red-100'
+                  : 'border-amber-100'
               }`}
             >
-              <div className="flex items-start justify-between mb-2">
+              <div className="flex items-start justify-between mb-4 relative">
                 <div className="flex-1">
-                  <p className="font-medium text-slate-900">
-                    {new Date(leave.startDate).toLocaleDateString()} - {new Date(leave.endDate).toLocaleDateString()}
-                  </p>
-                  <p className="text-sm text-slate-600 mt-1">{leave.reason}</p>
+                  <div className="flex items-center gap-2 mb-1">
+                    <Calendar className="w-4 h-4 text-slate-400" />
+                    <p className="font-bold text-slate-900">
+                      {new Date(leave.startDate).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })} - {new Date(leave.endDate).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}
+                    </p>
+                  </div>
+                  <p className="text-sm font-medium text-slate-600 leading-relaxed">{leave.reason}</p>
                 </div>
                 <div
-                  className={`flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] font-black uppercase tracking-wider ${
                     leave.status === 'approved'
-                      ? 'bg-green-100 text-green-700'
+                      ? 'bg-emerald-100 text-emerald-700'
                       : leave.status === 'rejected'
                       ? 'bg-red-100 text-red-700'
-                      : 'bg-yellow-100 text-yellow-700'
+                      : 'bg-amber-100 text-amber-700'
                   }`}
                 >
                   {leave.status === 'approved' ? (
-                    <CheckCircle className="w-3 h-3" />
+                    <CheckCircle className="w-3.5 h-3.5" />
                   ) : leave.status === 'rejected' ? (
-                    <XCircle className="w-3 h-3" />
+                    <XCircle className="w-3.5 h-3.5" />
                   ) : (
-                    <Clock className="w-3 h-3" />
+                    <Clock className="w-3.5 h-3.5" />
                   )}
                   {leave.status}
                 </div>
               </div>
 
-              {backupEngineer && (
-                <div className="mt-2 p-2 bg-blue-50 rounded">
-                  <p className="text-xs text-blue-700">
-                    Backup: {backupEngineer.name}
-                  </p>
+              {leave.status === 'pending' && (
+                <div className="mt-4 pt-4 border-t border-slate-50 flex items-center justify-between">
+                  <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest italic">Awaiting HR Review</p>
                 </div>
-              )}
-
-              {approver && (
-                <p className="text-xs text-slate-500 mt-2">
-                  {leave.status === 'approved' ? 'Approved' : 'Rejected'} by {approver.name}
-                </p>
               )}
             </div>
           );
