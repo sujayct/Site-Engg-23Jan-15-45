@@ -53,11 +53,11 @@ export default function MobileClientWiseView() {
         apiClient.get('/engineers')
       ]);
 
-      const assignments = assignmentsRes.data || [];
-      const checkIns = checkInsRes.data || [];
-      const reports = reportsRes.data || [];
-      const clientsList = clientsRes.data || [];
-      const engineersList = engineersRes.data || [];
+      const assignments = assignmentsRes || [];
+      const checkIns = checkInsRes || [];
+      const reports = reportsRes || [];
+      const clientsList = clientsRes || [];
+      const engineersList = engineersRes || [];
 
       setClients(clientsList);
       setEngineers(engineersList);

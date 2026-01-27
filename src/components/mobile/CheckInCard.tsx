@@ -38,7 +38,7 @@ export default function CheckInCard({ checkIn, onCheckInComplete }: CheckInCardP
         );
         onCheckInComplete(result);
       } else {
-        const result = await checkInService.createCheckIn(user.engineerId);
+        const result = await checkInService.createCheckIn(user.engineerId, 0, 0, 'Unknown Location');
         onCheckInComplete(result);
       }
     } catch (err: any) {

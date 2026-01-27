@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Users, Building2, UserCog, Activity, Plus, UserPlus, X, Shield, Settings, TrendingUp } from 'lucide-react';
+import { Users, Building2, UserCog, Activity, Plus, UserPlus, X, Shield, Settings, TrendingUp, ChevronDown } from 'lucide-react';
 import { User, Client, Assignment } from '../../types';
 import { StorageService } from '../../lib/storage';
 import CompanyProfile from '../CompanyProfile';
@@ -414,60 +414,73 @@ export default function AdminDashboard() {
       </div>
 
       {showAddUserModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-bold text-slate-900">Add {userRole.toUpperCase()}</h2>
-              <button onClick={() => setShowAddUserModal(false)} className="text-slate-400 hover:text-slate-600 transition-colors">
+        <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-in fade-in duration-200">
+          <div className="bg-white rounded-[2.5rem] shadow-2xl p-10 w-full max-w-md border border-white/20 transform animate-in zoom-in-95 duration-200">
+            <div className="flex items-center justify-between mb-8">
+              <div className="flex items-center gap-4">
+                <div className="p-3 bg-blue-50 rounded-2xl text-blue-600">
+                  <UserPlus className="w-6 h-6" />
+                </div>
+                <div>
+                  <h2 className="text-2xl font-black text-slate-900 leading-tight">Add {userRole.toUpperCase()}</h2>
+                  <p className="text-sm font-medium text-slate-500">Create a new system account</p>
+                </div>
+              </div>
+              <button onClick={() => setShowAddUserModal(false)} className="p-2 hover:bg-slate-100 rounded-full transition-colors text-slate-400">
                 <X className="w-6 h-6" />
               </button>
             </div>
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">Full Name</label>
-                <input
-                  type="text"
-                  value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                  placeholder="John Doe"
-                />
+            <div className="space-y-6">
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Full Name</label>
+                <div className="relative group">
+                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-blue-500 transition-colors">
+                    <Users className="w-5 h-5" />
+                  </div>
+                  <input
+                    type="text"
+                    value={formData.name}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    className="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 focus:bg-white outline-none transition-all text-sm font-bold placeholder:font-medium"
+                    placeholder="e.g. John Doe"
+                  />
+                </div>
               </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">Email</label>
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Email Address</label>
                 <input
                   type="email"
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                  placeholder="john@example.com"
+                  className="w-full px-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 focus:bg-white outline-none transition-all text-sm font-bold placeholder:font-medium"
+                  placeholder="name@company.com"
                 />
               </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">Password</label>
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Secure Password</label>
                 <input
                   type="password"
                   value={formData.password}
                   onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                  className="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                  className="w-full px-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 focus:bg-white outline-none transition-all text-sm font-bold placeholder:font-medium"
                   placeholder="••••••••"
                 />
               </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">Phone</label>
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Phone Number</label>
                 <input
                   type="tel"
                   value={formData.phone}
                   onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                  className="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                  placeholder="+1234567890"
+                  className="w-full px-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 focus:bg-white outline-none transition-all text-sm font-bold placeholder:font-medium"
+                  placeholder="+1 (555) 000-0000"
                 />
               </div>
               <button
                 onClick={handleAddUser}
-                className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-3 rounded-xl font-medium hover:from-blue-700 hover:to-blue-800 transition-all shadow-md"
+                className="w-full bg-gradient-to-r from-blue-600 to-indigo-700 text-white py-5 rounded-[1.5rem] font-black uppercase tracking-widest text-xs hover:from-blue-700 hover:to-indigo-800 transition-all shadow-xl shadow-blue-200 active:scale-[0.98]"
               >
-                Add {userRole.toUpperCase()}
+                Create Account
               </button>
             </div>
           </div>
@@ -475,60 +488,68 @@ export default function AdminDashboard() {
       )}
 
       {showAddClientModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-bold text-slate-900">Add Client</h2>
-              <button onClick={() => setShowAddClientModal(false)} className="text-slate-400 hover:text-slate-600 transition-colors">
+        <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-in fade-in duration-200">
+          <div className="bg-white rounded-[2.5rem] shadow-2xl p-10 w-full max-w-md border border-white/20 transform animate-in zoom-in-95 duration-200">
+            <div className="flex items-center justify-between mb-8">
+              <div className="flex items-center gap-4">
+                <div className="p-3 bg-orange-50 rounded-2xl text-orange-600">
+                  <Building2 className="w-6 h-6" />
+                </div>
+                <div>
+                  <h2 className="text-2xl font-black text-slate-900 leading-tight">Add Client</h2>
+                  <p className="text-sm font-medium text-slate-500">Register a new partner client</p>
+                </div>
+              </div>
+              <button onClick={() => setShowAddClientModal(false)} className="p-2 hover:bg-slate-100 rounded-full transition-colors text-slate-400">
                 <X className="w-6 h-6" />
               </button>
             </div>
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">Client Name</label>
+            <div className="space-y-6">
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Organization Name</label>
                 <input
                   type="text"
                   value={clientFormData.name}
                   onChange={(e) => setClientFormData({ ...clientFormData, name: e.target.value })}
-                  className="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
-                  placeholder="Client Name"
+                  className="w-full px-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-4 focus:ring-orange-500/10 focus:border-orange-500 focus:bg-white outline-none transition-all text-sm font-bold placeholder:font-medium"
+                  placeholder="e.g. Acme Corp"
                 />
               </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">Contact Person</label>
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Key Contact Person</label>
                 <input
                   type="text"
                   value={clientFormData.contactPerson}
                   onChange={(e) => setClientFormData({ ...clientFormData, contactPerson: e.target.value })}
-                  className="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
-                  placeholder="John Doe"
+                  className="w-full px-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-4 focus:ring-orange-500/10 focus:border-orange-500 focus:bg-white outline-none transition-all text-sm font-bold placeholder:font-medium"
+                  placeholder="Contact Name"
                 />
               </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">Email</label>
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Business Email</label>
                 <input
                   type="email"
                   value={clientFormData.email}
                   onChange={(e) => setClientFormData({ ...clientFormData, email: e.target.value })}
-                  className="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
-                  placeholder="contact@client.com"
+                  className="w-full px-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-4 focus:ring-orange-500/10 focus:border-orange-500 focus:bg-white outline-none transition-all text-sm font-bold placeholder:font-medium"
+                  placeholder="contact@company.com"
                 />
               </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">Phone</label>
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Office Phone</label>
                 <input
                   type="tel"
                   value={clientFormData.phone}
                   onChange={(e) => setClientFormData({ ...clientFormData, phone: e.target.value })}
-                  className="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
-                  placeholder="+1234567890"
+                  className="w-full px-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-4 focus:ring-orange-500/10 focus:border-orange-500 focus:bg-white outline-none transition-all text-sm font-bold placeholder:font-medium"
+                  placeholder="+1 (555) 000-0000"
                 />
               </div>
               <button
                 onClick={handleAddClient}
-                className="w-full bg-gradient-to-r from-orange-600 to-orange-700 text-white py-3 rounded-xl font-medium hover:from-orange-700 hover:to-orange-800 transition-all shadow-md"
+                className="w-full bg-gradient-to-r from-orange-600 to-amber-700 text-white py-5 rounded-[1.5rem] font-black uppercase tracking-widest text-xs hover:from-orange-700 hover:to-amber-800 transition-all shadow-xl shadow-orange-200 active:scale-[0.98]"
               >
-                Add Client
+                Register Client
               </button>
             </div>
           </div>
@@ -536,47 +557,65 @@ export default function AdminDashboard() {
       )}
 
       {showAssignModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-bold text-slate-900">Assign Engineer</h2>
-              <button onClick={() => setShowAssignModal(false)} className="text-slate-400 hover:text-slate-600 transition-colors">
+        <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-in fade-in duration-200">
+          <div className="bg-white rounded-[2.5rem] shadow-2xl p-10 w-full max-w-md border border-white/20 transform animate-in zoom-in-95 duration-200">
+            <div className="flex items-center justify-between mb-8">
+              <div className="flex items-center gap-4">
+                <div className="p-3 bg-purple-50 rounded-2xl text-purple-600">
+                  <UserCog className="w-6 h-6" />
+                </div>
+                <div>
+                  <h2 className="text-2xl font-black text-slate-900 leading-tight">Assign Engineer</h2>
+                  <p className="text-sm font-medium text-slate-500">Deploy resource to client site</p>
+                </div>
+              </div>
+              <button onClick={() => setShowAssignModal(false)} className="p-2 hover:bg-slate-100 rounded-full transition-colors text-slate-400">
                 <X className="w-6 h-6" />
               </button>
             </div>
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">Select Engineer</label>
-                <select
-                  value={assignFormData.engineerId}
-                  onChange={(e) => setAssignFormData({ ...assignFormData, engineerId: e.target.value })}
-                  className="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
-                >
-                  <option value="">Choose an engineer...</option>
-                  {engineers.map(eng => (
-                    <option key={eng.id} value={eng.id}>{eng.name}</option>
-                  ))}
-                </select>
+            <div className="space-y-6">
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Select Field Engineer</label>
+                <div className="relative">
+                  <select
+                    value={assignFormData.engineerId}
+                    onChange={(e) => setAssignFormData({ ...assignFormData, engineerId: e.target.value })}
+                    className="w-full px-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-4 focus:ring-purple-500/10 focus:border-purple-500 focus:bg-white outline-none transition-all text-sm font-bold appearance-none cursor-pointer"
+                  >
+                    <option value="">Choose an engineer...</option>
+                    {engineers.map(eng => (
+                      <option key={eng.id} value={eng.id}>{eng.name}</option>
+                    ))}
+                  </select>
+                  <div className="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-slate-400">
+                    <ChevronDown className="w-5 h-5" />
+                  </div>
+                </div>
               </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">Select Client</label>
-                <select
-                  value={assignFormData.clientId}
-                  onChange={(e) => setAssignFormData({ ...assignFormData, clientId: e.target.value })}
-                  className="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
-                >
-                  <option value="">Choose a client...</option>
-                  {clients.map(client => (
-                    <option key={client.id} value={client.id}>{client.name}</option>
-                  ))}
-                </select>
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Target Client</label>
+                <div className="relative">
+                  <select
+                    value={assignFormData.clientId}
+                    onChange={(e) => setAssignFormData({ ...assignFormData, clientId: e.target.value })}
+                    className="w-full px-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-4 focus:ring-purple-500/10 focus:border-purple-500 focus:bg-white outline-none transition-all text-sm font-bold appearance-none cursor-pointer"
+                  >
+                    <option value="">Choose a client...</option>
+                    {clients.map(client => (
+                      <option key={client.id} value={client.id}>{client.name}</option>
+                    ))}
+                  </select>
+                  <div className="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-slate-400">
+                    <ChevronDown className="w-5 h-5" />
+                  </div>
+                </div>
               </div>
               <button
                 onClick={handleAssignEngineer}
                 disabled={!assignFormData.engineerId || !assignFormData.clientId}
-                className="w-full bg-gradient-to-r from-purple-600 to-purple-700 text-white py-3 rounded-xl font-medium hover:from-purple-700 hover:to-purple-800 transition-all shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full bg-gradient-to-r from-purple-600 to-violet-800 text-white py-5 rounded-[1.5rem] font-black uppercase tracking-widest text-xs hover:from-purple-700 hover:to-violet-900 transition-all shadow-xl shadow-purple-200 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none disabled:active:scale-100"
               >
-                Assign Engineer
+                Confirm Assignment
               </button>
             </div>
           </div>
