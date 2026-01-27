@@ -26,7 +26,7 @@ export const zSmtpMessage = z.object({
 export type SmtpMessage = z.infer<typeof zSmtpMessage>;
 
 async function getAuthToken(): Promise<{ authToken: string; hostname: string }> {
-  const hostname = process.env.REPLIT_CONNECTORS_HOSTNAME;
+  const hostname = process.env.REPLIT_CONNECTORS_HOSTNAME || '';
   const { stdout } = await promisify(execFile)(
     "replit",
     ["identity", "create", "--audience", `https://${hostname}`],

@@ -61,7 +61,7 @@ export default function HRDashboard() {
   async function loadEngineerProfiles() {
     try {
       const profiles = await profileService.getAllEngineers();
-      setEngineerProfiles(profiles);
+      setEngineerProfiles(profiles as any);
     } catch (error) {
       console.error('Error loading engineer profiles:', error);
     }
@@ -80,7 +80,7 @@ export default function HRDashboard() {
 
       setLeaveRequests(leavesList);
       setCheckIns(checkInsList.filter(c => c.date === selectedDate));
-      setReports(reportsList.filter(r => r.date === selectedDate));
+      setReports(reportsList.filter((r: any) => r.date === selectedDate));
     } catch (error) {
       console.error('Error loading data:', error);
     }

@@ -352,7 +352,7 @@ export function registerRoutes(app: Express) {
   app.post("/api/leaves/:id/approve", (req: Request, res: Response) => {
     const { id } = req.params;
     const { approvedBy, backupEngineerId } = req.body;
-    const updated = storage.update("leave_requests", id, {
+    const updated = storage.update("leave_requests", String(id), {
       status: "approved",
       approvedBy,
       backupEngineerId,
@@ -364,7 +364,7 @@ export function registerRoutes(app: Express) {
   app.post("/api/leaves/:id/reject", (req: Request, res: Response) => {
     const { id } = req.params;
     const { rejectedBy } = req.body;
-    const updated = storage.update("leave_requests", id, {
+    const updated = storage.update("leave_requests", String(id), {
       status: "rejected",
       approvedBy: rejectedBy,
       approvedAt: new Date().toISOString()
@@ -388,7 +388,7 @@ export function registerRoutes(app: Express) {
 
   app.post("/api/check-ins/:id/checkout", (req: Request, res: Response) => {
     const { id } = req.params;
-    const updated = storage.update("check_ins", id, {
+    const updated = storage.update("check_ins", String(id), {
       checkOutTime: new Date().toISOString()
     });
     res.json(updated);
@@ -431,7 +431,7 @@ export function registerRoutes(app: Express) {
               <thead>
                 <tr style="background: #1e293b;">
                   ${Object.keys(reportData[0] || {}).map(key => 
-                    \`<th style="padding: 12px; text-align: left; color: white; font-weight: 600;">\${key}</th>\`
+                    `<th style="padding: 12px; text-align: left; color: white; font-weight: 600;">${key}</th>`
                   ).join('')}
                 </tr>
               </thead>
