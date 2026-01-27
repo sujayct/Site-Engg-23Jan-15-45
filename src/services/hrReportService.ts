@@ -63,11 +63,10 @@ const calculateHoursWorked = (checkIn: CheckIn): number => {
 
 export const hrReportService = {
   async getDailyAttendanceRegister(date: string): Promise<AttendanceRecord[]> {
-    const { profileService } = await import('./profileService');
     const { checkInService } = await import('./checkInService');
     const { leaveService } = await import('./leaveService');
     
-    const engineers = await profileService.getAllEngineers();
+    const engineers = await StorageService.getEngineers();
     const checkIns = await checkInService.getAllCheckIns();
     const leaves = await leaveService.getAllLeaveRequests();
 
@@ -77,7 +76,7 @@ export const hrReportService = {
     });
 
     const records: AttendanceRecord[] = engineers.map(engineer => {
-      const engineerId = (engineer as any).id || (engineer as any).engineer_id;
+      const engineerId = engineer.id;
       const checkIn = dailyCheckIns.find(c => c.engineerId === engineerId);
       const onLeave = dailyLeaves.find(l => l.engineerId === engineerId);
 
@@ -85,7 +84,7 @@ export const hrReportService = {
         return {
           date,
           engineerId: engineerId,
-          engineerName: (engineer as any).full_name || 'Engineer',
+          engineerName: engineer.name || 'Engineer',
           status: 'present',
           checkInTime: checkIn.checkInTime,
           checkOutTime: checkIn.checkOutTime,
@@ -96,14 +95,14 @@ export const hrReportService = {
         return {
           date,
           engineerId: engineerId,
-          engineerName: (engineer as any).full_name || 'Engineer',
+          engineerName: engineer.name || 'Engineer',
           status: 'leave'
         } as AttendanceRecord;
       } else {
         return {
           date,
           engineerId: engineerId,
-          engineerName: (engineer as any).full_name || 'Engineer',
+          engineerName: engineer.name || 'Engineer',
           status: 'absent'
         } as AttendanceRecord;
       }
@@ -113,11 +112,10 @@ export const hrReportService = {
   },
 
   async getWeeklyEngineerSummary(startDate: string, endDate: string): Promise<EngineerSummary[]> {
-    const { profileService } = await import('./profileService');
     const { checkInService } = await import('./checkInService');
     const { leaveService } = await import('./leaveService');
 
-    const engineers = await profileService.getAllEngineers();
+    const engineers = await StorageService.getEngineers();
     const checkIns = await checkInService.getAllCheckIns();
     const leaves = await leaveService.getAllLeaveRequests();
 
@@ -134,7 +132,7 @@ export const hrReportService = {
     const totalDays = Math.ceil((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24)) + 1;
 
     const summaries: EngineerSummary[] = engineers.map(engineer => {
-      const engineerId = (engineer as any).id || (engineer as any).engineer_id;
+      const engineerId = engineer.id;
       const engineerCheckIns = weekCheckIns.filter(c => c.engineerId === engineerId);
       const engineerLeaves = weekLeaves.filter(l => l.engineerId === engineerId);
 
@@ -154,7 +152,7 @@ export const hrReportService = {
 
       return {
         engineerId: engineerId,
-        engineerName: (engineer as any).full_name || '',
+        engineerName: engineer.name,
         totalDays,
         presentDays,
         absentDays: Math.max(0, absentDays),
@@ -176,7 +174,7 @@ export const hrReportService = {
 
     const assignments = await assignmentService.getAllAssignments();
     const checkIns = await checkInService.getAllCheckIns();
-    const reports = await reportService.getAllReports();
+    const reports = await reportService.getReports();
 
     const sites = await StorageService.getSites();
 
@@ -257,11 +255,10 @@ export const hrReportService = {
   },
 
   async getPayrollData(month: string): Promise<PayrollRecord[]> {
-    const { profileService } = await import('./profileService');
     const { checkInService } = await import('./checkInService');
     const { leaveService } = await import('./leaveService');
 
-    const engineers = await profileService.getAllEngineers();
+    const engineers = await StorageService.getEngineers();
     const checkIns = await checkInService.getAllCheckIns();
     const leaves = await leaveService.getAllLeaveRequests();
 
@@ -278,7 +275,7 @@ export const hrReportService = {
     });
 
     const payrollRecords: PayrollRecord[] = engineers.map(engineer => {
-      const engineerId = (engineer as any).id || (engineer as any).engineer_id;
+      const engineerId = engineer.id;
       const engineerCheckIns = monthCheckIns.filter(c => c.engineerId === engineerId);
       const engineerLeaves = monthLeaves.filter(l => l.engineerId === engineerId);
 
@@ -299,9 +296,9 @@ export const hrReportService = {
 
       return {
         engineerId: engineerId,
-        engineerName: (engineer as any).full_name || '',
+        engineerName: engineer.name,
         email: engineer.email || '',
-        phone: (engineer as any).phone || '',
+        phone: engineer.phone || '',
         workingDays,
         totalHours: Math.round(totalHours * 100) / 100,
         leaveDays,

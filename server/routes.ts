@@ -257,6 +257,8 @@ export function registerRoutes(app: Express) {
     if (user?.role === "client") {
       const client = clients.find((c: any) => c.userId === userId);
       filteredReports = reports.filter((r: any) => r.clientId === client?.id);
+    } else if (user?.role === "engineer") {
+      filteredReports = reports.filter((r: any) => r.engineerId === userId);
     }
 
     const result = filteredReports.map((r: any) => ({
@@ -331,6 +333,7 @@ export function registerRoutes(app: Express) {
       ...l,
       engineerName: profiles.find((p: any) => p.id === l.engineerId)?.fullName,
       backupEngineerName: profiles.find((p: any) => p.id === l.backupEngineerId)?.fullName,
+      date: l.startDate // Added for consistency
     })));
   });
 
@@ -402,6 +405,7 @@ export function registerRoutes(app: Express) {
     } else {
       profile = storage.insert("company_profiles", req.body);
     }
+    // Also update any cache or just return the latest
     res.json(profile);
   });
 }

@@ -46,15 +46,13 @@ export default function HRDashboard() {
 
   useEffect(() => {
     loadData();
-  }, [activeTab, selectedDate]);
-
-  useEffect(() => {
-    if (activeTab === 'enterprise') {
-      loadEnterpriseReports();
-    } else if (activeTab === 'profiles') {
+    if (activeTab === 'profiles') {
       loadEngineerProfiles();
     }
-  }, [activeTab, enterpriseTab, weeklyStart, weeklyEnd, selectedMonth, selectedDate]);
+    if (activeTab === 'enterprise') {
+      loadEnterpriseReports();
+    }
+  }, [activeTab, selectedDate, enterpriseTab, weeklyStart, weeklyEnd, selectedMonth]);
 
   async function loadEngineerProfiles() {
     try {
@@ -76,13 +74,9 @@ export default function HRDashboard() {
         reportService.getReports()
       ]);
 
-      const filteredCheckIns = checkInsList.filter(c => c.date === selectedDate);
-      setCheckIns(filteredCheckIns);
-
       setLeaveRequests(leavesList);
-
-      const filteredReports = reportsList.filter(r => r.date === selectedDate);
-      setReports(filteredReports);
+      setCheckIns(checkInsList.filter(c => c.date === selectedDate));
+      setReports(reportsList.filter(r => r.date === selectedDate));
     } catch (error) {
       console.error('Error loading data:', error);
     }

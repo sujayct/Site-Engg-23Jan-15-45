@@ -239,6 +239,24 @@
       "role": "hr",
       "phone": "0987654321",
       "passwordHash": "$2b$10$6KuTyEtFNbvJx1OfGZ62texizDtcFYEHt9vTuWgGqGPyZCwdftTHu"
+    },
+    {
+      "id": "8003b8d8-e173-4f70-bd30-800d69909c66",
+      "createdAt": "2026-01-27T04:24:57.990Z",
+      "email": "newadmin@cybaem.com",
+      "fullName": "new admin",
+      "role": "admin",
+      "phone": "912871871",
+      "passwordHash": "$2b$10$kXaJj4eqcwyPNP.key7souU6nnAvASlBdBnWMZaPIxVvPuKLUd3bO"
+    },
+    {
+      "id": "7a958939-6578-4dc2-9198-f1a1efbf1469",
+      "createdAt": "2026-01-27T04:25:47.366Z",
+      "email": "newadmin2@gmail.com",
+      "fullName": "new admin 2",
+      "role": "engineer",
+      "phone": "33847827389",
+      "passwordHash": "$2b$10$MWfXCWLeTm/5A2xFvA6.SeepoHAUXQRe6TLXsa9QNZ/VE2I9y3kYG"
     }
   ],
   "clients": [
@@ -528,6 +546,15 @@
       "contactEmail": "client3@gmail.com",
       "contactPhone": "12038428",
       "userId": ""
+    },
+    {
+      "id": "8a185965-080f-44a7-893c-6af0b8804084",
+      "createdAt": "2026-01-27T04:26:20.196Z",
+      "name": "Avengers",
+      "contactPerson": "Tony Stark",
+      "contactEmail": "avg@gmail.com",
+      "contactPhone": "648238279",
+      "userId": ""
     }
   ],
   "sites": [
@@ -719,6 +746,24 @@
       "clientId": "764e64a7-40fe-459c-9876-1d05c99f096b",
       "siteId": "",
       "assignedDate": "2026-01-23",
+      "isActive": true
+    },
+    {
+      "id": "6b038b0b-5bfa-45b2-b2ed-4eb18ebeb567",
+      "createdAt": "2026-01-27T04:24:09.054Z",
+      "engineerId": "997c0b96-4bd6-4990-a2fb-ffe59c64e15b",
+      "clientId": "10440ec0-cbae-4c77-bffc-ca32ae69855c",
+      "siteId": "",
+      "assignedDate": "2026-01-27",
+      "isActive": true
+    },
+    {
+      "id": "9cff6d37-df4c-4878-8f67-75fd8a4e9a96",
+      "createdAt": "2026-01-27T04:24:26.176Z",
+      "engineerId": "a0f842c8-8a00-4bde-bad9-3f3ceefca286",
+      "clientId": "10440ec0-cbae-4c77-bffc-ca32ae69855c",
+      "siteId": "",
+      "assignedDate": "2026-01-27",
       "isActive": true
     }
   ],
