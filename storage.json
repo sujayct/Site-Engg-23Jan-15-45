@@ -733,6 +733,16 @@
       "longitude": 73.8567,
       "locationName": "Skyline Residency, Pune",
       "createdAt": "2026-01-30T07:11:26.603Z"
+    },
+    {
+      "id": "7cae9bf2-a8db-4979-8701-7b02a6e13952",
+      "createdAt": "2026-01-30T07:18:49.907Z",
+      "engineerId": "engineer-user-id-001",
+      "latitude": 19.073096805380715,
+      "longitude": 72.88240915058219,
+      "locationName": "Site Location (Simulated)",
+      "date": "2026-01-30",
+      "checkInTime": "2026-01-30T07:18:49.906Z"
     }
   ],
   "daily_reports": [
@@ -755,6 +765,14 @@
       "workDone": "Electrical wiring in block A started.",
       "issues": "None",
       "createdAt": "2026-01-30T07:11:26.603Z"
+    },
+    {
+      "id": "7723e426-2c9b-473a-8eed-b41dffb68f53",
+      "createdAt": "2026-01-30T07:17:10.587Z",
+      "clientId": "6ac5eb62-fbec-45f5-be84-d965bdf24c04",
+      "reportDate": "2026-01-30",
+      "workDone": "leave",
+      "issues": ""
     }
   ],
   "leave_requests": [
@@ -764,8 +782,22 @@
       "startDate": "2026-01-31T07:11:26.604Z",
       "endDate": "2026-02-01T07:11:26.604Z",
       "reason": "Personal work",
-      "status": "pending",
-      "createdAt": "2026-01-30T07:11:26.603Z"
+      "status": "approved",
+      "createdAt": "2026-01-30T07:11:26.603Z",
+      "approvedBy": "hr-user-id-001",
+      "approvedAt": "2026-01-30T07:18:03.905Z",
+      "updatedAt": "2026-01-30T07:18:03.906Z"
+    },
+    {
+      "id": "636265e2-9ed4-441d-9956-8d83a7198382",
+      "createdAt": "2026-01-30T07:17:35.428Z",
+      "startDate": "2026-01-31",
+      "endDate": "2026-01-31",
+      "reason": ";eave",
+      "status": "approved",
+      "approvedBy": "hr-user-id-001",
+      "approvedAt": "2026-01-30T07:18:11.716Z",
+      "updatedAt": "2026-01-30T07:18:11.716Z"
     }
   ],
   "notifications": [],

@@ -159,7 +159,10 @@ export default function MobileEngineerDashboard() {
             <ReportCard
               report={todayReport}
               assignment={activeAssignment}
-              onReportSubmit={(report) => setTodayReport(report)}
+              onReportSubmit={(report) => {
+                setTodayReport(report);
+                loadData(); // Refresh all data to sync status
+              }}
             />
 
             {pendingLeave && (
@@ -186,7 +189,10 @@ export default function MobileEngineerDashboard() {
         {activeTab === 'leave' && (
           <LeaveCard
             leaveRequests={leaveRequests}
-            onLeaveSubmit={(leave) => setLeaveRequests([leave, ...leaveRequests])}
+            onLeaveSubmit={(leave) => {
+              setLeaveRequests([leave, ...leaveRequests]);
+              loadData(); // Refresh to sync pending status on Today tab
+            }}
           />
         )}
       </div>
