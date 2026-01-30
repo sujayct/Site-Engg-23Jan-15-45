@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { 
   FileText, 
   Clock, 
-  MapPin, 
   Calendar, 
   Plus, 
   Send, 
@@ -120,7 +119,7 @@ export default function EngineerDashboard() {
         reportForm.siteId || undefined
       );
       
-      const newReport = {
+      const newReport: DailyReport = {
         ...result,
         clientName: assignments.find(a => a.clientId === reportForm.clientId)?.clientName || 'Project Report',
         date: result.reportDate || result.date || new Date().toISOString()
@@ -148,7 +147,7 @@ export default function EngineerDashboard() {
         leaveForm.reason
       );
       
-      const newLeave = {
+      const newLeave: LeaveRequest = {
         ...result,
         engineerName: user.name,
         status: 'pending'
