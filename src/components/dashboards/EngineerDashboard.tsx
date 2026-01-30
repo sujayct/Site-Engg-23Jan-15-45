@@ -63,13 +63,10 @@ export default function EngineerDashboard() {
         checkInService.getTodayCheckIn(engId)
       ]);
       
-      // Ensure we're using the correct ID for filtering
-      const filteredReports = reportsData.filter((r: DailyReport) => r.engineerId === engId);
-      const filteredLeaves = leavesData.filter((l: LeaveRequest) => l.engineerId === engId);
-      
-      setReports(filteredReports);
+      // Update state immediately with all fetched data
+      setReports([...reportsData]);
       setCheckIns(checkInsData.filter((c: CheckIn) => c.engineerId === engId));
-      setLeaves(filteredLeaves);
+      setLeaves([...leavesData]);
       setAssignments(assignmentsData);
       setTodayCheckIn(todayCheck);
     } catch (error) {

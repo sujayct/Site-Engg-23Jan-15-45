@@ -722,7 +722,9 @@
       "latitude": 19.076,
       "longitude": 72.8777,
       "locationName": "Downtown Plaza, Mumbai",
-      "createdAt": "2026-01-30T07:11:26.603Z"
+      "createdAt": "2026-01-30T07:11:26.603Z",
+      "checkOutTime": "2026-01-30T08:03:09.144Z",
+      "updatedAt": "2026-01-30T08:03:09.145Z"
     },
     {
       "id": "ci-002",
@@ -773,6 +775,14 @@
       "reportDate": "2026-01-30",
       "workDone": "leave",
       "issues": ""
+    },
+    {
+      "id": "e4cfe2f1-afb7-4254-881d-129daf86ad69",
+      "createdAt": "2026-01-30T07:40:39.774Z",
+      "clientId": "6ac5eb62-fbec-45f5-be84-d965bdf24c04",
+      "reportDate": "2026-01-30",
+      "workDone": "report",
+      "issues": "none"
     }
   ],
   "leave_requests": [
@@ -805,7 +815,10 @@
       "startDate": "2026-01-30",
       "endDate": "2026-01-30",
       "reason": "recetntnt",
-      "status": "pending"
+      "status": "approved",
+      "approvedBy": "hr-user-id-001",
+      "approvedAt": "2026-01-30T07:43:03.016Z",
+      "updatedAt": "2026-01-30T07:43:03.017Z"
     },
     {
       "id": "ade1aa2a-f4ac-4bb3-943c-43179618d04f",
@@ -813,7 +826,10 @@
       "startDate": "2026-01-30",
       "endDate": "2026-01-30",
       "reason": "adsfgh",
-      "status": "pending"
+      "status": "approved",
+      "approvedBy": "hr-user-id-001",
+      "approvedAt": "2026-01-30T07:43:13.654Z",
+      "updatedAt": "2026-01-30T07:43:13.654Z"
     }
   ],
   "notifications": [],
