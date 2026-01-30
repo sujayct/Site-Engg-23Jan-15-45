@@ -4,7 +4,8 @@ import {
   Clock,
   AlertCircle,
   Loader,
-  RefreshCw
+  RefreshCw,
+  Download
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { checkInService } from '../../services/checkInService';
@@ -198,6 +199,24 @@ function ReportsTab() {
   const [reports, setReports] = useState<DailyReport[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const downloadReports = () => {
+    const headers = ['Date', 'Work Done', 'Issues'];
+    const csvData = reports.map(report => [
+      new Date(report.date).toLocaleDateString(),
+      `"${(report.workDone || '').replace(/"/g, '""')}"`,
+      `"${(report.issues || '').replace(/"/g, '""')}"`
+    ].join(','));
+    const csvContent = [headers.join(','), ...csvData].join('\n');
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.setAttribute('href', url);
+    link.setAttribute('download', `my_reports_${new Date().toISOString().split('T')[0]}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   useEffect(() => {
     loadReports();
   }, [user]);
@@ -234,6 +253,15 @@ function ReportsTab() {
 
   return (
     <div className="space-y-3">
+      <div className="flex justify-end mb-2">
+        <button
+          onClick={downloadReports}
+          className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium shadow-sm hover:bg-blue-700 active:scale-95 transition-all"
+        >
+          <Download className="w-4 h-4" />
+          Download All
+        </button>
+      </div>
       {reports.map((report) => (
         <div key={report.id} className="bg-white rounded-xl shadow-sm border border-slate-200 p-4">
           <div className="flex items-start justify-between mb-2">

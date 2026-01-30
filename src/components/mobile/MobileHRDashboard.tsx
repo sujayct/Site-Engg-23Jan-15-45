@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Calendar, FileText, CheckCircle, XCircle, Loader, RefreshCw } from 'lucide-react';
+import { Calendar, FileText, CheckCircle, XCircle, Loader, RefreshCw, Download } from 'lucide-react';
 import { checkInService } from '../../services/checkInService';
 import { reportService } from '../../services/reportService';
 import { leaveService } from '../../services/leaveService';
@@ -338,6 +338,28 @@ function LeavesTab({
 }
 
 function ReportsTab({ reports, engineers }: { reports: DailyReport[]; engineers: Engineer[] }) {
+  const downloadReports = () => {
+    const headers = ['Date', 'Engineer', 'Work Done', 'Issues'];
+    const csvData = reports.map(report => {
+      const engineer = engineers.find(e => e.id === report.engineerId);
+      return [
+        new Date(report.date).toLocaleDateString(),
+        engineer?.name || 'Unknown',
+        `"${(report.workDone || '').replace(/"/g, '""')}"`,
+        `"${(report.issues || '').replace(/"/g, '""')}"`
+      ].join(',');
+    });
+    const csvContent = [headers.join(','), ...csvData].join('\n');
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.setAttribute('href', url);
+    link.setAttribute('download', `all_reports_${new Date().toISOString().split('T')[0]}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   if (reports.length === 0) {
     return (
       <div className="text-center py-12">
@@ -349,6 +371,15 @@ function ReportsTab({ reports, engineers }: { reports: DailyReport[]; engineers:
 
   return (
     <div className="space-y-3">
+      <div className="flex justify-end mb-2">
+        <button
+          onClick={downloadReports}
+          className="flex items-center gap-2 px-4 py-2 bg-emerald-600 text-white rounded-lg text-sm font-medium shadow-sm hover:bg-emerald-700 active:scale-95 transition-all"
+        >
+          <Download className="w-4 h-4" />
+          Download All
+        </button>
+      </div>
       {reports.map((report) => {
         const engineer = engineers.find(e => e.id === report.engineerId);
         return (
