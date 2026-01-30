@@ -62,9 +62,11 @@ export default function EngineerDashboard() {
         assignmentService.getMyAssignments(engId),
         checkInService.getTodayCheckIn(engId)
       ]);
-      setReports(reportsData);
+      
+      // Ensure we're using the correct ID for filtering
+      setReports(reportsData.filter(r => r.engineerId === engId));
       setCheckIns(checkInsData.filter(c => c.engineerId === engId));
-      setLeaves(leavesData);
+      setLeaves(leavesData.filter(l => l.engineerId === engId));
       setAssignments(assignmentsData);
       setTodayCheckIn(todayCheck);
     } catch (error) {

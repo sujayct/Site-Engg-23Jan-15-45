@@ -291,7 +291,7 @@ export function registerRoutes(app: Express) {
 
     const result = filteredReports.map((r: any) => ({
       ...r,
-      engineerName: profiles.find((p: any) => p.id === r.engineerId)?.fullName,
+      engineerName: profiles.find((p: any) => (p.engineerId || p.id) === r.engineerId)?.fullName,
       clientName: clients.find((c: any) => c.id === r.clientId)?.name,
       date: r.reportDate
     }));
@@ -363,8 +363,8 @@ export function registerRoutes(app: Express) {
 
     res.json(filteredLeaves.map((l: any) => ({
       ...l,
-      engineerName: profiles.find((p: any) => p.id === l.engineerId)?.fullName,
-      backupEngineerName: profiles.find((p: any) => p.id === l.backupEngineerId)?.fullName,
+      engineerName: profiles.find((p: any) => (p.engineerId || p.id) === l.engineerId)?.fullName,
+      backupEngineerName: profiles.find((p: any) => (p.engineerId || p.id) === l.backupEngineerId)?.fullName,
       date: l.startDate // Added for consistency
     })));
   });
