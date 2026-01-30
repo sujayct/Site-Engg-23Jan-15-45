@@ -112,7 +112,7 @@ export default function EngineerDashboard() {
     e.preventDefault();
     if (!user || !reportForm.clientId) return;
     try {
-      await reportService.createReport(
+      const newReport = await reportService.createReport(
         user.engineerId || user.id,
         reportForm.clientId,
         reportForm.workDone,
@@ -120,8 +120,10 @@ export default function EngineerDashboard() {
         reportForm.siteId || undefined
       );
       setReportForm({ clientId: '', siteId: '', workDone: '', issues: '' });
-      loadData();
+      // Immediately update local state for instant reflection
+      setReports(prev => [newReport, ...prev]);
       alert('Report submitted successfully');
+      loadData(); // Re-fetch to ensure everything is in sync
     } catch (error) {
       alert('Failed to submit report');
     }
@@ -131,15 +133,17 @@ export default function EngineerDashboard() {
     e.preventDefault();
     if (!user) return;
     try {
-      await leaveService.createLeaveRequest(
+      const newLeave = await leaveService.createLeaveRequest(
         user.engineerId || user.id,
         leaveForm.startDate,
         leaveForm.endDate,
         leaveForm.reason
       );
       setLeaveForm({ startDate: '', endDate: '', reason: '' });
-      loadData();
+      // Immediately update local state for instant reflection
+      setLeaves(prev => [newLeave, ...prev]);
       alert('Leave request submitted');
+      loadData(); // Re-fetch to ensure everything is in sync
     } catch (error) {
       alert('Failed to submit leave request');
     }

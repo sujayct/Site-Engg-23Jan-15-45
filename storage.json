@@ -830,6 +830,14 @@
       "approvedBy": "hr-user-id-001",
       "approvedAt": "2026-01-30T07:43:13.654Z",
       "updatedAt": "2026-01-30T07:43:13.654Z"
+    },
+    {
+      "id": "d1b11904-78be-4c8e-8ce5-cbf5a76b8e21",
+      "createdAt": "2026-01-30T08:04:33.683Z",
+      "startDate": "2026-01-31",
+      "endDate": "2026-01-31",
+      "reason": "drfgvhbjm",
+      "status": "pending"
     }
   ],
   "notifications": [],
