@@ -41,7 +41,7 @@ export default function MobileHRDashboard() {
 
       const filteredCheckIns = checkIns.filter((c: CheckIn) => c.date === today);
       const filteredReports = reports.filter((r: DailyReport) => r.date === today);
-      const pendingLeavesList = leaves.filter((l: LeaveRequest) => l.status === 'pending');
+      const pendingLeavesList = (leaves || []).filter((l: LeaveRequest) => l.status === 'pending');
 
       setTodayCheckIns(filteredCheckIns);
       setPendingLeaves(pendingLeavesList);

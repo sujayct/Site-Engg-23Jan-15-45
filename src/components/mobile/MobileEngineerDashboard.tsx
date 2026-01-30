@@ -31,7 +31,8 @@ export default function MobileEngineerDashboard() {
   }, [user]);
 
   async function loadData(isRefresh = false) {
-    if (!user || !user.engineerId) return;
+    if (!user) return;
+    const engineerId = user.engineerId || user.id;
 
     try {
       if (isRefresh) {
@@ -41,12 +42,12 @@ export default function MobileEngineerDashboard() {
       }
       
       const [checkIn, leaves, assign] = await Promise.all([
-        checkInService.getTodayCheckIn(user.engineerId),
-        leaveService.getMyLeaveRequests(user.engineerId),
-        assignmentService.getMyAssignments(user.engineerId),
+        checkInService.getTodayCheckIn(engineerId),
+        leaveService.getMyLeaveRequests(engineerId),
+        assignmentService.getMyAssignments(engineerId),
       ]);
 
-      const reports = await reportService.getReports(user.engineerId);
+      const reports = await reportService.getReports(engineerId);
       const today = new Date().toISOString().split('T')[0];
       const todayReportData = reports.find((r: DailyReport) => r.date === today) || null;
 

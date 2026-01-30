@@ -24,7 +24,8 @@ export default function MobileClientDashboard() {
   }, [user]);
 
   async function loadData(isRefresh = false) {
-    if (!user?.clientId) return;
+    if (!user) return;
+    const userClientId = user.clientId;
 
     try {
       if (isRefresh) {
@@ -39,9 +40,16 @@ export default function MobileClientDashboard() {
         StorageService.getSites(),
       ]);
 
-      const clientData = clientsData.find((c: Client) => c.id === user.clientId);
+      const clientData = userClientId ? clientsData.find((c: Client) => c.id === userClientId) : null;
 
       if (!clientData) {
+        // Fallback or empty state if no client associated
+        setClient(null);
+        setEngineersList(engineersData);
+        setSites(sitesData);
+        setEngineers([]);
+        setReports([]);
+        setTodayCheckIns([]);
         setLoading(false);
         setRefreshing(false);
         return;
@@ -59,16 +67,16 @@ export default function MobileClientDashboard() {
         checkInService.getAllCheckIns(),
       ]);
 
-      const assignmentsData = allAssignments.filter((a: Assignment) => a.clientId === clientData.id);
+      const assignmentsData = (allAssignments || []).filter((a: Assignment) => a.clientId === clientData.id);
       setEngineers(assignmentsData);
 
       const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
-      const filteredReports = reportsData.filter((r: DailyReport) => 
+      const filteredReports = (reportsData || []).filter((r: DailyReport) => 
         r.clientId === clientData.id && r.date >= weekAgo && r.date <= today
       );
       setReports(filteredReports);
 
-      setTodayCheckIns(checkInsData.filter((c: CheckIn) =>
+      setTodayCheckIns((checkInsData || []).filter((c: CheckIn) =>
         c.date === today && assignmentsData.some((a: Assignment) => a.engineerId === c.engineerId)
       ));
     } catch (error) {
