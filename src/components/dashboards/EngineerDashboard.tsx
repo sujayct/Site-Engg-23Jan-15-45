@@ -331,8 +331,8 @@ export default function EngineerDashboard() {
                     className="w-full rounded-xl border-slate-300 focus:ring-blue-500 focus:border-blue-500 py-3"
                   >
                     <option value="">Choose a client...</option>
-                    {assignments.map(a => (
-                            <option key={`${a.clientId}-${idx}`} value={a.clientId}>{a.clientName}</option>
+                    {assignments.map((a, idx) => (
+                      <option key={`${a.clientId}-${idx}`} value={a.clientId}>{a.clientName}</option>
                     ))}
                   </select>
                 </div>
