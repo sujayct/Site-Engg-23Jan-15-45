@@ -1,7 +1,5 @@
-import { storage } from './storage';
-
 export const reportService = {
-  async createReport(engineerId: string, clientId: string, workDone: string, issues?: string, siteId?: string) {
+  async createReport(_engineerId: string, clientId: string, workDone: string, issues?: string, siteId?: string) {
     const response = await fetch('/api/reports', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

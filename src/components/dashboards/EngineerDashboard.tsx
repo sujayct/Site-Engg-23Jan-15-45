@@ -128,9 +128,9 @@ export default function EngineerDashboard() {
       setReports(prev => [newReport, ...prev]);
       setReportForm({ clientId: '', siteId: '', workDone: '', issues: '' });
       
-      alert('Report submitted successfully');
       // Update data in background
-      loadData();
+      await loadData();
+      alert('Report submitted successfully');
     } catch (error) {
       alert('Failed to submit report');
     }
@@ -156,9 +156,9 @@ export default function EngineerDashboard() {
       setLeaves(prev => [newLeave, ...prev]);
       setLeaveForm({ startDate: '', endDate: '', reason: '' });
       
-      alert('Leave request submitted');
       // Update data in background
-      loadData();
+      await loadData();
+      alert('Leave request submitted');
     } catch (error) {
       alert('Failed to submit leave request');
     }

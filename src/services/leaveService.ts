@@ -1,4 +1,3 @@
-import { StorageService } from '../lib/storage';
 import type { LeaveRequest } from '../types';
 
 export const leaveService = {
@@ -15,7 +14,7 @@ export const leaveService = {
     return response.json();
   },
 
-  async createLeaveRequest(engineerId: string, startDate: string, endDate: string, reason: string): Promise<LeaveRequest> {
+  async createLeaveRequest(_engineerId: string, startDate: string, endDate: string, reason: string): Promise<LeaveRequest> {
     const response = await fetch('/api/leaves', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
