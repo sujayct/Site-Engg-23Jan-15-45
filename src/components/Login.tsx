@@ -147,6 +147,56 @@ export default function Login() {
             >
               {loading ? 'Signing in...' : 'Sign In'}
             </button>
+
+            <div className="mt-8 pt-8 border-t border-slate-100">
+              <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-4 text-center">Demo Credentials</p>
+              <div className="grid grid-cols-2 gap-3">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setEmail('admin@company.com');
+                    setPassword('password123');
+                  }}
+                  className="text-left p-3 rounded-xl bg-slate-50 hover:bg-slate-100 transition-colors border border-slate-100 group"
+                >
+                  <p className="text-xs font-bold text-slate-900 group-hover:text-blue-600">Admin</p>
+                  <p className="text-[10px] text-slate-500 truncate">admin@company.com</p>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setEmail('hr@company.com');
+                    setPassword('password123');
+                  }}
+                  className="text-left p-3 rounded-xl bg-slate-50 hover:bg-slate-100 transition-colors border border-slate-100 group"
+                >
+                  <p className="text-xs font-bold text-slate-900 group-hover:text-emerald-600">HR Manager</p>
+                  <p className="text-[10px] text-slate-500 truncate">hr@company.com</p>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setEmail('engineer@company.com');
+                    setPassword('password123');
+                  }}
+                  className="text-left p-3 rounded-xl bg-slate-50 hover:bg-slate-100 transition-colors border border-slate-100 group"
+                >
+                  <p className="text-xs font-bold text-slate-900 group-hover:text-blue-600">Engineer</p>
+                  <p className="text-[10px] text-slate-500 truncate">engineer@company.com</p>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setEmail('client@company.com');
+                    setPassword('password123');
+                  }}
+                  className="text-left p-3 rounded-xl bg-slate-50 hover:bg-slate-100 transition-colors border border-slate-100 group"
+                >
+                  <p className="text-xs font-bold text-slate-900 group-hover:text-orange-600">Client</p>
+                  <p className="text-[10px] text-slate-500 truncate">client@company.com</p>
+                </button>
+              </div>
+            </div>
           </form>
 
           <div className="mt-6 p-4 bg-slate-50 rounded-lg">
