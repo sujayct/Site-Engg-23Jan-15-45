@@ -34,6 +34,21 @@ const seedData = () => {
     { id: clientUserId, email: "client@company.com", fullName: "ABC Corp Contact", role: "client", passwordHash, createdAt: now, engineerId: "eng-client", clientId: clientId },
     { id: "engineer-user-id", email: "engineer@company.com", fullName: "Engineer User", role: "engineer", passwordHash, createdAt: now, engineerId: "engineer-id-1" }
   ];
+
+  const engineers: any[] = [];
+  for (let i = 1; i <= 10; i++) {
+    engineers.push({
+      id: `engineer-id-${i}`,
+      email: `engineer${i}@company.com`,
+      fullName: `Engineer ${i}`,
+      role: "engineer",
+      designation: i % 2 === 0 ? "Senior Engineer" : "Junior Engineer",
+      phone: `+91987654321${i-1}`,
+      passwordHash,
+      createdAt: now
+    });
+  }
+  profiles.push(...engineers);
   const clients = [
     { id: clientId, name: "ABC Corporation", contactPerson: "Alice Client", contactEmail: "client@company.com", userId: clientUserId, createdAt: now }
   ];
