@@ -294,7 +294,7 @@ export function registerRoutes(app: Express) {
       engineerName: profiles.find((p: any) => (p.engineerId || p.id) === r.engineerId)?.fullName,
       clientName: clients.find((c: any) => c.id === r.clientId)?.name,
       date: r.reportDate || r.date || r.createdAt?.split('T')[0]
-    }));
+    })).sort((a: any, b: any) => new Date(b.createdAt || b.date).getTime() - new Date(a.createdAt || a.date).getTime());
     res.json(result);
   });
 
@@ -366,7 +366,7 @@ export function registerRoutes(app: Express) {
       engineerName: profiles.find((p: any) => (p.engineerId || p.id) === l.engineerId)?.fullName,
       backupEngineerName: profiles.find((p: any) => (p.engineerId || p.id) === l.backupEngineerId)?.fullName,
       date: l.startDate // Added for consistency
-    })));
+    })).sort((a: any, b: any) => new Date(b.createdAt || b.startDate).getTime() - new Date(a.createdAt || a.startDate).getTime()));
   });
 
   app.post("/api/leaves", (req: Request, res: Response) => {

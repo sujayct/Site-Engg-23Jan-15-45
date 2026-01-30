@@ -126,8 +126,8 @@ export default function EngineerDashboard() {
         date: result.reportDate || result.date || new Date().toISOString()
       };
 
-      setReportForm({ clientId: '', siteId: '', workDone: '', issues: '' });
       setReports(prev => [newReport, ...prev]);
+      setReportForm({ clientId: '', siteId: '', workDone: '', issues: '' });
       alert('Report submitted successfully');
       loadData();
     } catch (error) {
@@ -152,8 +152,8 @@ export default function EngineerDashboard() {
         status: 'pending'
       };
 
-      setLeaveForm({ startDate: '', endDate: '', reason: '' });
       setLeaves(prev => [newLeave, ...prev]);
+      setLeaveForm({ startDate: '', endDate: '', reason: '' });
       alert('Leave request submitted');
       loadData();
     } catch (error) {
