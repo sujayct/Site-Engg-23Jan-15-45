@@ -128,8 +128,10 @@ export default function EngineerDashboard() {
 
       setReports(prev => [newReport, ...prev]);
       setReportForm({ clientId: '', siteId: '', workDone: '', issues: '' });
+      
+      // Force update by re-loading data after a small delay
+      setTimeout(() => loadData(), 500);
       alert('Report submitted successfully');
-      loadData();
     } catch (error) {
       alert('Failed to submit report');
     }
@@ -154,8 +156,10 @@ export default function EngineerDashboard() {
 
       setLeaves(prev => [newLeave, ...prev]);
       setLeaveForm({ startDate: '', endDate: '', reason: '' });
+      
+      // Force update by re-loading data after a small delay
+      setTimeout(() => loadData(), 500);
       alert('Leave request submitted');
-      loadData();
     } catch (error) {
       alert('Failed to submit leave request');
     }
