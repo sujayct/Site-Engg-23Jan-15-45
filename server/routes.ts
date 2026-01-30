@@ -293,7 +293,7 @@ export function registerRoutes(app: Express) {
       ...r,
       engineerName: profiles.find((p: any) => (p.engineerId || p.id) === r.engineerId)?.fullName,
       clientName: clients.find((c: any) => c.id === r.clientId)?.name,
-      date: r.reportDate
+      date: r.reportDate || r.date
     }));
     res.json(result);
   });

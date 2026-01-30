@@ -64,9 +64,12 @@ export default function EngineerDashboard() {
       ]);
       
       // Ensure we're using the correct ID for filtering
-      setReports(reportsData.filter(r => r.engineerId === engId));
-      setCheckIns(checkInsData.filter(c => c.engineerId === engId));
-      setLeaves(leavesData.filter(l => l.engineerId === engId));
+      const filteredReports = reportsData.filter((r: DailyReport) => r.engineerId === engId);
+      const filteredLeaves = leavesData.filter((l: LeaveRequest) => l.engineerId === engId);
+      
+      setReports(filteredReports);
+      setCheckIns(checkInsData.filter((c: CheckIn) => c.engineerId === engId));
+      setLeaves(filteredLeaves);
       setAssignments(assignmentsData);
       setTodayCheckIn(todayCheck);
     } catch (error) {
