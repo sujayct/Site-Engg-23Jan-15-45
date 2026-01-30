@@ -42,6 +42,8 @@ export default function MobileClientDashboard() {
 
       const clientData = userClientId ? clientsData.find((c: Client) => c.id === userClientId) : null;
 
+      console.log('Client Dashboard Load - Client ID:', userClientId, 'Found Client:', clientData?.name);
+
       if (!clientData) {
         // Fallback or empty state if no client associated
         setClient(null);
@@ -61,7 +63,7 @@ export default function MobileClientDashboard() {
 
       const today = new Date().toISOString().split('T')[0];
 
-      const [allAssignments, reportsData, checkInsData] = await Promise.all([
+      const [allAssignments, allReportsData, checkInsData] = await Promise.all([
         assignmentService.getAllAssignments(),
         reportService.getReports(),
         checkInService.getAllCheckIns(),
@@ -71,14 +73,15 @@ export default function MobileClientDashboard() {
       setEngineers(assignmentsData);
 
       const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
-      const filteredReports = (reportsData || []).filter((r: DailyReport) => 
+      const filteredReports = (allReportsData || []).filter((r: DailyReport) => 
         r.clientId === clientData.id && r.date >= weekAgo && r.date <= today
       );
       setReports(filteredReports);
 
-      setTodayCheckIns((checkInsData || []).filter((c: CheckIn) =>
+      const todayCheckInList = (checkInsData || []).filter((c: CheckIn) =>
         c.date === today && assignmentsData.some((a: Assignment) => a.engineerId === c.engineerId)
-      ));
+      );
+      setTodayCheckIns(todayCheckInList);
     } catch (error) {
       console.error('Failed to load client data:', error);
     } finally {

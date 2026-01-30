@@ -32,7 +32,19 @@ export function registerRoutes(app: Express) {
 
       req.session.userId = user.id;
       console.log(`Login successful: ${searchEmail} (${user.role})`);
-      res.json({ user: { id: user.id, email: user.email, name: user.fullName, role: user.role } });
+      const authenticatedUser = {
+        id: user.id,
+        email: user.email,
+        fullName: user.fullName,
+        name: user.fullName,
+        role: user.role,
+        phone: user.phone,
+        designation: user.designation,
+        engineerId: user.engineerId,
+        clientId: user.clientId,
+        createdAt: user.createdAt
+      };
+      res.json({ user: authenticatedUser });
     } catch (error: any) {
       console.error("Login error:", error);
       res.status(500).json({ error: error.message });
@@ -50,10 +62,16 @@ export function registerRoutes(app: Express) {
     if (!req.session.userId) return res.status(401).json({ error: "Not authenticated" });
     const user = storage.getTable("profiles").find((p: any) => p.id === req.session.userId);
     if (!user) return res.status(401).json({ error: "User not found" });
+    
+    let clientId = user.clientId;
+    if (user.role === 'client' && !clientId) {
+      clientId = storage.getTable("clients").find((c: any) => c.userId === user.id)?.id;
+    }
+
     res.json({
       id: user.id,
-      engineerId: user.role === 'engineer' ? user.id : undefined,
-      clientId: user.role === 'client' ? storage.getTable("clients").find((c: any) => c.userId === user.id)?.id : undefined,
+      engineerId: user.engineerId || (user.role === 'engineer' ? user.id : undefined),
+      clientId: clientId,
       email: user.email,
       name: user.fullName,
       role: user.role,

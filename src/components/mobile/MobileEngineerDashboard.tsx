@@ -41,20 +41,20 @@ export default function MobileEngineerDashboard() {
         setLoading(true);
       }
       
-      const [checkIn, leaves, assign] = await Promise.all([
+      const [checkIn, leaves, assign, reportsData] = await Promise.all([
         checkInService.getTodayCheckIn(engineerId),
         leaveService.getMyLeaveRequests(engineerId),
         assignmentService.getMyAssignments(engineerId),
+        reportService.getReports(engineerId),
       ]);
 
-      const reports = await reportService.getReports(engineerId);
       const today = new Date().toISOString().split('T')[0];
-      const todayReportData = reports.find((r: DailyReport) => r.date === today) || null;
+      const todayReportData = (reportsData || []).find((r: DailyReport) => r.date === today) || null;
 
       setTodayCheckIn(checkIn);
       setTodayReport(todayReportData);
-      setLeaveRequests(leaves);
-      setAssignments(assign);
+      setLeaveRequests(leaves || []);
+      setAssignments(assign || []);
     } catch (error) {
       console.error('Failed to load data:', error);
     } finally {
