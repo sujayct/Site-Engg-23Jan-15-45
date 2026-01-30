@@ -42,7 +42,11 @@ export default function MobileClientDashboard() {
 
       const clientData = userClientId ? clientsData.find((c: Client) => c.id === userClientId) : null;
 
-      console.log('Client Dashboard Load - Client ID:', userClientId, 'Found Client:', clientData?.name);
+      console.log('Client Dashboard Load Debug:', {
+        userClientId,
+        availableClients: clientsData.map(c => ({ id: c.id, name: c.name })),
+        foundClient: clientData?.name
+      });
 
       if (!clientData) {
         // Fallback or empty state if no client associated

@@ -31,7 +31,7 @@ const seedData = () => {
   const profiles: any[] = [
     { id: adminId, email: "admin@company.com", fullName: "System Admin", role: "admin", passwordHash, createdAt: now, engineerId: "eng-admin" },
     { id: hrId, email: "hr@company.com", fullName: "HR Manager", role: "hr", passwordHash, createdAt: now, engineerId: "eng-hr" },
-    { id: clientUserId, email: "client@company.com", fullName: "ABC Corp Contact", role: "client", passwordHash, createdAt: now, engineerId: "eng-client", clientId: clientId },
+    { id: clientUserId, email: "client@company.com", fullName: "ABC Corp Contact", role: "client", passwordHash, createdAt: now, clientId: clientId, engineerId: "eng-client" },
     { id: "engineer-user-id", email: "engineer@company.com", fullName: "Engineer User", role: "engineer", passwordHash, createdAt: now, engineerId: "engineer-id-1" }
   ];
 

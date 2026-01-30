@@ -32,6 +32,13 @@ export function registerRoutes(app: Express) {
 
       req.session.userId = user.id;
       console.log(`Login successful: ${searchEmail} (${user.role})`);
+      
+      let clientId = user.clientId;
+      if (user.role === 'client' && !clientId) {
+        const client = storage.getTable("clients").find((c: any) => c.userId === user.id);
+        clientId = client?.id;
+      }
+
       const authenticatedUser = {
         id: user.id,
         email: user.email,
@@ -40,8 +47,8 @@ export function registerRoutes(app: Express) {
         role: user.role,
         phone: user.phone,
         designation: user.designation,
-        engineerId: user.engineerId,
-        clientId: user.clientId,
+        engineerId: user.engineerId || (user.role === 'engineer' ? user.id : undefined),
+        clientId: clientId,
         createdAt: user.createdAt
       };
       res.json({ user: authenticatedUser });
@@ -65,7 +72,8 @@ export function registerRoutes(app: Express) {
     
     let clientId = user.clientId;
     if (user.role === 'client' && !clientId) {
-      clientId = storage.getTable("clients").find((c: any) => c.userId === user.id)?.id;
+      const client = storage.getTable("clients").find((c: any) => c.userId === user.id);
+      clientId = client?.id;
     }
 
     res.json({
