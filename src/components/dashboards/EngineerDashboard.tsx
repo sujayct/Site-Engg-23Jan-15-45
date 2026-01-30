@@ -52,15 +52,18 @@ export default function EngineerDashboard() {
   const loadData = async () => {
     try {
       setLoading(true);
+      const engId = user?.engineerId || user?.id;
+      if (!engId) return;
+
       const [reportsData, checkInsData, leavesData, assignmentsData, todayCheck] = await Promise.all([
-        reportService.getReports(user!.id),
+        reportService.getReports(engId),
         checkInService.getAllCheckIns(),
-        leaveService.getMyLeaveRequests(user!.id),
-        assignmentService.getMyAssignments(user!.id),
-        checkInService.getTodayCheckIn(user!.id)
+        leaveService.getMyLeaveRequests(engId),
+        assignmentService.getMyAssignments(engId),
+        checkInService.getTodayCheckIn(engId)
       ]);
       setReports(reportsData);
-      setCheckIns(checkInsData.filter(c => c.engineerId === user!.id));
+      setCheckIns(checkInsData.filter(c => c.engineerId === engId));
       setLeaves(leavesData);
       setAssignments(assignmentsData);
       setTodayCheckIn(todayCheck);
@@ -79,7 +82,7 @@ export default function EngineerDashboard() {
       const assignment = assignments[0];
       
       const newCheckIn = await checkInService.createCheckIn(
-        user.id,
+        user.engineerId || user.id,
         lat,
         lng,
         'Site Location (Simulated)',
@@ -108,7 +111,7 @@ export default function EngineerDashboard() {
     if (!user || !reportForm.clientId) return;
     try {
       await reportService.createReport(
-        user.id,
+        user.engineerId || user.id,
         reportForm.clientId,
         reportForm.workDone,
         reportForm.issues,
@@ -127,7 +130,7 @@ export default function EngineerDashboard() {
     if (!user) return;
     try {
       await leaveService.createLeaveRequest(
-        user.id,
+        user.engineerId || user.id,
         leaveForm.startDate,
         leaveForm.endDate,
         leaveForm.reason
@@ -329,7 +332,7 @@ export default function EngineerDashboard() {
                   >
                     <option value="">Choose a client...</option>
                     {assignments.map(a => (
-                      <option key={a.clientId} value={a.clientId}>{a.clientName}</option>
+                            <option key={`${a.clientId}-${idx}`} value={a.clientId}>{a.clientName}</option>
                     ))}
                   </select>
                 </div>
@@ -362,18 +365,18 @@ export default function EngineerDashboard() {
               </form>
             </div>
 
-            <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-lg">
+            <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-lg overflow-y-auto max-h-[600px]">
               <h2 className="text-xl font-bold text-slate-900 mb-6">Recent Reports</h2>
               <div className="space-y-4">
                 {reports.length > 0 ? (
-                  reports.slice(0, 5).map(report => (
+                  reports.sort((a, b) => new Date(b.date || b.createdAt).getTime() - new Date(a.date || a.createdAt).getTime()).slice(0, 10).map(report => (
                     <div key={report.id} className="border border-slate-200 rounded-xl p-4 hover:border-blue-300 hover:shadow-md transition-all bg-gradient-to-r from-white to-slate-50">
                       <div className="flex justify-between items-start mb-2">
                         <div>
-                          <p className="font-bold text-slate-900">{report.clientName}</p>
+                          <p className="font-bold text-slate-900">{report.clientName || 'Project Report'}</p>
                           <div className="flex items-center gap-2 mt-1">
                             <Calendar className="w-3 h-3 text-slate-400" />
-                            <p className="text-xs text-slate-500">{new Date(report.date).toLocaleDateString()}</p>
+                            <p className="text-xs text-slate-500">{new Date(report.date || report.createdAt).toLocaleDateString()}</p>
                           </div>
                         </div>
                         <button
