@@ -27,14 +27,14 @@ const seedData = () => {
   const hrId = "hr-user-id-001";
   const clientUserId = "client-user-id-001";
   
-  const profiles = [
+  const profiles: any[] = [
     { id: adminId, email: "admin@company.com", fullName: "System Admin", role: "admin", passwordHash, createdAt: now },
     { id: hrId, email: "hr@company.com", fullName: "HR Manager", role: "hr", passwordHash, createdAt: now },
     { id: clientUserId, email: "client@company.com", fullName: "ABC Corp Contact", role: "client", passwordHash, createdAt: now },
     { id: "engineer-user-id", email: "engineer@company.com", fullName: "Engineer User", role: "engineer", passwordHash, createdAt: now }
   ];
 
-  const engineers = [];
+  const engineers: any[] = [];
   for (let i = 1; i <= 10; i++) {
     engineers.push({
       id: `engineer-id-${i}`,
