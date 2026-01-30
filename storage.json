@@ -798,6 +798,14 @@
       "approvedBy": "hr-user-id-001",
       "approvedAt": "2026-01-30T07:18:11.716Z",
       "updatedAt": "2026-01-30T07:18:11.716Z"
+    },
+    {
+      "id": "3b04bf19-359a-4ff9-95a9-796cc821dffc",
+      "createdAt": "2026-01-30T07:26:58.003Z",
+      "startDate": "2026-01-30",
+      "endDate": "2026-01-30",
+      "reason": "recetntnt",
+      "status": "pending"
     }
   ],
   "notifications": [],

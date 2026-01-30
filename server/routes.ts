@@ -285,7 +285,8 @@ export function registerRoutes(app: Express) {
       const client = clients.find((c: any) => c.userId === userId);
       filteredReports = reports.filter((r: any) => r.clientId === client?.id);
     } else if (user?.role === "engineer") {
-      filteredReports = reports.filter((r: any) => r.engineerId === userId);
+      const engId = user.engineerId || user.id;
+      filteredReports = reports.filter((r: any) => r.engineerId === engId);
     }
 
     const result = filteredReports.map((r: any) => ({
@@ -299,8 +300,11 @@ export function registerRoutes(app: Express) {
 
   app.post("/api/reports", (req: Request, res: Response) => {
     const { clientId, siteId, workDone, issues } = req.body;
+    const user = storage.getTable("profiles").find((p: any) => p.id === req.session.userId);
+    const engineerId = user?.engineerId || req.session.userId;
+    
     const newReport = storage.insert("daily_reports", {
-      engineerId: req.session.userId,
+      engineerId: engineerId,
       clientId,
       siteId,
       reportDate: new Date().toISOString().split("T")[0],
@@ -348,7 +352,8 @@ export function registerRoutes(app: Express) {
 
     let filteredLeaves = leaves;
     if (user?.role === "engineer") {
-      filteredLeaves = leaves.filter((l: any) => l.engineerId === userId);
+      const engId = user.engineerId || user.id;
+      filteredLeaves = leaves.filter((l: any) => l.engineerId === engId);
     } else if (user?.role === "client") {
       const assignments = storage.getTable("engineer_assignments");
       const client = storage.getTable("clients").find((c: any) => c.userId === userId);
@@ -366,8 +371,11 @@ export function registerRoutes(app: Express) {
 
   app.post("/api/leaves", (req: Request, res: Response) => {
     const { startDate, endDate, reason } = req.body;
+    const user = storage.getTable("profiles").find((p: any) => p.id === req.session.userId);
+    const engineerId = user?.engineerId || req.session.userId;
+
     const newLeave = storage.insert("leave_requests", {
-      engineerId: req.session.userId,
+      engineerId: engineerId,
       startDate,
       endDate,
       reason,

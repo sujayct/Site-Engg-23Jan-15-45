@@ -472,11 +472,11 @@ export default function EngineerDashboard() {
               </form>
             </div>
 
-            <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-lg">
+            <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-lg overflow-y-auto max-h-[600px]">
               <h2 className="text-xl font-bold text-slate-900 mb-6">Leave Status</h2>
               <div className="space-y-4">
                 {leaves.length > 0 ? (
-                  leaves.map(leave => (
+                  leaves.sort((a, b) => new Date(b.startDate).getTime() - new Date(a.startDate).getTime()).map(leave => (
                     <div key={leave.id} className="border border-slate-200 rounded-xl p-4 bg-gradient-to-r from-white to-slate-50 hover:shadow-md transition-all">
                       <div className="flex justify-between items-start mb-3">
                         <div className="flex items-center gap-2">
